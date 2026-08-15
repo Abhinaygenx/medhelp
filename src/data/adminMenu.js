@@ -1,0 +1,41 @@
+import {
+  LayoutDashboard,
+  Stethoscope,
+  Users,
+  CalendarDays,
+  Building2,
+  Pill,
+  FlaskConical,
+  BedDouble,
+  CreditCard,
+  BarChart3,
+  Siren,
+  Bell,
+  FileText,
+  ShieldCheck,
+  Settings,
+  Palette,
+  LogOut,
+} from 'lucide-react';
+
+const adminMenu = [
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'doctors', label: 'Doctors', icon: Stethoscope },
+  { id: 'patients', label: 'Patients', icon: Users },
+  { id: 'appointments', label: 'Appointments', icon: CalendarDays },
+  { id: 'departments', label: 'Departments', icon: Building2 },
+  { id: 'pharmacy', label: 'Pharmacy', icon: Pill },
+  { id: 'lab', label: 'Lab Reports', icon: FlaskConical },
+  { id: 'beds', label: 'Beds & Wards', icon: BedDouble },
+  { id: 'billing', label: 'Billing', icon: CreditCard },
+  { id: 'analytics', label: 'Analytics', icon: BarChart3 },
+  { id: 'emergency', label: 'Emergency Alerts', icon: Siren },
+  { id: 'notifications', label: 'Notifications', icon: Bell },
+  { id: 'logs', label: 'Audit Logs', icon: FileText },
+  { id: 'staff', label: 'Staff & Roles', icon: ShieldCheck },
+  { id: 'settings', label: 'System Settings', icon: Settings },
+  { id: 'theme', label: 'Theme', icon: Palette },
+  { id: 'logout', label: 'Logout', icon: LogOut },
+];
+
+export default adminMenu;
