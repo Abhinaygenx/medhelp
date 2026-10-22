@@ -20,6 +20,7 @@ import {
 
 const adminMenu = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'clinical-hub', label: 'Clinical Orders & Uploads', icon: FileText },
   { id: 'doctors', label: 'Doctors', icon: Stethoscope },
   { id: 'patients', label: 'Patients', icon: Users },
   { id: 'appointments', label: 'Appointments', icon: CalendarDays },

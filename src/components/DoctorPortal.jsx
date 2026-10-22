@@ -10,6 +10,7 @@ import LabReports from './doctor/LabReports'
 import ScheduleManager from './doctor/ScheduleManager'
 import MessagesPanel from './doctor/MessagesPanel'
 import DoctorProfile from './doctor/DoctorProfile'
+import StaffClinicalManager from './doctor/StaffClinicalManager'
 
 export default function DoctorPortal({ 
   doctorProfile = { name: 'Dr. Robert Ford', specialization: 'Cardiology' }, 
@@ -18,8 +19,14 @@ export default function DoctorPortal({
   patients = [],
   labReports = [],
   medicines = [],
+  runningMedications = [],
+  scheduledTests = [],
+  patientDocuments = [],
   onUpdateAppointmentStatus, 
   onCreatePrescription, 
+  onAddRunningMedication,
+  onScheduleTest,
+  onUploadPatientDocument,
   onOpenTeleconsultation,
   onLogout 
 }) {
@@ -36,6 +43,19 @@ export default function DoctorPortal({
             appointments={appointments}
             onSelectTab={setActiveTab}
             onOpenTeleconsultation={onOpenTeleconsultation}
+          />
+        )
+      case 'clinical-hub':
+        return (
+          <StaffClinicalManager
+            patients={patients}
+            doctors={[doctorProfile, ...patients]}
+            runningMedications={runningMedications}
+            scheduledTests={scheduledTests}
+            patientDocuments={patientDocuments}
+            onAddMedication={onAddRunningMedication}
+            onScheduleTest={onScheduleTest}
+            onUploadDocument={onUploadPatientDocument}
           />
         )
       case 'appointments':

@@ -19,6 +19,7 @@ import StaffRolesManagement from '../components/admin/StaffRolesManagement'
 import SystemSettings from '../components/admin/SystemSettings'
 import ThemeSettings from '../components/admin/ThemeSettings'
 import LogoutSection from '../components/admin/LogoutSection'
+import StaffClinicalManager from '../components/doctor/StaffClinicalManager'
 
 export default function AdminPortal({ 
   doctors = [], 
@@ -35,6 +36,9 @@ export default function AdminPortal({
   notifications = [],
   staffList = [],
   systemSettings = {},
+  runningMedications = [],
+  scheduledTests = [],
+  patientDocuments = [],
   onToggleDoctorVerification, 
   onAddDoctor,
   onDeleteDoctor,
@@ -55,6 +59,9 @@ export default function AdminPortal({
   onSendBroadcast,
   onAddStaff,
   onSaveSettings,
+  onAddRunningMedication,
+  onScheduleTest,
+  onUploadPatientDocument,
   isFirebaseConnected = true,
   onLogout 
 }) {
@@ -102,6 +109,18 @@ export default function AdminPortal({
         emergencyAlerts={emergencyAlerts}
         auditLogs={auditLogs}
         onSelectTab={handleSelectTab}
+      />
+    ),
+    'clinical-hub': (
+      <StaffClinicalManager
+        patients={patients}
+        doctors={doctors}
+        runningMedications={runningMedications}
+        scheduledTests={scheduledTests}
+        patientDocuments={patientDocuments}
+        onAddMedication={onAddRunningMedication}
+        onScheduleTest={onScheduleTest}
+        onUploadDocument={onUploadPatientDocument}
       />
     ),
     doctors: (

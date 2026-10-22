@@ -266,3 +266,153 @@ export const INITIAL_SYSTEM_SETTINGS = {
   backupFrequency: 'Daily Automatic Cloud Snapshot'
 }
 
+export const INITIAL_RUNNING_MEDICATIONS = [
+  {
+    id: 'med-reg-1',
+    patientName: 'Eleanor Vance',
+    medicineName: 'Atorvastatin 20mg',
+    dosage: '1 tablet',
+    frequency: '0-0-1 (Night, After Food)',
+    prescribedBy: 'Dr. Robert Ford',
+    startDate: '2026-08-01',
+    duration: '30 Days',
+    status: 'Active',
+    instructions: 'Cholesterol control. Take regularly with a glass of water.'
+  },
+  {
+    id: 'med-reg-2',
+    patientName: 'Eleanor Vance',
+    medicineName: 'Metoprolol Tartrate 50mg',
+    dosage: '1 tablet',
+    frequency: '1-0-1 (Morning & Night)',
+    prescribedBy: 'Dr. Robert Ford',
+    startDate: '2026-08-05',
+    duration: '60 Days',
+    status: 'Active',
+    instructions: 'Blood pressure & pulse rate regulation. Take with food.'
+  },
+  {
+    id: 'med-reg-3',
+    patientName: 'Eleanor Vance',
+    medicineName: 'Vitamin D3 60,000 IU',
+    dosage: '1 capsule',
+    frequency: 'Once weekly (Sunday Morning)',
+    prescribedBy: 'Dr. Gregory House',
+    startDate: '2026-08-10',
+    duration: '8 Weeks',
+    status: 'Active',
+    instructions: 'Bone health & calcium absorption. Take with milk or meal.'
+  },
+  {
+    id: 'med-reg-4',
+    patientName: 'Marcus Wright',
+    medicineName: 'Amoxicillin 500mg',
+    dosage: '1 capsule',
+    frequency: '1-1-1 (Every 8 hours)',
+    prescribedBy: 'Dr. Sarah Connor',
+    startDate: '2026-08-12',
+    duration: '7 Days',
+    status: 'Active',
+    instructions: 'Complete the entire antibiotic course.'
+  }
+]
+
+export const INITIAL_SCHEDULED_TESTS = [
+  {
+    id: 'tst-501',
+    patientName: 'Eleanor Vance',
+    testName: 'Fasting Blood Sugar & HbA1c',
+    department: 'Pathology Laboratory',
+    scheduledDate: '2026-08-16',
+    timeSlot: '08:30 AM',
+    status: 'Scheduled',
+    preparation: 'Strict 10-hour overnight fasting required. Water is permitted.',
+    orderedBy: 'Dr. Robert Ford',
+    priority: 'Routine'
+  },
+  {
+    id: 'tst-502',
+    patientName: 'Eleanor Vance',
+    testName: 'Echocardiogram (2D Echo with Doppler)',
+    department: 'Cardiology Diagnostics',
+    scheduledDate: '2026-08-18',
+    timeSlot: '11:00 AM',
+    status: 'Scheduled',
+    preparation: 'Wear comfortable two-piece clothing. No heavy meals 2 hours prior.',
+    orderedBy: 'Dr. Robert Ford',
+    priority: 'Urgent'
+  },
+  {
+    id: 'tst-503',
+    patientName: 'Eleanor Vance',
+    testName: 'Complete Blood Count (CBC) & Lipid Panel',
+    department: 'Pathology Laboratory',
+    scheduledDate: '2026-08-12',
+    timeSlot: '09:00 AM',
+    status: 'Completed',
+    preparation: 'Fasting sample collected.',
+    orderedBy: 'Dr. Robert Ford',
+    priority: 'Routine',
+    findings: 'All lipid parameters within optimal threshold. LDL: 85 mg/dL.'
+  },
+  {
+    id: 'tst-504',
+    patientName: 'Marcus Wright',
+    testName: 'Brain MRI with Contrast',
+    department: 'Radiology & Imaging',
+    scheduledDate: '2026-08-17',
+    timeSlot: '02:30 PM',
+    status: 'Scheduled',
+    preparation: 'Remove all metal jewelry. 4 hours fasting before scan.',
+    orderedBy: 'Dr. Sarah Connor',
+    priority: 'Urgent'
+  }
+]
+
+export const INITIAL_PATIENT_DOCUMENTS = [
+  {
+    id: 'doc-701',
+    patientName: 'Eleanor Vance',
+    title: 'Cardiology Clinical Consultation Note & Resting ECG',
+    category: 'Clinical Note',
+    doctorName: 'Dr. Robert Ford',
+    date: '2026-08-14',
+    fileType: 'PDF',
+    fileSize: '1.8 MB',
+    summary: 'Sinus rhythm evaluation with resting 12-lead ECG strip and therapeutic lifestyle recommendations.'
+  },
+  {
+    id: 'doc-702',
+    patientName: 'Eleanor Vance',
+    title: 'Official Electronic Prescription #rx-201',
+    category: 'Prescription',
+    doctorName: 'Dr. Gregory House',
+    date: '2026-08-10',
+    fileType: 'PDF',
+    fileSize: '420 KB',
+    summary: 'Seasonal upper respiratory treatment course and anti-allergy medication schedule.'
+  },
+  {
+    id: 'doc-703',
+    patientName: 'Eleanor Vance',
+    title: 'Comprehensive Lipid Panel & Biochemistry Report',
+    category: 'Lab Report',
+    doctorName: 'Dr. Sarah Connor',
+    date: '2026-08-12',
+    fileType: 'PDF',
+    fileSize: '950 KB',
+    summary: 'Certified clinical biochemistry profile and serum electrolyte test values.'
+  },
+  {
+    id: 'doc-704',
+    patientName: 'Eleanor Vance',
+    title: 'Inpatient Observation & Discharge Summary',
+    category: 'Discharge Summary',
+    doctorName: 'Dr. Robert Ford',
+    date: '2026-08-08',
+    fileType: 'PDF',
+    fileSize: '2.4 MB',
+    summary: 'Clinical discharge protocol, post-observation vitals, and scheduled follow-up timeline.'
+  }
+]
+

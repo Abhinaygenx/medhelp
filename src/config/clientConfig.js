@@ -48,7 +48,11 @@ export const CLIENT = {
   // ── Feature Flags ─────────────────────────────────────────────────────────
   features: {
     teleconsultation: true,
-    aiSymptomChecker: true,
+    aiSymptomChecker: false,
+    clinicalHub: true,
+    patientMedications: true,
+    scheduledTests: true,
+    documentVault: true,
     billingPdfExport: true,
     patientTimeline: true,
     smsReminders: false,      // set true when backend is wired

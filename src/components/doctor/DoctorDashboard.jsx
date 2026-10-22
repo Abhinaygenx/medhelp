@@ -59,12 +59,12 @@ export default function DoctorDashboard({
         <div className="flex items-center space-x-3">
           <button
             type="button"
-            onClick={() => onSelectTab('prescriptions')}
-            className="font-bold px-5 py-2.5 rounded-xl text-xs hover:opacity-90 transition-all flex items-center space-x-2 cursor-pointer"
+            onClick={() => onSelectTab('clinical-hub')}
+            className="font-bold px-4 py-2.5 rounded-xl text-xs hover:opacity-90 transition-all flex items-center space-x-2 cursor-pointer"
             style={{ background: 'var(--brand-600)', color: '#ffffff', boxShadow: 'var(--shadow-sm)' }}
           >
             <PlusCircle className="w-4 h-4" />
-            <span>Issue Prescription</span>
+            <span>Clinical Orders & Uploads</span>
           </button>
           
           <button

@@ -3,31 +3,24 @@ import { Stethoscope, X, LogOut } from 'lucide-react'
 import { CLIENT } from '../../config/clientConfig'
 import {
   LayoutDashboard, Calendar, FileText, CreditCard,
-  Info, User, BrainCircuit, AlertTriangle, Activity,
-  LineChart, HeartPulse, ShieldAlert, Settings
+  Info, User, AlertTriangle, Pill, TestTube, Clock, Settings
 } from 'lucide-react'
 
 const coreFeatures = [
-  { id: 'dashboard',        label: 'Dashboard',        icon: LayoutDashboard },
-  { id: 'appointments',     label: 'Appointments',     icon: Calendar },
-  { id: 'timeline',         label: 'Medical Timeline', icon: Activity },
-  { id: 'medical-records',  label: 'Medical Records',  icon: FileText },
-  { id: 'billing',          label: 'Billing & Invoices', icon: CreditCard },
-  { id: 'health-information', label: 'Health Info',    icon: Info },
-  { id: 'profile',          label: 'My Profile',       icon: User },
-]
-
-const advancedFeatures = [
-  { id: 'ai-symptom-checker', label: 'AI Symptom Checker', icon: BrainCircuit },
-  { id: 'emergency-alerts',   label: 'Emergency Alerts',   icon: AlertTriangle },
-  { id: 'health-score',       label: 'Health Score',       icon: Activity },
-  { id: 'health-insights',    label: 'Health Insights',    icon: LineChart },
-  { id: 'health-monitoring',  label: 'Health Monitoring',  icon: HeartPulse },
-  { id: 'risk-indicators',    label: 'Risk Indicators',    icon: ShieldAlert },
+  { id: 'dashboard',        label: 'Dashboard',             icon: LayoutDashboard },
+  { id: 'appointments',     label: 'Appointments',          icon: Calendar },
+  { id: 'medications',      label: 'Running Medications',   icon: Pill },
+  { id: 'scheduled-tests',  label: 'Scheduled Tests & Labs', icon: TestTube },
+  { id: 'documents',        label: 'Medical Documents & Rx', icon: FileText },
+  { id: 'timeline',         label: 'Medical Timeline',      icon: Clock },
+  { id: 'billing',          label: 'Billing & Invoices',    icon: CreditCard },
+  { id: 'profile',          label: 'My Profile',            icon: User },
 ]
 
 const otherFeatures = [
-  { id: 'settings', label: 'Settings', icon: Settings },
+  { id: 'emergency-alerts',   label: 'Emergency ER Hotline',   icon: AlertTriangle },
+  { id: 'health-information', label: 'Clinical Guidelines',    icon: Info },
+  { id: 'settings',           label: 'Settings',              icon: Settings },
 ]
 
 function NavGroup({ title, items, activeMenu, onSelectMenu, onCloseMobile }) {
@@ -117,9 +110,8 @@ export default function PatientSidebar({ activeMenu = 'dashboard', onSelectMenu,
 
         {/* Nav */}
         <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 8px', display: 'flex', flexDirection: 'column', gap: 4 }}>
-          <NavGroup title="Core" items={coreFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
-          <NavGroup title="Advanced" items={advancedFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
-          <NavGroup title="Other" items={otherFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
+          <NavGroup title="Patient Care" items={coreFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
+          <NavGroup title="Hospital Services" items={otherFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
         </nav>
 
         {/* Footer */}

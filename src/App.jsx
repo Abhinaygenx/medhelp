@@ -27,7 +27,10 @@ import {
   INITIAL_BILLS,
   INITIAL_EMERGENCY_ALERTS,
   INITIAL_STAFF,
-  INITIAL_SYSTEM_SETTINGS
+  INITIAL_SYSTEM_SETTINGS,
+  INITIAL_RUNNING_MEDICATIONS,
+  INITIAL_SCHEDULED_TESTS,
+  INITIAL_PATIENT_DOCUMENTS
 } from './data/seedData'
 import { loadData, saveData } from './services/storageService'
 
@@ -96,6 +99,9 @@ export default function App() {
   const [emergencyAlerts, setEmergencyAlerts] = useState(() => loadData('hms_emergency_alerts', INITIAL_EMERGENCY_ALERTS))
   const [staffList, setStaffList] = useState(() => loadData('hms_staff', INITIAL_STAFF))
   const [systemSettings, setSystemSettings] = useState(() => loadData('hms_settings', INITIAL_SYSTEM_SETTINGS))
+  const [runningMedications, setRunningMedications] = useState(() => loadData('hms_running_meds', INITIAL_RUNNING_MEDICATIONS))
+  const [scheduledTests, setScheduledTests] = useState(() => loadData('hms_scheduled_tests', INITIAL_SCHEDULED_TESTS))
+  const [patientDocuments, setPatientDocuments] = useState(() => loadData('hms_patient_docs', INITIAL_PATIENT_DOCUMENTS))
 
   // Local Storage Persistence Sync
   useEffect(() => { saveData('hms_doctors', doctors) }, [doctors])
@@ -112,6 +118,9 @@ export default function App() {
   useEffect(() => { saveData('hms_emergency_alerts', emergencyAlerts) }, [emergencyAlerts])
   useEffect(() => { saveData('hms_staff', staffList) }, [staffList])
   useEffect(() => { saveData('hms_settings', systemSettings) }, [systemSettings])
+  useEffect(() => { saveData('hms_running_meds', runningMedications) }, [runningMedications])
+  useEffect(() => { saveData('hms_scheduled_tests', scheduledTests) }, [scheduledTests])
+  useEffect(() => { saveData('hms_patient_docs', patientDocuments) }, [patientDocuments])
 
   // Cloud Firestore Sync & Network Connection State
   const [isFirebaseConnected, setIsFirebaseConnected] = useState(true)
@@ -611,6 +620,66 @@ export default function App() {
     }, ...prev])
   }, [])
 
+  // Action: Add Running Medication
+  const handleAddRunningMedication = useCallback((newMedData) => {
+    const newMed = {
+      id: `med-reg-${Date.now().toString().slice(-4)}`,
+      status: 'Active',
+      startDate: new Date().toISOString().split('T')[0],
+      ...newMedData
+    }
+    setRunningMedications(prev => [newMed, ...prev])
+    setAuditLogs(prev => [{
+      id: `log-${Date.now()}`,
+      actorId: 'staff-1',
+      actorName: newMedData.prescribedBy || 'Clinical Staff',
+      actorRole: 'Doctor',
+      action: 'PRESCRIBE_MEDICATION',
+      target: `Prescribed ${newMed.medicineName} for ${newMed.patientName}`,
+      timestamp: new Date().toISOString()
+    }, ...prev])
+  }, [])
+
+  // Action: Schedule Clinical Test
+  const handleScheduleTest = useCallback((newTestData) => {
+    const newTest = {
+      id: `tst-${Date.now().toString().slice(-4)}`,
+      status: 'Scheduled',
+      ...newTestData
+    }
+    setScheduledTests(prev => [newTest, ...prev])
+    setAuditLogs(prev => [{
+      id: `log-${Date.now()}`,
+      actorId: 'staff-1',
+      actorName: newTestData.orderedBy || 'Clinical Staff',
+      actorRole: 'Doctor',
+      action: 'SCHEDULE_TEST',
+      target: `Scheduled ${newTest.testName} for ${newTest.patientName}`,
+      timestamp: new Date().toISOString()
+    }, ...prev])
+  }, [])
+
+  // Action: Upload Patient Document
+  const handleUploadPatientDocument = useCallback((newDocData) => {
+    const newDoc = {
+      id: `doc-${Date.now().toString().slice(-4)}`,
+      date: new Date().toISOString().split('T')[0],
+      fileType: 'PDF',
+      fileSize: '1.4 MB',
+      ...newDocData
+    }
+    setPatientDocuments(prev => [newDoc, ...prev])
+    setAuditLogs(prev => [{
+      id: `log-${Date.now()}`,
+      actorId: 'staff-1',
+      actorName: newDocData.doctorName || 'Clinical Staff',
+      actorRole: 'Staff',
+      action: 'UPLOAD_PATIENT_DOCUMENT',
+      target: `Uploaded ${newDoc.title} for ${newDoc.patientName}`,
+      timestamp: new Date().toISOString()
+    }, ...prev])
+  }, [])
+
   // Loading Overlay while Auth Session is Restored
   if (isAuthRestoring) {
     return (
@@ -688,6 +757,9 @@ export default function App() {
                   bills={bills}
                   labReports={labReports}
                   notifications={notifications}
+                  runningMedications={runningMedications}
+                  scheduledTests={scheduledTests}
+                  patientDocuments={patientDocuments}
                   onBookAppointment={handleBookAppointment}
                   onOpenTeleconsultation={setActiveTeleconsultation}
                   onViewPrescription={setActivePrescription}
@@ -709,8 +781,14 @@ export default function App() {
                   patients={patients}
                   labReports={labReports}
                   medicines={medicines}
+                  runningMedications={runningMedications}
+                  scheduledTests={scheduledTests}
+                  patientDocuments={patientDocuments}
                   onUpdateAppointmentStatus={handleUpdateAppointmentStatus}
                   onCreatePrescription={handleCreatePrescription}
+                  onAddRunningMedication={handleAddRunningMedication}
+                  onScheduleTest={handleScheduleTest}
+                  onUploadPatientDocument={handleUploadPatientDocument}
                   onOpenTeleconsultation={setActiveTeleconsultation}
                   onLogout={handleLogout}
                 />
@@ -738,6 +816,9 @@ export default function App() {
                   notifications={notifications}
                   staffList={staffList}
                   systemSettings={systemSettings}
+                  runningMedications={runningMedications}
+                  scheduledTests={scheduledTests}
+                  patientDocuments={patientDocuments}
                   onToggleDoctorVerification={handleToggleDoctorVerification}
                   onAddDoctor={handleAddDoctor}
                   onDeleteDoctor={handleDeleteDoctor}
@@ -758,6 +839,9 @@ export default function App() {
                   onSendBroadcast={handleSendBroadcast}
                   onAddStaff={handleAddStaff}
                   onSaveSettings={handleSaveSettings}
+                  onAddRunningMedication={handleAddRunningMedication}
+                  onScheduleTest={handleScheduleTest}
+                  onUploadPatientDocument={handleUploadPatientDocument}
                   isFirebaseConnected={isFirebaseConnected}
                   onLogout={handleLogout}
                 />

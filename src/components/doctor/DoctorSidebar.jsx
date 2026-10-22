@@ -8,6 +8,7 @@ import {
 
 const menuItems = [
   { id: 'dashboard',    label: 'Dashboard',       icon: LayoutDashboard },
+  { id: 'clinical-hub', label: 'Clinical Hub & Uploads', icon: FileText },
   { id: 'appointments', label: 'Appointments',    icon: CalendarDays },
   { id: 'patients',     label: 'Patients',        icon: Users },
   { id: 'records',      label: 'Medical Records', icon: FileText },

@@ -5,21 +5,18 @@ import PatientHeader from './PatientHeader'
 import PatientDashboard from './PatientDashboard'
 import AppointmentBooking from './AppointmentBooking'
 import MedicalTimeline from './MedicalTimeline'
+import RunningMedications from './RunningMedications'
+import ScheduledTests from './ScheduledTests'
+import PatientDocuments from './PatientDocuments'
 
 import PatientPortal from '../PatientPortal'
-import AISymptomChecker from '../AISymptomChecker'
-import HealthScoreCard from '../HealthScoreCard'
 import EmergencyAlertBanner from '../EmergencyAlertBanner'
 import PatientNeonCard from '../common/PatientNeonCard'
 import InvoiceModal from '../common/InvoiceModal'
 import { Badge } from '../common/Badge'
 import { 
   Activity, 
-  BrainCircuit, 
   AlertTriangle, 
-  LineChart, 
-  HeartPulse, 
-  ShieldAlert, 
   Settings, 
   FileText, 
   CreditCard,
@@ -28,7 +25,10 @@ import {
   User, 
   CheckCircle2, 
   Sparkles,
-  Download
+  Download,
+  Pill,
+  TestTube,
+  Clock
 } from 'lucide-react'
 
 export default function PatientLayout({ 
@@ -39,6 +39,9 @@ export default function PatientLayout({
   bills = [],
   labReports = [],
   notifications = [], 
+  runningMedications = [],
+  scheduledTests = [],
+  patientDocuments = [],
   onBookAppointment, 
   onOpenTeleconsultation, 
   onViewPrescription, 
@@ -66,7 +69,7 @@ export default function PatientLayout({
 
   const patientProfile = patients[0] || {
     name: 'Eleanor Vance',
-    email: 'srikar0406@gmail.com',
+    email: 'eleanor.vance@medicarepro.health',
     bloodGroup: 'O+',
     allergies: 'Penicillin, Peanuts'
   }
@@ -115,7 +118,9 @@ export default function PatientLayout({
               patientProfile={patientProfile}
               nextAppointment={nextAppointment}
               appointmentsCount={appointments.length}
-              prescriptionsCount={prescriptions.length}
+              runningMedications={runningMedications}
+              scheduledTests={scheduledTests}
+              patientDocuments={patientDocuments}
               onSelectMenu={handleSelectMenu}
               onOpenTeleconsultation={onOpenTeleconsultation}
               onBookAppointmentClick={() => handleSelectMenu('appointments')}
@@ -131,10 +136,13 @@ export default function PatientLayout({
                 onBookingComplete={() => {}}
               />
 
-              {/* Existing Bookings List */}
+              {/* Consultation History */}
               <PatientNeonCard className="p-6 space-y-4">
                 <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: 'var(--border-light)' }}>
-                  <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>Your Consultation History</h3>
+                  <div>
+                    <h3 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>Your Consultation History</h3>
+                    <p className="text-xs text-[var(--text-muted)]">Past appointments, scheduled video slots, and clinical reviews</p>
+                  </div>
                   <Badge variant="brand" size="sm">{appointments.length} Consultations</Badge>
                 </div>
 
@@ -151,6 +159,24 @@ export default function PatientLayout({
             </div>
           )}
 
+          {/* RUNNING MEDICATIONS */}
+          {activeMenu === 'medications' && (
+            <RunningMedications medications={runningMedications} />
+          )}
+
+          {/* SCHEDULED CLINICAL TESTS */}
+          {activeMenu === 'scheduled-tests' && (
+            <ScheduledTests tests={scheduledTests} />
+          )}
+
+          {/* MEDICAL DOCUMENTS & PRESCRIPTIONS VAULT */}
+          {(activeMenu === 'documents' || activeMenu === 'medical-records') && (
+            <PatientDocuments 
+              documents={patientDocuments} 
+              prescriptions={prescriptions} 
+            />
+          )}
+
           {/* MEDICAL TIMELINE */}
           {activeMenu === 'timeline' && (
             <MedicalTimeline
@@ -159,54 +185,6 @@ export default function PatientLayout({
               labReports={labReports}
               patient={patientProfile}
             />
-          )}
-
-          {/* MEDICAL RECORDS */}
-          {activeMenu === 'medical-records' && (
-            <PatientNeonCard className="p-6 space-y-6">
-              <div className="border-b pb-4" style={{ borderColor: 'var(--border-light)' }}>
-                <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                  <FileText className="w-5 h-5 text-[var(--brand-600)]" /> Digital Medical Records & Prescriptions
-                </h2>
-                <p className="text-xs text-[var(--text-muted)]">HIPAA compliant digital prescription vault and medical history records.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {prescriptions.length === 0 ? (
-                  <div className="col-span-2 p-8 text-center rounded-2xl border border-dashed text-xs"
-                    style={{ borderColor: 'var(--border-default)', color: 'var(--text-muted)' }}
-                  >
-                    No medical records or prescriptions found.
-                  </div>
-                ) : (
-                  prescriptions.map(rx => (
-                    <div key={rx.id} className="p-5 rounded-2xl space-y-3"
-                      style={{ background: 'var(--surface-page)', border: '1px solid var(--border-light)' }}
-                    >
-                      <div className="flex items-center justify-between border-b pb-2" style={{ borderColor: 'var(--border-light)' }}>
-                        <span className="font-bold text-xs text-[var(--brand-600)]">Rx #{rx.id}</span>
-                        <Badge variant="success" size="sm">Verified MD</Badge>
-                      </div>
-                      <p className="text-xs font-bold" style={{ color: 'var(--text-primary)' }}>
-                        {rx.doctorName} ({rx.doctorSpecialization})
-                      </p>
-                      <p className="text-xs p-2.5 rounded-xl border text-[var(--text-secondary)]"
-                        style={{ background: 'var(--surface-card)', borderColor: 'var(--border-light)' }}
-                      >
-                        Diagnosis: {rx.diagnosis}
-                      </p>
-                      <button
-                        onClick={() => onViewPrescription(rx)}
-                        className="w-full font-bold py-2 rounded-xl text-xs transition-colors cursor-pointer"
-                        style={{ background: 'var(--brand-600)', color: '#ffffff' }}
-                      >
-                        View Official Prescription
-                      </button>
-                    </div>
-                  ))
-                )}
-              </div>
-            </PatientNeonCard>
           )}
 
           {/* BILLING & INVOICES */}
@@ -257,7 +235,7 @@ export default function PatientLayout({
                           <td className="py-4 px-4 text-right">
                             <button
                               onClick={() => setActiveInvoice(bill)}
-                              className="px-3 py-1.5 rounded-xl font-bold border inline-flex items-center space-x-1.5 cursor-pointer"
+                              className="px-3 py-1.5 rounded-xl font-bold border inline-flex items-center space-x-1.5 cursor-pointer hover:bg-[var(--brand-50)] transition-colors"
                               style={{
                                 background: 'var(--surface-card)',
                                 color: 'var(--brand-700)',
@@ -273,33 +251,6 @@ export default function PatientLayout({
                     )}
                   </tbody>
                 </table>
-              </div>
-            </PatientNeonCard>
-          )}
-
-          {/* HEALTH INFORMATION */}
-          {activeMenu === 'health-information' && (
-            <PatientNeonCard className="p-6 space-y-6">
-              <div className="border-b pb-4" style={{ borderColor: 'var(--border-light)' }}>
-                <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                  <Info className="w-5 h-5 text-[var(--brand-600)]" /> Patient Health Information & Guidelines
-                </h2>
-                <p className="text-xs text-[var(--text-muted)]">Official medical advice, preventive guidelines, and clinical emergency SOPs.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                <div className="p-5 rounded-2xl space-y-2 border" style={{ background: 'var(--brand-50)', borderColor: 'var(--brand-200)' }}>
-                  <h4 className="font-bold text-[var(--brand-700)]">Cardiology Guidelines</h4>
-                  <p className="text-[var(--text-secondary)]">Maintain daily physical activity of 30+ mins, keep sodium under 2g/day, monitor resting heart rate.</p>
-                </div>
-                <div className="p-5 rounded-2xl space-y-2 border bg-emerald-50 border-emerald-200">
-                  <h4 className="font-bold text-emerald-800">Nutrition & Hydration</h4>
-                  <p className="text-emerald-950">Drink at least 2.5L water daily. Balanced intake of lean proteins, fiber, and antioxidant-rich foods.</p>
-                </div>
-                <div className="p-5 rounded-2xl space-y-2 border bg-teal-50 border-teal-200">
-                  <h4 className="font-bold text-teal-800">Sleep Hygiene</h4>
-                  <p className="text-teal-950">Aim for 7.5 to 8 hours uninterrupted sleep. Avoid blue-light screen exposure 45 mins prior to bedtime.</p>
-                </div>
               </div>
             </PatientNeonCard>
           )}
@@ -335,17 +286,6 @@ export default function PatientLayout({
             </PatientNeonCard>
           )}
 
-          {/* AI SYMPTOM CHECKER */}
-          {activeMenu === 'ai-symptom-checker' && (
-            <PatientNeonCard className="p-6 space-y-6">
-              <AISymptomChecker 
-                onRecommendBooking={() => {
-                  handleSelectMenu('appointments')
-                }}
-              />
-            </PatientNeonCard>
-          )}
-
           {/* EMERGENCY ALERTS */}
           {activeMenu === 'emergency-alerts' && (
             <PatientNeonCard className="p-6 space-y-6">
@@ -372,100 +312,28 @@ export default function PatientLayout({
             </PatientNeonCard>
           )}
 
-          {/* HEALTH SCORE */}
-          {activeMenu === 'health-score' && (
-            <PatientNeonCard className="p-6 space-y-6">
-              <HealthScoreCard />
-            </PatientNeonCard>
-          )}
-
-          {/* HEALTH INSIGHTS */}
-          {activeMenu === 'health-insights' && (
+          {/* CLINICAL GUIDELINES */}
+          {activeMenu === 'health-information' && (
             <PatientNeonCard className="p-6 space-y-6">
               <div className="border-b pb-4" style={{ borderColor: 'var(--border-light)' }}>
                 <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                  <LineChart className="w-5 h-5 text-[var(--brand-600)]" /> Clinical Health Insights & Trend Analytics
+                  <Info className="w-5 h-5 text-[var(--brand-600)]" /> Patient Health Information & Guidelines
                 </h2>
-                <p className="text-xs text-[var(--text-muted)]">AI-driven predictive analytics based on historical vital readings and consultation history.</p>
+                <p className="text-xs text-[var(--text-muted)]">Official medical advice, preventive guidelines, and clinical emergency SOPs.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                <div className="p-5 rounded-2xl border bg-emerald-50 border-emerald-200 space-y-2">
-                  <h4 className="font-bold text-emerald-800">Cardiovascular Trend</h4>
-                  <p className="text-emerald-950">Resting heart rate has improved by 4% over the last 30 days (avg 72 bpm).</p>
+                <div className="p-5 rounded-2xl space-y-2 border" style={{ background: 'var(--brand-50)', borderColor: 'var(--brand-200)' }}>
+                  <h4 className="font-bold text-[var(--brand-700)]">Cardiology Guidelines</h4>
+                  <p className="text-[var(--text-secondary)]">Maintain daily physical activity of 30+ mins, keep sodium under 2g/day, monitor resting heart rate.</p>
                 </div>
-                <div className="p-5 rounded-2xl border" style={{ background: 'var(--brand-50)', borderColor: 'var(--brand-200)' }}>
-                  <h4 className="font-bold text-[var(--brand-700)]">Consultation Frequency</h4>
-                  <p className="text-[var(--text-secondary)]">Routine follow-ups completed on schedule. 100% adherence to digital prescriptions.</p>
+                <div className="p-5 rounded-2xl space-y-2 border bg-emerald-50 border-emerald-200">
+                  <h4 className="font-bold text-emerald-800">Nutrition & Hydration</h4>
+                  <p className="text-emerald-950">Drink at least 2.5L water daily. Balanced intake of lean proteins, fiber, and antioxidant-rich foods.</p>
                 </div>
-                <div className="p-5 rounded-2xl border bg-teal-50 border-teal-200 space-y-2">
-                  <h4 className="font-bold text-teal-800">Overall Well-Being</h4>
-                  <p className="text-teal-950">Health Score is 88/100 (Optimal Range). Low risk profile for chronic indicators.</p>
-                </div>
-              </div>
-            </PatientNeonCard>
-          )}
-
-          {/* HEALTH MONITORING */}
-          {activeMenu === 'health-monitoring' && (
-            <PatientNeonCard className="p-6 space-y-6">
-              <div className="border-b pb-4" style={{ borderColor: 'var(--border-light)' }}>
-                <h2 className="text-xl font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
-                  <HeartPulse className="w-5 h-5 text-emerald-600" /> Real-Time Health Telemetry & IoT Monitoring
-                </h2>
-                <p className="text-xs text-[var(--text-muted)]">Live monitoring data synchronized from smart health sensors and wearable devices.</p>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 text-xs">
-                <div className="p-5 rounded-2xl border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
-                  <span className="text-[var(--text-muted)] font-medium">Heart Rate</span>
-                  <p className="text-2xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>72 <span className="text-xs text-[var(--text-muted)] font-normal">BPM</span></p>
-                  <span className="text-[10px] text-emerald-600 font-bold">Normal Rhythm</span>
-                </div>
-                <div className="p-5 rounded-2xl border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
-                  <span className="text-[var(--text-muted)] font-medium">Blood Pressure</span>
-                  <p className="text-2xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>120/80 <span className="text-xs text-[var(--text-muted)] font-normal">mmHg</span></p>
-                  <span className="text-[10px] text-emerald-600 font-bold">Ideal Reading</span>
-                </div>
-                <div className="p-5 rounded-2xl border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
-                  <span className="text-[var(--text-muted)] font-medium">SpO2 Oxygen</span>
-                  <p className="text-2xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>99%</p>
-                  <span className="text-[10px] text-emerald-600 font-bold">Optimal</span>
-                </div>
-                <div className="p-5 rounded-2xl border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
-                  <span className="text-[var(--text-muted)] font-medium">Body Temperature</span>
-                  <p className="text-2xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>98.6°F</p>
-                  <span className="text-[10px] text-emerald-600 font-bold">Afebrile</span>
-                </div>
-              </div>
-            </PatientNeonCard>
-          )}
-
-          {/* RISK INDICATORS */}
-          {activeMenu === 'risk-indicators' && (
-            <PatientNeonCard className="p-6 space-y-6">
-              <div className="border-b pb-4" style={{ borderColor: 'var(--border-light)' }}>
-                <h2 className="text-xl font-bold flex items-center gap-2 text-amber-600">
-                  <ShieldAlert className="w-5 h-5 text-amber-600" /> Clinical Risk Factors & Preventive Matrix
-                </h2>
-                <p className="text-xs text-[var(--text-muted)]">Automated clinical risk stratification derived from EMR and AI triage algorithms.</p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-                <div className="p-5 rounded-2xl border bg-emerald-50 border-emerald-200 space-y-2">
-                  <h4 className="font-bold text-emerald-800">Cardiovascular Risk</h4>
-                  <p className="font-bold text-emerald-900">LOW RISK (3%)</p>
-                  <p className="text-emerald-800 text-[11px]">BP and lipid profile within normal thresholds.</p>
-                </div>
-                <div className="p-5 rounded-2xl border bg-emerald-50 border-emerald-200 space-y-2">
-                  <h4 className="font-bold text-emerald-800">Metabolic Risk</h4>
-                  <p className="font-bold text-emerald-900">LOW RISK (5%)</p>
-                  <p className="text-emerald-800 text-[11px]">Blood glucose telemetry indicates non-diabetic range.</p>
-                </div>
-                <div className="p-5 rounded-2xl border" style={{ background: 'var(--brand-50)', borderColor: 'var(--brand-200)' }}>
-                  <h4 className="font-bold text-[var(--brand-700)]">Respiratory Risk</h4>
-                  <p className="font-bold text-[var(--brand-900)]">NORMAL (2%)</p>
-                  <p className="text-[var(--text-secondary)] text-[11px]">No acute complaints or SpO2 drops.</p>
+                <div className="p-5 rounded-2xl space-y-2 border bg-teal-50 border-teal-200">
+                  <h4 className="font-bold text-teal-800">Medication Adherence</h4>
+                  <p className="text-teal-950">Always complete antibiotic courses as prescribed. Report any adverse reactions immediately.</p>
                 </div>
               </div>
             </PatientNeonCard>
@@ -496,8 +364,8 @@ export default function PatientLayout({
                   style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}
                 >
                   <div>
-                    <p className="font-bold" style={{ color: 'var(--text-primary)' }}>Two-Factor Authentication (2FA)</p>
-                    <p className="text-[11px] text-[var(--text-muted)]">Require OTP verification during patient login session</p>
+                    <p className="font-bold" style={{ color: 'var(--text-primary)' }}>Prescription & Lab Result Notifications</p>
+                    <p className="text-[11px] text-[var(--text-muted)]">Get notified immediately when test results or prescriptions are uploaded</p>
                   </div>
                   <input type="checkbox" defaultChecked className="w-4 h-4 text-[var(--brand-600)] rounded" />
                 </div>
