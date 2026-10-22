@@ -1,159 +1,135 @@
 import React, { useState } from 'react'
-import { 
-  Search, 
-  Bell, 
-  Menu, 
-  ShieldCheck, 
-  LogOut, 
-  ChevronDown, 
-  Cloud, 
-  CloudOff,
-  AlertTriangle
-} from 'lucide-react'
+import { Bell, Menu, LogOut, ChevronDown, Search, Cloud, CloudOff, AlertTriangle, Sun, Moon, ShieldCheck } from 'lucide-react'
 
-export default function Topbar({ 
-  adminName = 'Super Admin', 
-  isFirebaseConnected = true,
-  emergencyCount = 2,
-  notifications = [],
-  onToggleMobileSidebar,
-  onLogout 
-}) {
-  const [isNotifOpen, setIsNotifOpen] = useState(false)
+export default function Topbar({ adminName = 'Super Admin', isFirebaseConnected = true, emergencyCount = 0, notifications = [], onToggleMobileSidebar, onLogout }) {
+  const [isNotifOpen, setIsNotifOpen]     = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [isDark, setIsDark] = useState(() => { try { return localStorage.getItem('hms_theme') === 'dark' } catch { return false } })
+
+  const toggleTheme = () => {
+    const next = !isDark
+    setIsDark(next)
+    const val = next ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', val)
+    try { localStorage.setItem('hms_theme', val) } catch {}
+  }
+
+  const unread = notifications.filter(n => !n.isRead).length
+  const initials = adminName.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
 
   return (
-    <header className="bg-[#111827]/90 backdrop-blur-md border-b border-[#374151] sticky top-0 z-30 px-6 py-4 shadow-lg shadow-[#0B0F19]/50 text-[#F9FAFB]">
-      <div className="flex items-center justify-between gap-4">
-        
-        {/* Left Side: Mobile Menu Button + Title / Subtitle */}
-        <div className="flex items-center space-x-3">
-          <button
-            type="button"
-            onClick={onToggleMobileSidebar}
-            className="lg:hidden p-2.5 rounded-2xl bg-[#1F2937] text-[#9CA3AF] hover:text-white border border-[#374151]"
-            aria-label="Toggle Navigation Sidebar"
-          >
-            <Menu className="w-5 h-5 text-[#E5FF00]" />
-          </button>
+    <header style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 30, padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+      {/* Left */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button onClick={onToggleMobileSidebar} aria-label="Toggle navigation" className="lg:hidden"
+          style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          <Menu size={18} />
+        </button>
+        <div>
+          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
+            Hospital Command Center
+            <span style={{ padding: '2px 10px', borderRadius: 999, background: 'var(--brand-50)', color: 'var(--brand-700)', fontSize: '0.6875rem', fontWeight: 700, border: '1px solid var(--brand-200)' }}>Admin</span>
+          </h1>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+            {isFirebaseConnected
+              ? <span style={{ color: '#16a34a', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600 }}><Cloud size={11} /> Firestore Live</span>
+              : <span style={{ color: '#d97706', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600 }}><CloudOff size={11} /> Offline Mode</span>
+            }
+          </p>
+        </div>
+      </div>
 
-          <div>
-            <div className="flex items-center space-x-2">
-              <h2 className="text-lg font-extrabold text-[#F9FAFB] font-['Space_Grotesk'] leading-tight">
-                Hospital Command Center
-              </h2>
-              <span className="hidden sm:inline-flex px-2.5 py-0.5 rounded-full bg-[#E5FF00]/15 text-[#E5FF00] border border-[#E5FF00]/30 text-[10px] font-extrabold uppercase">
-                Super Admin
-              </span>
-            </div>
-            <p className="text-xs text-[#9CA3AF] mt-0.5 font-medium flex items-center gap-2">
-              <span>Apollo Hospital Enterprise Console</span>
-              <span>•</span>
-              {isFirebaseConnected ? (
-                <span className="text-[#22C55E] flex items-center gap-1 font-bold">
-                  <Cloud className="w-3.5 h-3.5" /> Firestore Active
-                </span>
-              ) : (
-                <span className="text-[#F59E0B] flex items-center gap-1 font-bold">
-                  <CloudOff className="w-3.5 h-3.5" /> Local Storage Active
-                </span>
-              )}
-            </p>
-          </div>
+      {/* Right */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* Search */}
+        <div style={{ position: 'relative' }} className="hidden md:block">
+          <Search size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-disabled)' }} />
+          <input type="search" placeholder="Search patients, doctors…"
+            style={{ padding: '8px 14px 8px 34px', borderRadius: 10, border: '1.5px solid var(--border-default)', background: 'var(--surface-page)', color: 'var(--text-primary)', fontSize: '0.8125rem', outline: 'none', width: 240 }}
+            onFocus={e => { e.target.style.borderColor = 'var(--brand-500)'; e.target.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.12)' }}
+            onBlur={e => { e.target.style.borderColor = 'var(--border-default)'; e.target.style.boxShadow = 'none' }}
+          />
         </div>
 
-        {/* Right Side: Global Search, Emergency Pill, Notifications & Avatar */}
-        <div className="flex items-center space-x-3">
-          
-          {/* Quick Search Input */}
-          <div className="relative hidden md:block w-64">
-            <Search className="w-4 h-4 absolute left-3.5 top-3 text-[#9CA3AF]" />
-            <input
-              type="text"
-              placeholder="Search patients, doctors, beds..."
-              className="w-full bg-[#0B0F19] border border-[#374151] rounded-2xl pl-10 pr-4 py-2 text-xs text-[#F9FAFB] placeholder-[#9CA3AF] focus:outline-none focus:border-[#E5FF00]"
-            />
+        {/* Emergency pill */}
+        {emergencyCount > 0 && (
+          <div style={{ display: 'none', alignItems: 'center', gap: 6, padding: '5px 12px', borderRadius: 999, background: '#fef2f2', border: '1px solid #fecaca', color: '#dc2626', fontSize: '0.75rem', fontWeight: 700 }} className="sm:flex">
+            <AlertTriangle size={13} />
+            {emergencyCount} ER Alert{emergencyCount > 1 ? 's' : ''}
           </div>
+        )}
 
-          {/* Emergency Alert Indicator */}
-          {emergencyCount > 0 && (
-            <div className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-2xl bg-[#EF4444]/15 border border-[#EF4444]/30 text-[#EF4444] text-xs font-bold animate-pulse">
-              <AlertTriangle className="w-4 h-4" />
-              <span>{emergencyCount} ER Alerts</span>
+        {/* Theme */}
+        <button onClick={toggleTheme} aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          {isDark ? <Sun size={15} /> : <Moon size={15} />}
+        </button>
+
+        {/* Notifications */}
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => { setIsNotifOpen(!isNotifOpen); setIsProfileOpen(false) }} aria-label={`${unread} notifications`}
+            style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)', position: 'relative' }}>
+            <Bell size={16} />
+            {unread > 0 && (
+              <span style={{ position: 'absolute', top: -3, right: -3, width: 16, height: 16, borderRadius: '50%', background: 'var(--brand-600)', color: '#fff', fontSize: '0.625rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--surface-card)' }}>
+                {unread > 9 ? '9+' : unread}
+              </span>
+            )}
+          </button>
+          {isNotifOpen && (
+            <div className="dropdown" style={{ width: 320 }}>
+              <div style={{ padding: '10px 14px 8px', borderBottom: '1px solid var(--border-light)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>Notifications</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{notifications.length} total</span>
+              </div>
+              <div style={{ padding: '8px 6px', maxHeight: 280, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {notifications.length === 0 ? (
+                  <p style={{ padding: '20px 8px', textAlign: 'center', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>No notifications</p>
+                ) : notifications.slice(0, 10).map(n => (
+                  <div key={n.id} style={{ padding: '10px 12px', borderRadius: 10, background: n.isRead ? 'transparent' : 'var(--brand-50)', border: '1px solid var(--border-light)' }}>
+                    <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--text-primary)', marginBottom: 2 }}>{n.title}</div>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{n.message}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
-
-          {/* Notifications Dropdown */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsNotifOpen(!isNotifOpen)}
-              className="p-2.5 rounded-2xl bg-[#1F2937] hover:bg-[#374151] text-[#F9FAFB] border border-[#374151] relative transition-all"
-              aria-label="View admin notifications"
-            >
-              <Bell className="w-4.5 h-4.5 text-[#E5FF00]" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#E5FF00] text-[#0B0F19] font-extrabold text-[9px] flex items-center justify-center border-2 border-[#0B0F19] shadow-[0_0_8px_rgba(229,255,0,0.6)]">
-                3
-              </span>
-            </button>
-
-            {isNotifOpen && (
-              <div className="absolute right-0 mt-3 w-80 rounded-3xl bg-[#1F2937] border border-[#374151] shadow-2xl p-4 z-50 divide-y divide-[#374151]">
-                <div className="pb-2.5 flex items-center justify-between">
-                  <h4 className="font-bold text-xs text-[#F9FAFB]">System Notifications</h4>
-                  <span className="text-[10px] text-[#9CA3AF]">3 Active</span>
-                </div>
-                <div className="py-2.5 space-y-2 text-xs">
-                  <div className="p-3 rounded-2xl bg-[#0B0F19] border border-[#374151]">
-                    <p className="font-bold text-[#E5FF00]">New Doctor Registration</p>
-                    <p className="text-[11px] text-[#9CA3AF] mt-0.5">Dr. Sarah Jenkins submitted credentials for Cardiology verification.</p>
-                  </div>
-                  <div className="p-3 rounded-2xl bg-[#0B0F19] border border-[#374151]">
-                    <p className="font-bold text-[#EF4444]">ICU Bed Low Capacity</p>
-                    <p className="text-[11px] text-[#9CA3AF] mt-0.5">Only 2 ICU beds remaining in East Wing Ward.</p>
-                  </div>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Super Admin Profile Avatar */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center space-x-2.5 p-1.5 rounded-2xl hover:bg-[#1F2937] transition-all border border-transparent hover:border-[#374151]"
-            >
-              <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-[#E5FF00] to-[#b3cc00] flex items-center justify-center text-[#0B0F19] font-extrabold text-sm shadow-[0_0_12px_rgba(229,255,0,0.3)]">
-                SA
-              </div>
-              <div className="text-left hidden sm:block">
-                <p className="text-xs font-extrabold text-[#F9FAFB] leading-tight">{adminName}</p>
-                <p className="text-[10px] text-[#E5FF00] font-extrabold">System Director</p>
-              </div>
-              <ChevronDown className="w-4 h-4 text-[#9CA3AF] hidden sm:block" />
-            </button>
-
-            {isProfileOpen && (
-              <div className="absolute right-0 mt-3 w-52 rounded-3xl bg-[#1F2937] border border-[#374151] shadow-2xl p-2.5 z-50 space-y-1">
-                <div className="px-3 py-2.5 border-b border-[#374151]">
-                  <p className="text-xs font-bold text-[#F9FAFB]">{adminName}</p>
-                  <p className="text-[10px] text-[#9CA3AF]">admin@apollo-hospital.org</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={onLogout}
-                  className="w-full flex items-center space-x-2 px-3 py-2.5 rounded-xl text-xs font-bold text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors"
-                >
-                  <LogOut className="w-4 h-4 text-[#EF4444]" />
-                  <span>Sign Out</span>
-                </button>
-              </div>
-            )}
-          </div>
-
         </div>
 
+        {/* Profile */}
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => { setIsProfileOpen(!isProfileOpen); setIsNotifOpen(false) }} aria-label="Profile menu"
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 10, border: '1px solid transparent', background: 'transparent', cursor: 'pointer', transition: 'all 150ms' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-page)'; e.currentTarget.style.borderColor = 'var(--border-light)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent' }}
+          >
+            <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--brand-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '0.8125rem' }}>
+              {initials}
+            </div>
+            <div className="hidden sm:block">
+              <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>{adminName}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>System Administrator</div>
+            </div>
+            <ChevronDown size={14} color="var(--text-muted)" />
+          </button>
+          {isProfileOpen && (
+            <div className="dropdown" style={{ minWidth: 210 }}>
+              <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border-light)' }}>
+                <div style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{adminName}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>admin@medicarepro.health</div>
+              </div>
+              <div style={{ padding: 6 }}>
+                <button type="button" onClick={onLogout}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', borderRadius: 8, background: 'none', border: 'none', color: '#dc2626', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', width: '100%' }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#fef2f2'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'none'}
+                >
+                  <LogOut size={15} /> Sign Out
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </header>
   )

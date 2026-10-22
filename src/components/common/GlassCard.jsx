@@ -1,15 +1,21 @@
 import React from 'react'
 
-export default function GlassCard({ children, className = '', hoverGlow = true }) {
+export default function GlassCard({ children, className = '', hoverGlow = true, onClick }) {
   return (
     <div
+      onClick={onClick}
+      style={{
+        background: 'var(--surface-card)',
+        border: '1px solid var(--border-light)',
+        borderRadius: '20px',
+        boxShadow: 'var(--shadow-md)',
+        backdropFilter: 'blur(12px)',
+        color: 'var(--text-primary)'
+      }}
       className={`
-        bg-[#081225]/90
-        backdrop-blur-xl
-        border border-[#162742]
-        rounded-3xl
-        shadow-[0_8px_32px_rgba(2,8,23,0.45)]
-        ${hoverGlow ? 'hover:shadow-[0_0_0_1px_rgba(37,99,255,0.15),0_10px_30px_rgba(37,99,255,0.12)] hover:-translate-y-1 transition-all duration-300' : ''}
+        transition-all duration-300
+        ${hoverGlow ? 'hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5 hover:border-[var(--brand-300)]' : ''}
+        ${onClick ? 'cursor-pointer' : ''}
         ${className}
       `}
     >

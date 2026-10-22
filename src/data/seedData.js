@@ -257,12 +257,12 @@ export const INITIAL_STAFF = [
 ]
 
 export const INITIAL_SYSTEM_SETTINGS = {
-  name: 'Apollo Virtual Healthcare Portal',
-  tagline: 'Enterprise Medical Command Center',
-  address: '742 Evergreen Terrace, Medical District, NY 10001',
-  phone: '+1 (800) 555-APOLLO',
-  email: 'admin@apollo-hospital.org',
-  opdHours: '08:00 AM - 08:00 PM (Mon-Sat)',
+  name: 'MediCare Pro',
+  tagline: 'Advanced Healthcare Management System',
+  address: '742 Healthcare Avenue, Medical District, New York, NY 10001',
+  phone: '+1 (800) 633-4227',
+  email: 'support@medicarepro.health',
+  opdHours: '08:00 AM – 08:00 PM (Mon–Sat)',
   backupFrequency: 'Daily Automatic Cloud Snapshot'
 }
 

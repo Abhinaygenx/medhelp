@@ -9,6 +9,8 @@ import {
 } from 'firebase/firestore'
 import toast, { Toaster } from 'react-hot-toast'
 import { Activity } from 'lucide-react'
+import LandingPage from './components/LandingPage'
+import { CLIENT } from './config/clientConfig'
 
 // Import Data Seed & Core Components
 import { 
@@ -612,16 +614,15 @@ export default function App() {
   // Loading Overlay while Auth Session is Restored
   if (isAuthRestoring) {
     return (
-      <div className="min-h-screen bg-[#F5F8FF] flex items-center justify-center p-4">
-        <div className="bg-white p-8 rounded-3xl border border-[#E5EAF5] shadow-2xl text-center space-y-4 max-w-sm w-full">
-          <div className="w-12 h-12 rounded-2xl bg-[#2F54EB]/10 border border-[#2F54EB]/30 flex items-center justify-center mx-auto text-[#2F54EB]">
-            <Activity className="w-6 h-6 animate-spin" />
+      <div style={{ minHeight: '100vh', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 16 }}>
+        <div style={{ background: 'var(--surface-card)', padding: 40, borderRadius: 20, border: '1px solid var(--border-light)', boxShadow: 'var(--shadow-xl)', textAlign: 'center', maxWidth: 320, width: '100%' }}>
+          <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--brand-50)', border: '1px solid var(--brand-200)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--brand-600)' }}>
+            <Activity size={22} style={{ animation: 'spin 1s linear infinite' }} />
           </div>
-          <div>
-            <h4 className="font-bold text-[#0B1B4D] text-base font-['Space_Grotesk']">Restoring Session</h4>
-            <p className="text-xs text-slate-500 mt-1">Verifying security credentials & RBAC persona...</p>
-          </div>
+          <h4 style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem', marginBottom: 4 }}>Loading MediCare Pro</h4>
+          <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Restoring your secure session…</p>
         </div>
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     )
   }
@@ -632,8 +633,8 @@ export default function App() {
   const isStandalonePortal = isPatientRoute || isDoctorRoute || isAdminRoute
 
   return (
-    <div className={`min-h-screen font-['Plus_Jakarta_Sans',sans-serif] ${isStandalonePortal ? (isPatientRoute ? 'bg-[#F5F8FF]' : (isDoctorRoute ? 'bg-[#080D1A]' : 'bg-[#0B0F19]')) : 'bg-slate-950 text-slate-100 flex flex-col'}`}>
-      <Toaster position="top-right" />
+    <div style={{ minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', background: 'var(--surface-page)', color: 'var(--text-primary)', display: 'flex', flexDirection: isStandalonePortal ? undefined : 'column' }}>
+      <Toaster position="top-right" toastOptions={{ style: { fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.875rem' } }} />
 
       {/* Render Header Navbar ONLY if not in standalone portals */}
       {currentUser && !isStandalonePortal && (
@@ -648,8 +649,20 @@ export default function App() {
       )}
 
       {/* Main Content Area with Protected Routes */}
-      <main className={isStandalonePortal ? "w-full" : "flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8"}>
+      <main style={isStandalonePortal ? { width: '100%' } : { flex: 1, maxWidth: 1280, width: '100%', margin: '0 auto', padding: '32px 24px' }}>
         <Routes>
+          {/* Public Landing Page */}
+          <Route
+            path="/"
+            element={
+              currentUser ? (
+                <Navigate to={getDashboardPath(currentUser.role)} replace />
+              ) : (
+                <LandingPage />
+              )
+            }
+          />
+
           {/* Public / Unauthenticated Login Route */}
           <Route 
             path="/login" 
@@ -793,9 +806,9 @@ export default function App() {
         </Suspense>
       )}
 
-      {/* Footer ONLY for Admin Portal */}
+      {/* Footer ONLY for non-portal pages */}
       {currentUser && !isStandalonePortal && (
-        <footer className="border-t border-slate-900 bg-slate-950/80 py-6 text-center text-xs text-slate-400">
+        <footer style={{ borderTop: '1px solid var(--border-light)', background: 'var(--surface-card)', padding: '20px 24px', textAlign: 'center', fontSize: '0.75rem', color: 'var(--text-muted)' }}>
           <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <p>© 2026 Virtual Healthcare Consultation Portal • React • Tailwind • Firebase</p>
             <div className="flex items-center space-x-3 text-[11px] text-slate-400">

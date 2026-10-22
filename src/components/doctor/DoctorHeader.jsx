@@ -1,134 +1,116 @@
-import React from 'react'
-import { Bell, Menu, Search, Calendar, ChevronDown, LogOut } from 'lucide-react'
+import React, { useState } from 'react'
+import { Bell, Menu, LogOut, ChevronDown, Search, Sun, Moon, Calendar } from 'lucide-react'
 
-export default function DoctorHeader({ 
-  doctorName = 'Dr. Robert Ford', 
-  doctorDept = 'Cardiology Department',
-  avatarUrl,
-  notifications = [], 
-  onToggleMobileSidebar,
-  onLogout 
-}) {
-  const [isNotifOpen, setIsNotifOpen] = React.useState(false)
-  const [isProfileOpen, setIsProfileOpen] = React.useState(false)
+export default function DoctorHeader({ doctorName = 'Dr. Robert Ford', doctorDept = 'Cardiology Department', avatarUrl, notifications = [], onToggleMobileSidebar, onLogout }) {
+  const [isNotifOpen, setIsNotifOpen]     = useState(false)
+  const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [isDark, setIsDark] = useState(() => { try { return localStorage.getItem('hms_theme') === 'dark' } catch { return false } })
 
-  const currentDateStr = new Date().toLocaleDateString('en-US', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  })
+  const toggleTheme = () => {
+    const next = !isDark
+    setIsDark(next)
+    const val = next ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', val)
+    try { localStorage.setItem('hms_theme', val) } catch {}
+  }
+
+  const initials = doctorName.replace('Dr. ', '').split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
+  const dateStr = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
 
   return (
-    <header className="bg-[#061124]/90 backdrop-blur-xl border-b border-[#162742] sticky top-0 z-30 px-6 py-4 shadow-[0_8px_32px_rgba(2,8,23,0.45)]">
-      <div className="flex items-center justify-between gap-4">
-        
-        {/* Left Side: Mobile Menu Button + Title / Date */}
-        <div className="flex items-center space-x-3">
-          <button
-            type="button"
-            onClick={onToggleMobileSidebar}
-            className="lg:hidden p-2.5 rounded-2xl bg-[#081225] text-[#cbd5e1] hover:bg-[#0b172a] border border-[#E5FF0020]"
-            aria-label="Toggle Navigation Sidebar"
-          >
-            <Menu className="w-5 h-5 text-[#E5FF00]" />
-          </button>
+    <header style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 30, padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+      {/* Left */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button onClick={onToggleMobileSidebar} aria-label="Toggle navigation" className="lg:hidden"
+          style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          <Menu size={18} />
+        </button>
+        <div>
+          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Welcome back, {doctorName}</h1>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0, display: 'flex', alignItems: 'center', gap: 4 }}>
+            <Calendar size={11} /> {dateStr} · {doctorDept}
+          </p>
+        </div>
+      </div>
 
-          <div>
-            <h2 className="text-lg font-extrabold text-[#f8fafc] font-['Space_Grotesk'] leading-tight">
-              Welcome back, {doctorName}
-            </h2>
-            <p className="text-xs text-[#94a3b8] flex items-center gap-1.5 mt-0.5 font-medium">
-              <Calendar className="w-3.5 h-3.5 text-[#E5FF00]" />
-              <span>{currentDateStr}</span>
-              <span className="hidden sm:inline text-[#64748b]">• {doctorDept}</span>
-            </p>
-          </div>
+      {/* Right */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* Search — desktop */}
+        <div style={{ position: 'relative', display: 'none' }} className="md:block">
+          <Search size={14} style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--text-disabled)' }} />
+          <input type="search" placeholder="Search patients…"
+            style={{ padding: '8px 14px 8px 34px', borderRadius: 10, border: '1.5px solid var(--border-default)', background: 'var(--surface-page)', color: 'var(--text-primary)', fontSize: '0.8125rem', outline: 'none', width: 220 }}
+            onFocus={e => { e.target.style.borderColor = 'var(--brand-500)'; e.target.style.boxShadow = '0 0 0 3px rgba(59,130,246,0.12)' }}
+            onBlur={e => { e.target.style.borderColor = 'var(--border-default)'; e.target.style.boxShadow = 'none' }}
+          />
         </div>
 
-        {/* Right Side: Search & Profile Options */}
-        <div className="flex items-center space-x-3">
-          
-          {/* Quick Search */}
-          <div className="relative hidden md:block w-72">
-            <Search className="w-4 h-4 absolute left-3.5 top-3 text-[#64748b]" />
-            <input
-              type="text"
-              placeholder="Search patients, EHR, charts..."
-              className="w-full bg-[#081225] border border-[#162742] rounded-2xl pl-10 pr-4 py-2 text-xs text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#E5FF00]"
-            />
-          </div>
+        {/* Theme */}
+        <button onClick={toggleTheme} aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          {isDark ? <Sun size={15} /> : <Moon size={15} />}
+        </button>
 
-          {/* Notification Bell */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsNotifOpen(!isNotifOpen)}
-              className="p-2.5 rounded-2xl bg-[#081225] hover:bg-[#0b172a] text-[#cbd5e1] border border-[#162742] relative transition-all"
-              aria-label="View doctor notifications"
-            >
-              <Bell className="w-4.5 h-4.5 text-[#E5FF00]" />
-              <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#E5FF00] text-[#020817] font-extrabold text-[9px] flex items-center justify-center border-2 border-[#020817]">
-                3
-              </span>
-            </button>
-
-            {isNotifOpen && (
-              <div className="absolute right-0 mt-3 w-80 rounded-3xl bg-[#081225] border border-[#162742] shadow-[0_8px_32px_rgba(2,8,23,0.8)] p-4 z-50 divide-y divide-[#162742]">
-                <div className="pb-3 font-bold text-xs text-[#f8fafc]">Hospital Emergency Alerts</div>
-                <div className="py-3 space-y-2.5 text-xs">
-                  <div className="p-3 rounded-2xl bg-[#E5FF00]/15 border border-[#E5FF00]/30 text-[#E5FF00] font-medium">
-                    <p className="font-bold">Emergency Consultation Request</p>
-                    <p className="text-[11px] text-[#E5FF00]/80 mt-0.5">Patient Eleanor Vance placed in High-Risk ER queue.</p>
-                  </div>
-                  <div className="p-3 rounded-2xl bg-[#0b172a] border border-[#162742] text-[#cbd5e1]">
-                    <p className="font-bold">Lab Report Uploaded</p>
-                    <p className="text-[11px] text-[#94a3b8] mt-0.5">CBC & Lipid Panel for John Doe ready.</p>
-                  </div>
+        {/* Notifications */}
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => { setIsNotifOpen(!isNotifOpen); setIsProfileOpen(false) }} aria-label="Notifications"
+            style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)', position: 'relative' }}>
+            <Bell size={16} />
+            <span style={{ position: 'absolute', top: -3, right: -3, width: 16, height: 16, borderRadius: '50%', background: 'var(--brand-600)', color: '#fff', fontSize: '0.625rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--surface-card)' }}>3</span>
+          </button>
+          {isNotifOpen && (
+            <div className="dropdown" style={{ width: 300 }}>
+              <div style={{ padding: '10px 14px 8px', borderBottom: '1px solid var(--border-light)', fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>Alerts</div>
+              <div style={{ padding: '8px 6px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <div style={{ padding: '10px 12px', borderRadius: 10, background: '#eff6ff', border: '1px solid #bfdbfe' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--brand-700)', marginBottom: 2 }}>Emergency Consultation Request</div>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--brand-600)' }}>Patient Eleanor Vance placed in High-Risk ER queue.</p>
+                </div>
+                <div style={{ padding: '10px 12px', borderRadius: 10, background: 'var(--surface-page)', border: '1px solid var(--border-light)' }}>
+                  <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--text-primary)', marginBottom: 2 }}>Lab Report Ready</div>
+                  <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>CBC & Lipid Panel for Marcus Wright is ready.</p>
                 </div>
               </div>
+            </div>
+          )}
+        </div>
+
+        {/* Profile */}
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => { setIsProfileOpen(!isProfileOpen); setIsNotifOpen(false) }} aria-label="Profile menu"
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 10, border: '1px solid transparent', background: 'transparent', cursor: 'pointer', transition: 'all 150ms' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-page)'; e.currentTarget.style.borderColor = 'var(--border-light)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent' }}
+          >
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={doctorName} style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border-light)' }} />
+            ) : (
+              <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--brand-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '0.8125rem' }}>{initials}</div>
             )}
-          </div>
-
-          {/* Doctor Avatar Profile */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-              className="flex items-center space-x-2.5 p-1.5 rounded-2xl hover:bg-[#081225] transition-all border border-transparent hover:border-[#E5FF0020]"
-            >
-              <img
-                src={avatarUrl || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=150&auto=format&fit=crop&q=80"}
-                alt={doctorName}
-                className="w-10 h-10 rounded-2xl object-cover border border-[#E5FF00]/50 shadow-sm"
-              />
-              <div className="text-left hidden sm:block">
-                <p className="text-xs font-bold text-[#f8fafc] leading-tight">{doctorName}</p>
-                <p className="text-[10px] text-[#E5FF00] font-extrabold">Senior MD</p>
+            <div className="hidden sm:block">
+              <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>{doctorName.split(' ').slice(0, 2).join(' ')}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>Physician</div>
+            </div>
+            <ChevronDown size={14} color="var(--text-muted)" />
+          </button>
+          {isProfileOpen && (
+            <div className="dropdown" style={{ minWidth: 200 }}>
+              <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border-light)' }}>
+                <div style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{doctorName}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{doctorDept}</div>
               </div>
-              <ChevronDown className="w-4 h-4 text-[#94a3b8] hidden sm:block" />
-            </button>
-
-            {isProfileOpen && (
-              <div className="absolute right-0 mt-3 w-52 rounded-3xl bg-[#081225] border border-[#162742] shadow-[0_8px_32px_rgba(2,8,23,0.8)] p-2.5 z-50 space-y-1">
-                <div className="px-3 py-2.5 border-b border-[#162742]">
-                  <p className="text-xs font-bold text-[#f8fafc]">{doctorName}</p>
-                  <p className="text-[10px] text-[#94a3b8]">{doctorDept}</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={onLogout}
-                  className="w-full flex items-center space-x-2 px-3 py-2.5 rounded-xl text-xs font-bold text-[#ef4444] hover:bg-[#ef4444]/10 transition-colors"
+              <div style={{ padding: 6 }}>
+                <button type="button" onClick={onLogout}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', borderRadius: 8, background: 'none', border: 'none', color: '#dc2626', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', width: '100%' }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#fef2f2'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'none'}
                 >
-                  <LogOut className="w-4 h-4 text-[#ef4444]" />
-                  <span>Sign Out</span>
+                  <LogOut size={15} /> Sign Out
                 </button>
               </div>
-            )}
-          </div>
-
+            </div>
+          )}
         </div>
-
       </div>
     </header>
   )

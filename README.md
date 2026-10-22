@@ -1,153 +1,103 @@
-# Hospital Management System
+# 🏥 MediCare Pro — Enterprise Hospital Management System
 
-A modern, responsive, multi-portal web application for clinical workflow management, patient self-service care, and hospital operations administration built with **React 19**, **Vite**, **Tailwind CSS**, and **Google Firebase**.
-
----
-
-## 📋 Overview
-
-The **Hospital Management System (HMS)** is an integrated healthcare platform designed to streamline communication and clinical operations across three primary hospital stakeholders: **Patients**, **Doctors**, and **Hospital Administrators**.
-
-Rather than operating as a simple administrative CRUD tool, the platform connects patient self-triage, OPD appointment scheduling, WebRTC video teleconsultation, digital e-prescription drafting, pharmacy inventory tracking, and administrative analytics into a single, real-time synchronized system.
+> **Client Pitch Edition** — A modern, accessible, multi-portal healthcare management web application designed for hospitals, clinics, and health networks. Built with **React 19**, **Vite 8**, **Tailwind CSS v4**, and **Google Firebase**.
 
 ---
 
-## 🌟 Key Features
+## 🌟 Demo Credentials (1-Click Login Available)
 
-### 👤 Patient Portal
-- **Interactive Patient Dashboard:** Health Score gauge card (88/100), vital telemetry monitoring (Heart Rate, Blood Pressure, SpO2, Temperature), and quick action shortcuts.
-- **AI-Driven Symptom Triage:** Diagnostic triage engine analyzing chief complaints, symptom severity, and duration to recommend specialist consultations and auto-book appointments.
-- **Doctor Discovery & Appointment Booking:** Search doctors by specialty, view availability slots, and book real-time consultations.
-- **Embedded WebRTC Teleconsultation:** Virtual video consultation powered by the Jitsi Meet API with audio, video, and screen share controls.
-- **Digital E-Prescription Viewer:** Download digital prescriptions as formatted `.txt` files or print physical copies.
-- **Medical Records & Billing:** View diagnostic lab reports, clinical visit history, and itemized billing invoices.
+On the login page, you can click any of the **Quick Demo Login** cards to test each role instantly:
 
-### 🩺 Doctor Portal
-- **OPD Clinical Dashboard:** Daily consultation metrics, patient queue status, and activity analytics.
-- **Triage Priority OPD Queue:** Automated appointment sorting ordering high-priority and urgent cases to the top of the doctor's roster.
-- **Integrated Teleconsultation Room:** Direct launching of WebRTC video visits inside the portal with live patient EHR inspection.
-- **Digital E-Prescription Generator:** Clinical prescription drafting with dosage validation (`validationService.js`), medicine list management, print utility, and instant file export.
-- **Lab Reports & Patient Records:** Access diagnostic reports, patient medical history, and clinical notes.
-- **Schedule Management:** Configure working hours, appointment slots, and leave schedules.
+| Portal Role | Demo Email | Password | Access Scope |
+|---|---|---|---|
+| **Admin** | `admin@demo.medicarepro.health` | `admin123` | Executive Dashboard, Bed/Ward Management, Billing, Staff Roles, Emergency SLAs |
+| **Doctor** | `doctor@demo.medicarepro.health` | `doctor123` | OPD Clinical Queue, Video Consultations, E-Prescriptions, Lab Reports |
+| **Patient** | `patient@demo.medicarepro.health` | `patient123` | Doctor Search, Slot Booking, Medical Timeline, Digital Invoices, AI Triage |
 
-### 🛡️ Admin Portal
-- **Executive Operations Dashboard:** Real-time hospital metrics, bed occupancy rates, revenue statistics, and departmental KPIs.
-- **Patient & Doctor Management:** Verify medical licenses, manage active user accounts, and assign staff roles.
-- **Emergency ER Dispatch System:** Critical ER alert banner featuring a red pulsing 5-minute SLA countdown timer and dispatch workflow.
-- **Pharmacy & Laboratory Operations:** Track medicine inventories, manage stock levels, and review diagnostic lab requests.
-- **Bed & Ward Management:** Allocation tracking across General, ICU, Pediatrics, and Emergency wards.
-- **Analytics & Operational Reporting:** Interactive visual charts powered by **Recharts** for revenue and patient intake analysis.
-- **Regulatory Audit Logs:** Security audit logging recording system actions, payment events, and user status changes with exact timestamps.
+*(Also supports any custom credentials or existing demo accounts with offline localStorage fallback.)*
 
 ---
 
-## 🏗️ System Architecture
+## 🎨 Rebranding in Minutes (`clientConfig.js`)
 
-```text
-                    USERS
-                      │
-          ┌───────────┼───────────┐
-          ↓           ↓           ↓
-       Patient      Doctor      Admin
-   (Self-Service)  (Clinical)  (Operations)
-          │           │           │
-          └───────────┼───────────┘
-                      ↓
-           React 19 / Vite SPA
-                      │
-          ┌───────────┴───────────┐
-          ↓                       ↓
- Firebase Authentication     Cloud Firestore
-   (Google OAuth & Email)   (Real-Time Push Sync)
-          │                       │
-          ↓                       ↓
-     Firebase UID            Application Data
-          │                       │
-          └───────────┬───────────┘
-                      ↓
-              Firestore Rules
-                      ↓
-             LocalStorage Fallback
-           (Offline Continuity)
-                      │
-                      ↓
-            Jitsi Meet Video API
-           (Telehealth Video Call)
+All client branding, hospital name, contact numbers, hours, departments, and feature flags live in a single centralized config file:
+
+📁 **`src/config/clientConfig.js`**
+
+```javascript
+export const CLIENT = {
+  name: 'Your Hospital Name',
+  tagline: 'Advanced Healthcare Management System',
+  address: '123 Medical Center Way, Suite 400',
+  phone: '+1 (800) 555-CARE',
+  emergency: '+1 (800) 911-HELP',
+  email: 'contact@yourhospital.com',
+  features: {
+    teleconsultation: true,
+    aiSymptomChecker: true,
+    billingPdfExport: true,
+    patientTimeline: true,
+    smsReminders: true,
+    darkModeToggle: true,
+  }
+}
 ```
 
+Change this file, and the entire app (landing page, headers, sidebar, invoices, and modals) immediately updates!
+
 ---
 
-## 🛠️ Technology Stack
+## 🚀 Key Client Capabilities & Added Features
+
+### 1. 🌐 Public Hero & Marketing Landing Page (`LandingPage.jsx`)
+- Clean medical headline and value proposition.
+- 1-click primary action (*"Book Appointment"*) and staff entry (*"Portal Login"*).
+- Role-based cards for Patient, Doctor, and Admin.
+- Quick-access services strip, hospital key metrics, departments, and 24/7 emergency contact bar.
+
+### 2. 📅 Interactive Appointment Booking with Time Slots (`AppointmentBooking.jsx`)
+- Searchable doctor directory with specialty filters and verified ratings.
+- Real date picker with fast validation.
+- Interactive time slot selector (Morning, Afternoon, Evening grids).
+- Symptoms & chief complaints intake with consultation fee breakdown.
+
+### 3. 📜 Patient Medical History Timeline (`MedicalTimeline.jsx`)
+- Chronological timeline tracking doctor consultations, laboratory test results, and e-prescriptions.
+- Filter by category (Consultations, Prescriptions, Lab Reports).
+- HIPAA-compliant clinical record audit markers.
+
+### 4. 🧾 Branded Invoices & PDF Print Export (`InvoiceModal.jsx`)
+- Available in both Admin and Patient portals.
+- Clean printable tax receipt format with hospital branding, patient EMR ID, itemized services, and status badges.
+- Built-in `window.print()` support to save as PDF or print directly.
+
+### 5. 🔔 Multi-Channel Notification & Reminder Service (`notificationService.js`)
+- Automated appointment reminder dispatchers (SMS + Email stubs).
+- Emergency ER alert broadcasting with real-time feedback.
+- Prescription readiness notifications.
+
+### 6. 🎨 Unified Design System & Accessibility
+- Cohesive, calm medical blue & teal palette (`#2563eb`, `#0d9488`).
+- Eliminated all clashing neon yellows and dark-green palettes across the three portals.
+- Full Light and Dark mode toggle with persistent preference memory.
+- Standardized components: `Badge`, `Card`, `Skeleton`, `EmptyState`, `InvoiceModal`.
+
+---
+
+## 🛠️ Tech Stack
 
 - **Frontend Core:** React 19, JavaScript (ES6+), HTML5, CSS3
-- **Build Tool & Dev Server:** Vite 8
-- **Styling & Design System:** Tailwind CSS v4, Lucide React Icons
-- **Cloud Backend (BaaS):** Firebase Web v9+ (Firebase Authentication & Cloud Firestore)
+- **Build Tool & Bundler:** Vite 8
+- **Styling:** Tailwind CSS v4 + Unified CSS Variables Design System
+- **Icons:** Lucide React
 - **Data Visualization:** Recharts
-- **Telehealth Video API:** Jitsi Meet API (`meet.jit.si`)
-- **State Management & Routing:** React 19 Context API, React Router v7 (`react-router-dom`)
-- **Offline Persistence:** Web LocalStorage API via `storageService.js`
-- **Code Quality & Linting:** Oxlint (`.oxlintrc.json`)
+- **Teleconsultation Video:** Jitsi Meet API (`meet.jit.si`)
+- **Backend / Authentication:** Firebase Auth + Firestore (with automatic LocalStorage offline sync)
+- **Toast Notifications:** React Hot Toast
 
 ---
 
-## 📁 Project Structure
-
-```text
-hospital-management-system/
-├── dist/                      # Compiled production build output
-├── docs/                      # Formal QA and testing documentation
-│   └── testing/
-│       ├── test-results.md         # 24 formal system test cases log
-│       ├── edge-case-testing.md    # 14 edge case scenarios log
-│       ├── performance-testing.md # Build performance & bundle metrics
-│       └── testing-checklist.md   # Master Section 9 QA checklist
-├── public/                    # Static assets
-├── src/
-│   ├── components/            # React UI components
-│   │   ├── admin/             # 20 Admin Portal modules
-│   │   ├── doctor/            # 12 Doctor Portal modules
-│   │   ├── patient/           # 12 Patient Portal modules
-│   │   ├── common/            # Shared cards, badges, spinners, dialogs
-│   │   ├── AISymptomChecker.jsx
-│   │   ├── HealthScoreCard.jsx
-│   │   ├── TeleconsultationModal.jsx
-│   │   └── LoginPage.jsx
-│   ├── data/                  # Initial seed dataset & medical records
-│   ├── pages/                 # Top-level portal layout containers
-│   ├── services/              # LocalStorage fallback & validation logic
-│   ├── App.jsx                # Main controller, router guards, & Firestore listener
-│   ├── firebase.js            # Firebase SDK initialization & exports
-│   ├── index.css              # Design system tokens & Tailwind CSS imports
-│   └── main.jsx               # React DOM entry point
-├── .env.example               # Environment variables template
-├── .firebaserc                # Firebase CLI project alias
-├── firebase.json              # Firebase Hosting SPA configuration
-├── firestore.rules            # Firestore server-side security rules
-├── package.json               # NPM dependencies and scripts
-└── vite.config.js             # Vite build configuration
-```
-
----
-
-## 🧪 Testing & Quality Assurance
-
-The application underwent rigorous functional, security, responsive, build, and edge-case testing. Full evidence documents are available in the repository:
-
-- 📑 **[Formal Test Results (24 Test Cases)](docs/testing/test-results.md)** — Functional test logs covering authentication, role redirection, booking, real-time Firestore sync, and teleconsultation.
-- 🧪 **[Edge Case Testing Log](docs/testing/edge-case-testing.md)** — Input validation bounds, invalid credentials, offline disconnections, and responsive viewport limits.
-- ⚡ **[Performance & Build Metrics](docs/testing/performance-testing.md)** — Production bundle sizes, Vite build times (672 ms), and lazy-loaded code-splitting breakdown.
-- ✅ **[Master Testing Checklist](docs/testing/testing-checklist.md)** — Section 9 QA checklist verification.
-
----
-
-## 🚀 Installation & Quick Start
-
-### Prerequisites
-- **Node.js** (v18.0.0 or higher)
-- **npm** (v9.0.0 or higher)
-
-### Setup Instructions
+## 💻 Quick Setup Instructions
 
 1. **Clone the repository:**
    ```bash
@@ -160,52 +110,27 @@ The application underwent rigorous functional, security, responsive, build, and 
    npm install
    ```
 
-3. **Configure Environment Variables:**
-   Copy `.env.example` to `.env.local` and add your Firebase project keys:
+3. **Configure Environment Variables (Optional):**
+   Copy `.env.example` to `.env.local` if using live Firebase:
    ```bash
    cp .env.example .env.local
    ```
-   *Note: If `.env.local` is omitted, the application uses default development credentials with local storage fallback.*
+   *Note: Without Firebase credentials, the system automatically runs in full offline demo mode using synchronized localStorage.*
 
-4. **Start the local development server:**
+4. **Start the development server:**
    ```bash
    npm run dev
    ```
-   Open your browser at `http://localhost:5173`.
+   Open `http://localhost:5173` in your browser.
+
+5. **Production Build:**
+   ```bash
+   npm run build
+   ```
+   The optimized production bundle is compiled to `dist/`.
 
 ---
 
-## 📦 Production Build
+## 📄 License
 
-To compile the production-ready client bundle:
-
-```bash
-npm run build
-```
-
-The optimized output will be generated in the `dist/` directory:
-- `dist/index.html` — SPA Entry Point
-- `dist/assets/index-*.css` — Compiled Stylesheet (~13.6 kB gzipped)
-- `dist/assets/index-*.js` — Core JavaScript Bundle (~406 kB gzipped)
-
-To preview the production build locally:
-```bash
-npm run preview
-```
-
----
-
-## 🔒 Security Audit & Environment Protection
-
-- **Environment Protection:** `.env.local` and `.env.*` files are safely excluded via `.gitignore`.
-- **Firebase Configuration:** Firebase keys used on the client-side are public identifier tokens restricted by HTTP domain restrictions in the Firebase Console.
-- **Database Security:** Server-side access control is enforced via [firestore.rules](file:///d:/vibe%20coding/starter/firestore.rules).
-- **Authentication Guards:** Client-side navigation is protected by `ProtectedRoute` components in [App.jsx](file:///d:/vibe%20coding/starter/src/App.jsx).
-
----
-
-## 📄 License & Author
-
-Developed by **Srikar Kamina** for the Final University Project Evaluation.
-
-- **Repository:** [https://github.com/srikarkamina/hospital-management-system](https://github.com/srikarkamina/hospital-management-system)
+MIT License — Customized for client demonstration and enterprise evaluation.

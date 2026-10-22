@@ -1,14 +1,16 @@
 export const adminTheme = {
-  bg: '#0B0F19',
-  sidebar: '#111827',
-  card: '#1F2937',
-  cardHover: '#273244',
-  neon: '#E5FF00',
-  neonSoft: 'rgba(229,255,0,0.12)',
-  neonBorder: 'rgba(229,255,0,0.35)',
-  text: '#F9FAFB',
-  textSecondary: '#9CA3AF',
-  success: '#22C55E',
-  warning: '#F59E0B',
-  danger: '#EF4444',
+  bg: 'var(--surface-page)',
+  sidebar: 'var(--sidebar-bg)',
+  card: 'var(--surface-card)',
+  cardHover: 'var(--brand-50)',
+  neon: '#2563eb', // Calm medical blue accent replaces harsh neon yellow
+  neonSoft: 'rgba(37, 99, 235, 0.1)',
+  neonBorder: 'rgba(37, 99, 235, 0.25)',
+  text: 'var(--text-primary)',
+  textSecondary: 'var(--text-muted)',
+  success: '#10b981',
+  warning: '#f59e0b',
+  danger: '#ef4444',
 };
+
+export default adminTheme;

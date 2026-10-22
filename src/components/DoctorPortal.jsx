@@ -80,9 +80,16 @@ export default function DoctorPortal({
   }
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-[#020817] via-[#061124] to-[#0b172a] text-slate-100 font-['Plus_Jakarta_Sans',sans-serif]">
+    <div 
+      style={{ 
+        minHeight: '100vh', 
+        background: 'var(--surface-page)', 
+        color: 'var(--text-primary)',
+        display: 'flex' 
+      }}
+    >
       
-      {/* 1. FIXED VERTICAL SIDEBAR COMPONENT (w-[280px] bg-[#020b1f]) */}
+      {/* 1. FIXED VERTICAL SIDEBAR COMPONENT (w-[260px]) */}
       <DoctorSidebar
         activeTab={activeTab}
         onSelectTab={setActiveTab}
@@ -91,8 +98,8 @@ export default function DoctorPortal({
         onCloseMobile={() => setIsMobileSidebarOpen(false)}
       />
 
-      {/* 2. DYNAMIC MAIN CONTENT VIEWPORT (OFFSET BY 280px / w-[280px]) */}
-      <div className="flex-1 lg:ml-[280px] min-h-screen flex flex-col transition-all">
+      {/* 2. DYNAMIC MAIN CONTENT VIEWPORT (OFFSET BY 260px) */}
+      <div className="flex-1 lg:ml-[260px] min-h-screen flex flex-col transition-all">
         
         {/* Sticky Top Header Component */}
         <DoctorHeader

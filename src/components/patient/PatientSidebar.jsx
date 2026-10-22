@@ -1,154 +1,141 @@
-import { 
-  Stethoscope, 
-  LayoutDashboard, 
-  Calendar, 
-  FileText, 
-  CreditCard,
-  Info, 
-  User, 
-  BrainCircuit, 
-  AlertTriangle, 
-  Activity, 
-  LineChart, 
-  HeartPulse, 
-  ShieldAlert, 
-  Settings, 
-  LogOut,
-  X
+import React from 'react'
+import { Stethoscope, X, LogOut } from 'lucide-react'
+import { CLIENT } from '../../config/clientConfig'
+import {
+  LayoutDashboard, Calendar, FileText, CreditCard,
+  Info, User, BrainCircuit, AlertTriangle, Activity,
+  LineChart, HeartPulse, ShieldAlert, Settings
 } from 'lucide-react'
 
-export default function PatientSidebar({ 
-  activeMenu = 'dashboard', 
-  onSelectMenu, 
-  onLogout,
-  isOpen = false,
-  onCloseMobile
-}) {
+const coreFeatures = [
+  { id: 'dashboard',        label: 'Dashboard',        icon: LayoutDashboard },
+  { id: 'appointments',     label: 'Appointments',     icon: Calendar },
+  { id: 'timeline',         label: 'Medical Timeline', icon: Activity },
+  { id: 'medical-records',  label: 'Medical Records',  icon: FileText },
+  { id: 'billing',          label: 'Billing & Invoices', icon: CreditCard },
+  { id: 'health-information', label: 'Health Info',    icon: Info },
+  { id: 'profile',          label: 'My Profile',       icon: User },
+]
 
-  const coreFeatures = [
-    { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { id: 'appointments', label: 'Appointments', icon: Calendar },
-    { id: 'medical-records', label: 'Medical Records', icon: FileText },
-    { id: 'billing', label: 'Billing & Invoices', icon: CreditCard },
-    { id: 'health-information', label: 'Health Information', icon: Info },
-    { id: 'profile', label: 'Patient Profile', icon: User }
-  ]
+const advancedFeatures = [
+  { id: 'ai-symptom-checker', label: 'AI Symptom Checker', icon: BrainCircuit },
+  { id: 'emergency-alerts',   label: 'Emergency Alerts',   icon: AlertTriangle },
+  { id: 'health-score',       label: 'Health Score',       icon: Activity },
+  { id: 'health-insights',    label: 'Health Insights',    icon: LineChart },
+  { id: 'health-monitoring',  label: 'Health Monitoring',  icon: HeartPulse },
+  { id: 'risk-indicators',    label: 'Risk Indicators',    icon: ShieldAlert },
+]
 
-  const advancedFeatures = [
-    { id: 'ai-symptom-checker', label: 'AI Symptom Checker', icon: BrainCircuit },
-    { id: 'emergency-alerts', label: 'Emergency Alerts', icon: AlertTriangle },
-    { id: 'health-score', label: 'Health Score', icon: Activity },
-    { id: 'health-insights', label: 'Health Insights', icon: LineChart },
-    { id: 'health-monitoring', label: 'Health Monitoring', icon: HeartPulse },
-    { id: 'risk-indicators', label: 'Risk Indicators', icon: ShieldAlert }
-  ]
+const otherFeatures = [
+  { id: 'settings', label: 'Settings', icon: Settings },
+]
 
-  const otherFeatures = [
-    { id: 'settings', label: 'Settings', icon: Settings }
-  ]
-
-  const renderNavGroup = (title, items) => (
-    <div className="space-y-1 py-2">
-      <p className="px-4 text-[10px] font-extrabold uppercase tracking-wider text-[#6B7C75] font-['Space_Grotesk']">
-        {title}
-      </p>
-      <div className="space-y-1 mt-1">
+function NavGroup({ title, items, activeMenu, onSelectMenu, onCloseMobile }) {
+  return (
+    <div style={{ paddingTop: 8 }}>
+      <p style={{ padding: '0 12px 4px', fontSize: '0.6875rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em', color: 'var(--sidebar-text-muted)' }}>{title}</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
         {items.map(item => {
           const Icon = item.icon
           const isActive = activeMenu === item.id
-
           return (
             <button
               key={item.id}
               type="button"
-              onClick={() => {
-                onSelectMenu(item.id)
-                if (onCloseMobile) onCloseMobile()
+              onClick={() => { onSelectMenu(item.id); if (onCloseMobile) onCloseMobile() }}
+              style={{
+                display: 'flex', alignItems: 'center', gap: 10, padding: '9px 12px',
+                borderRadius: 10, fontSize: '0.8125rem', fontWeight: isActive ? 600 : 500,
+                color: isActive ? 'var(--sidebar-active-text)' : 'var(--sidebar-text)',
+                background: isActive ? 'var(--sidebar-active-bg)' : 'transparent',
+                border: 'none', cursor: 'pointer', textAlign: 'left', width: '100%',
+                boxShadow: isActive ? '0 4px 12px rgba(37,99,235,0.25)' : 'none',
+                transition: 'all 150ms',
+                minHeight: 44,
               }}
-              style={isActive ? {
-                background: '#E5FF00',
-                boxShadow: '0 0 20px rgba(229, 255, 0, 0.45)',
-                color: '#0B0F19'
-              } : {}}
-              className={`w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl text-xs font-bold transition-all duration-200 ${
-                isActive 
-                  ? 'translate-x-1 font-extrabold' 
-                  : 'text-[#A7B3AD] hover:text-[#E5FF00] hover:bg-[#E5FF00]/10'
-              }`}
+              onMouseEnter={e => { if (!isActive) { e.currentTarget.style.background = 'var(--sidebar-hover-bg)'; e.currentTarget.style.color = 'var(--sidebar-hover-text)' }}}
+              onMouseLeave={e => { if (!isActive) { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--sidebar-text)' }}}
+              aria-current={isActive ? 'page' : undefined}
             >
-              <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-[#0B0F19]' : 'text-[#6B7C75]'}`} />
-              <span className="truncate">{item.label}</span>
+              <Icon size={16} style={{ flexShrink: 0 }} />
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.label}</span>
             </button>
           )
         })}
       </div>
     </div>
   )
+}
 
+export default function PatientSidebar({ activeMenu = 'dashboard', onSelectMenu, onLogout, isOpen = false, onCloseMobile }) {
   return (
     <>
-      {/* Mobile Backdrop Overlay */}
+      {/* Mobile backdrop */}
       {isOpen && (
-        <div 
+        <div
           onClick={onCloseMobile}
-          className="fixed inset-0 z-40 bg-[#020B08]/80 backdrop-blur-md lg:hidden"
+          style={{ position: 'fixed', inset: 0, zIndex: 40, background: 'rgba(15,23,42,0.5)', backdropFilter: 'blur(4px)' }}
+          className="lg:hidden"
+          aria-hidden="true"
         />
       )}
 
-      {/* Sidebar Container */}
-      <aside 
-        className={`fixed top-0 left-0 bottom-0 z-50 w-[270px] bg-[#04140F] text-[#F8FAFC] flex flex-col justify-between p-5 border-r border-[#E5FF0020] shadow-2xl transition-transform duration-300 ${
-          isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-        }`}
+      <aside
+        role="navigation"
+        aria-label="Patient portal navigation"
+        style={{
+          position: 'fixed', top: 0, left: 0, bottom: 0, zIndex: 50,
+          width: 260, background: 'var(--sidebar-bg)',
+          borderRight: '1px solid var(--sidebar-border)',
+          display: 'flex', flexDirection: 'column',
+          boxShadow: 'var(--shadow-lg)',
+          transform: isOpen ? 'translateX(0)' : undefined,
+          transition: 'transform 300ms ease',
+        }}
+        className={isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
       >
-        {/* Top Branding Section */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between pb-4 border-b border-[#E5FF0020]">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#E5FF00] flex items-center justify-center shadow-[0_0_20px_rgba(229,255,0,0.45)]">
-                <Stethoscope className="w-5 h-5 text-[#0B0F19]" />
+        {/* Brand */}
+        <div style={{ padding: '20px 16px 14px', borderBottom: '1px solid var(--sidebar-border)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+              <div style={{ width: 36, height: 36, borderRadius: 10, background: 'var(--brand-600)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Stethoscope size={18} color="#fff" />
               </div>
               <div>
-                <h1 className="font-extrabold text-sm text-[#F8FAFC] tracking-tight font-['Space_Grotesk'] leading-tight">
-                  Virtual Healthcare
-                </h1>
-                <span className="text-[10px] text-[#E5FF00] font-extrabold uppercase tracking-wider">MediSphere Cloud</span>
+                <div style={{ fontWeight: 800, fontSize: '0.875rem', color: 'var(--text-primary)', lineHeight: 1.2 }}>{CLIENT.shortName}</div>
+                <div style={{ fontSize: '0.6875rem', color: 'var(--brand-600)', fontWeight: 600 }}>Patient Portal</div>
               </div>
             </div>
-
-            {/* Mobile Close Button */}
-            <button 
-              type="button"
+            <button
               onClick={onCloseMobile}
-              className="lg:hidden p-1.5 rounded-lg bg-[#071A14] text-[#A7B3AD] hover:text-white border border-[#113328]"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Navigation Menus */}
-          <div className="space-y-2 overflow-y-auto max-h-[calc(100vh-190px)] pr-1 custom-scrollbar">
-            {renderNavGroup('Core Features', coreFeatures)}
-            {renderNavGroup('Advanced Features', advancedFeatures)}
-            {renderNavGroup('Others', otherFeatures)}
+              className="lg:hidden"
+              aria-label="Close navigation"
+              style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border-light)', background: 'var(--surface-page)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}
+            ><X size={16} /></button>
           </div>
         </div>
 
-        {/* Bottom Logout Action */}
-        <div className="pt-3 border-t border-[#113328] space-y-2">
+        {/* Nav */}
+        <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 8px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <NavGroup title="Core" items={coreFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
+          <NavGroup title="Advanced" items={advancedFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
+          <NavGroup title="Other" items={otherFeatures} activeMenu={activeMenu} onSelectMenu={onSelectMenu} onCloseMobile={onCloseMobile} />
+        </nav>
+
+        {/* Footer */}
+        <div style={{ padding: '12px 8px', borderTop: '1px solid var(--sidebar-border)' }}>
           <button
             type="button"
             onClick={onLogout}
-            className="w-full flex items-center space-x-3 px-4 py-2.5 rounded-xl text-xs font-bold text-[#EF4444] hover:bg-[#EF4444]/10 border border-[#EF4444]/20 transition-all"
+            style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 10, border: '1px solid #fecaca', background: '#fef2f2', color: '#dc2626', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', width: '100%', minHeight: 44, transition: 'all 150ms' }}
+            onMouseEnter={e => e.currentTarget.style.background = '#fee2e2'}
+            onMouseLeave={e => e.currentTarget.style.background = '#fef2f2'}
           >
-            <LogOut className="w-4 h-4 text-[#EF4444]" />
-            <span>Logout</span>
+            <LogOut size={16} />
+            Sign Out
           </button>
-          <div className="text-center text-[10px] text-[#6B7C75] font-medium pt-0.5">
-            HIPAA Compliant EMR Portal v2.4
-          </div>
+          <p style={{ textAlign: 'center', fontSize: '0.6875rem', color: 'var(--text-disabled)', marginTop: 10 }}>HIPAA Compliant EMR v{CLIENT.version}</p>
         </div>
-
       </aside>
     </>
   )

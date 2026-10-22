@@ -17,6 +17,7 @@ import {
   Sparkles
 } from 'lucide-react'
 import PatientNeonCard from '../common/PatientNeonCard'
+import { Badge } from '../common/Badge'
 
 export default function PatientDashboard({ 
   patientProfile = {}, 
@@ -28,183 +29,168 @@ export default function PatientDashboard({
   onBookAppointmentClick
 }) {
   return (
-    <div className="space-y-6 animate-in fade-in duration-200 text-[#F8FAFC]">
+    <div className="space-y-6 animate-in fade-in duration-200">
 
       {/* 1. HERO BANNER */}
       <div 
         style={{
-          background: 'linear-gradient(135deg, #04140F 0%, #071A14 50%, #0A211A 100%)',
-          border: '1px solid #113328',
+          background: 'linear-gradient(135deg, var(--brand-700) 0%, var(--brand-900) 100%)',
           borderRadius: '24px',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
+          boxShadow: 'var(--shadow-lg)'
         }}
-        className="p-6 sm:p-8 relative overflow-hidden text-[#F8FAFC]"
+        className="p-6 sm:p-8 relative overflow-hidden text-white"
       >
-        {/* Soft Radial Green Glow behind graphic */}
-        <div className="absolute top-1/2 right-10 -translate-y-1/2 w-72 h-72 bg-[#00FF66]/10 rounded-full blur-3xl pointer-events-none" />
-
         <div className="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="space-y-3 max-w-xl">
-            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-[#00FF66]/10 border border-[#00FF66]/20 text-xs font-bold text-[#00FF66]">
+            <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-bold bg-white/15 backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Smart Medical Control Center</span>
+              <span>Smart Medical Care Portal</span>
             </div>
             
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-[#F8FAFC] font-['Space_Grotesk'] leading-tight">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-tight">
               Your Health, Our Priority
             </h1>
             
-            <p className="text-xs sm:text-sm text-[#A7B3AD] leading-relaxed">
-              Consult with certified medical specialists online anytime. Access real-time AI clinical triage, digital prescription vault, and emergency escalation care.
+            <p className="text-xs sm:text-sm text-blue-100 leading-relaxed">
+              Consult with certified medical specialists online anytime. Access real-time clinical triage, digital prescription vault, and emergency escalation care.
             </p>
 
             <div className="pt-2 flex items-center space-x-3">
               <button
                 type="button"
                 onClick={onBookAppointmentClick}
-                style={{
-                  background: 'linear-gradient(135deg, #00FF66 0%, #00CC55 100%)',
-                  boxShadow: '0 0 20px rgba(0, 255, 102, 0.35)',
-                  color: '#04140F'
-                }}
-                className="font-extrabold px-5 py-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02] text-xs flex items-center space-x-1.5"
+                className="font-bold px-5 py-2.5 rounded-2xl transition-all duration-200 hover:scale-[1.02] text-xs flex items-center space-x-1.5 cursor-pointer bg-white text-[var(--brand-900)] shadow-md"
               >
-                <Calendar className="w-4 h-4 text-[#04140F]" />
+                <Calendar className="w-4 h-4 text-[var(--brand-700)]" />
                 <span>Book Appointment</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => onSelectMenu('ai-symptom-checker')}
-                className="bg-[#071A14] hover:bg-[#0A211A] text-[#00FF66] font-bold px-4 py-2.5 rounded-2xl border border-[#00FF66]/40 transition-all text-xs flex items-center space-x-1.5"
+                className="font-bold px-4 py-2.5 rounded-2xl border border-white/30 hover:bg-white/10 transition-all text-xs flex items-center space-x-1.5 cursor-pointer text-white"
               >
                 <BrainCircuit className="w-4 h-4" />
-                <span>AI Triage</span>
+                <span>AI Clinical Triage</span>
               </button>
             </div>
           </div>
 
-          {/* Right Vector Graphic Card */}
+          {/* Right Hero Badge */}
           <div className="shrink-0 hidden md:block">
-            <div className="w-36 h-36 rounded-3xl bg-[#04140F]/80 backdrop-blur-md border border-[#00FF66]/30 p-4 flex flex-col items-center justify-center text-center space-y-2 shadow-[0_0_20px_rgba(0,255,102,0.15)]">
-              <div className="w-14 h-14 rounded-2xl bg-[#00FF66]/15 flex items-center justify-center border border-[#00FF66]/30">
-                <Stethoscope className="w-8 h-8 text-[#00FF66] animate-pulse" />
+            <div className="w-36 h-36 rounded-3xl bg-white/10 backdrop-blur-md border border-white/20 p-4 flex flex-col items-center justify-center text-center space-y-2 shadow-xl">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center border border-white/30">
+                <Stethoscope className="w-8 h-8 text-white" />
               </div>
-              <p className="text-xs font-extrabold text-white">24/7 Virtual OPD</p>
-              <span className="text-[10px] text-[#00FF66] font-bold">Ready for Consult</span>
+              <p className="text-xs font-extrabold text-white">24/7 Virtual Care</p>
+              <span className="text-[10px] text-teal-300 font-bold">Specialists On Duty</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 2. SUMMARY CARDS (4 CARDS) */}
+      {/* 2. SUMMARY STAT CARDS */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         
-        {/* Card 1: Upcoming Appointment (Blue Accent) */}
+        {/* Card 1: Next Appointment */}
         <PatientNeonCard 
           onClick={() => onSelectMenu('appointments')}
           className="p-5 cursor-pointer space-y-3 group"
         >
           <div className="flex items-center justify-between">
-            <div className="w-10 h-10 rounded-2xl bg-[#3B82F6]/15 text-[#3B82F6] flex items-center justify-center border border-[#3B82F6]/25 group-hover:bg-[#3B82F6] group-hover:text-white transition-colors">
+            <div className="w-10 h-10 rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] flex items-center justify-center border border-[var(--brand-200)] group-hover:bg-[var(--brand-600)] group-hover:text-white transition-colors">
               <Calendar className="w-5 h-5" />
             </div>
-            <span className="text-[10px] uppercase font-bold text-[#3B82F6] bg-[#3B82F6]/15 border border-[#3B82F6]/25 px-2 py-0.5 rounded-full">
+            <Badge variant={nextAppointment ? 'brand' : 'default'} size="sm">
               {nextAppointment ? 'Upcoming' : 'None'}
-            </span>
+            </Badge>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#A7B3AD]">Upcoming Appointment</h3>
-            <p className="text-sm font-extrabold text-[#F8FAFC] truncate mt-0.5">
-              {nextAppointment ? nextAppointment.doctorName : 'No Active Slots'}
+            <h3 className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Upcoming Appointment</h3>
+            <p className="text-sm font-bold truncate mt-0.5" style={{ color: 'var(--text-primary)' }}>
+              {nextAppointment ? nextAppointment.doctorName : 'No Active Bookings'}
             </p>
-            <p className="text-[11px] text-[#6B7C75] mt-1">
-              {nextAppointment ? `${nextAppointment.appointmentDate} • ${nextAppointment.timeSlot}` : 'Book a consultation today'}
+            <p className="text-[11px] mt-1" style={{ color: 'var(--text-muted)' }}>
+              {nextAppointment ? `${nextAppointment.appointmentDate} • ${nextAppointment.timeSlot}` : 'Schedule a consultation'}
             </p>
           </div>
         </PatientNeonCard>
 
-        {/* Card 2: Medical Records (Green Accent) */}
+        {/* Card 2: Medical Records */}
         <PatientNeonCard 
           onClick={() => onSelectMenu('medical-records')}
           className="p-5 cursor-pointer space-y-3 group"
         >
           <div className="flex items-center justify-between">
-            <div className="w-10 h-10 rounded-2xl bg-[#22C55E]/15 text-[#22C55E] flex items-center justify-center border border-[#22C55E]/25 group-hover:bg-[#22C55E] group-hover:text-white transition-colors">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200 group-hover:bg-emerald-600 group-hover:text-white transition-colors">
               <FileText className="w-5 h-5" />
             </div>
-            <span className="text-[10px] uppercase font-bold text-[#22C55E] bg-[#22C55E]/15 border border-[#22C55E]/25 px-2 py-0.5 rounded-full">
-              Updated
-            </span>
+            <Badge variant="success" size="sm">EHR Active</Badge>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#A7B3AD]">Medical Records</h3>
-            <p className="text-lg font-extrabold text-[#F8FAFC] mt-0.5">
-              {prescriptionsCount} Digital Prescriptions
+            <h3 className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Medical Records</h3>
+            <p className="text-lg font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>
+              {prescriptionsCount} Prescriptions
             </p>
-            <p className="text-[11px] text-[#6B7C75] mt-1">
-              Verified EHR Vault Archive
+            <p className="text-[11px] mt-1" style={{ color: 'var(--text-muted)' }}>
+              Verified Digital Vault
             </p>
           </div>
         </PatientNeonCard>
 
-        {/* Card 3: Health Score (Neon Green Accent) */}
+        {/* Card 3: Health Score */}
         <PatientNeonCard 
           onClick={() => onSelectMenu('health-score')}
           className="p-5 cursor-pointer space-y-3 group"
         >
           <div className="flex items-center justify-between">
-            <div className="w-10 h-10 rounded-2xl bg-[#00FF66]/15 text-[#00FF66] flex items-center justify-center border border-[#00FF66]/25 group-hover:bg-[#00FF66] group-hover:text-[#04140F] transition-colors">
+            <div className="w-10 h-10 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-200 group-hover:bg-teal-600 group-hover:text-white transition-colors">
               <Activity className="w-5 h-5" />
             </div>
-            <span className="text-[10px] uppercase font-bold text-[#00FF66] bg-[#00FF66]/15 border border-[#00FF66]/25 px-2 py-0.5 rounded-full">
-              Optimal
-            </span>
+            <Badge variant="success" size="sm">Optimal</Badge>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#A7B3AD]">Health Score</h3>
-            <p className="text-lg font-extrabold text-[#F8FAFC] mt-0.5">
-              88 <span className="text-xs font-semibold text-[#6B7C75]">/ 100</span>
+            <h3 className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Health Score</h3>
+            <p className="text-lg font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>
+              88 <span className="text-xs font-normal" style={{ color: 'var(--text-muted)' }}>/ 100</span>
             </p>
-            <p className="text-[11px] text-[#6B7C75] mt-1">
-              Heart, Sleep & Vital Telemetry
+            <p className="text-[11px] mt-1" style={{ color: 'var(--text-muted)' }}>
+              Vitals & telemetry stable
             </p>
           </div>
         </PatientNeonCard>
 
-        {/* Card 4: Emergency Alerts (Red Accent) */}
+        {/* Card 4: Emergency Alert SLA */}
         <PatientNeonCard 
           onClick={() => onSelectMenu('emergency-alerts')}
           className="p-5 cursor-pointer space-y-3 group"
         >
           <div className="flex items-center justify-between">
-            <div className="w-10 h-10 rounded-2xl bg-[#EF4444]/15 text-[#EF4444] flex items-center justify-center border border-[#EF4444]/25 group-hover:bg-[#EF4444] group-hover:text-white transition-colors">
+            <div className="w-10 h-10 rounded-2xl bg-red-50 text-red-600 flex items-center justify-center border border-red-200 group-hover:bg-red-600 group-hover:text-white transition-colors">
               <AlertTriangle className="w-5 h-5" />
             </div>
-            <span className="text-[10px] uppercase font-bold text-[#22C55E] bg-[#22C55E]/15 border border-[#22C55E]/25 px-2 py-0.5 rounded-full">
-              Normal
-            </span>
+            <Badge variant="danger" size="sm">SLA Ready</Badge>
           </div>
           <div>
-            <h3 className="text-xs font-semibold text-[#A7B3AD]">Emergency Alerts</h3>
-            <p className="text-lg font-extrabold text-[#F8FAFC] mt-0.5">
-              0 Active Alerts
+            <h3 className="text-xs font-semibold" style={{ color: 'var(--text-muted)' }}>Emergency ER SLA</h3>
+            <p className="text-lg font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>
+              5-min Response
             </p>
-            <p className="text-[11px] text-[#6B7C75] mt-1">
-              5-min ER Escalation SLA Ready
+            <p className="text-[11px] mt-1" style={{ color: 'var(--text-muted)' }}>
+              Hospital ER Hotline Active
             </p>
           </div>
         </PatientNeonCard>
 
       </div>
 
-      {/* 3. FEATURE GRID (6 CARDS WITH NEW BUTTON STYLE) */}
+      {/* 3. FEATURE GRID */}
       <div className="space-y-3 pt-2">
         <div className="flex items-center justify-between">
-          <h3 className="text-lg font-extrabold text-[#F8FAFC] font-['Space_Grotesk']">
-            Health Portal Services & AI Tools
+          <h3 className="text-lg font-bold" style={{ color: 'var(--text-primary)' }}>
+            Patient Portal Services & Diagnostic Tools
           </h3>
-          <span className="text-xs text-[#6B7C75] font-medium">Select a feature to launch</span>
+          <span className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>Quick access menu</span>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -215,52 +201,52 @@ export default function PatientDashboard({
             className="p-6 cursor-pointer space-y-3 group flex flex-col justify-between"
           >
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#00FF66]/15 text-[#00FF66] flex items-center justify-center border border-[#00FF66]/25 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] flex items-center justify-center border border-[var(--brand-200)] group-hover:scale-105 transition-transform">
                 <BrainCircuit className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-sm font-extrabold text-[#F8FAFC] group-hover:text-[#00FF66] transition-colors">
+                <h4 className="text-sm font-bold group-hover:text-[var(--brand-600)] transition-colors" style={{ color: 'var(--text-primary)' }}>
                   AI Symptom Checker
                 </h4>
-                <p className="text-xs text-[#A7B3AD] mt-1 leading-relaxed">
-                  Analyze medical symptoms with clinical risk assessment (HIGH/MEDIUM/LOW) and specialist matching.
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  Analyze medical symptoms with clinical triage logic and instant specialist matching recommendations.
                 </p>
               </div>
             </div>
 
             <button
               type="button"
-              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[#00FF66]/40 text-[#00FF66] hover:bg-[#00FF66]/10 hover:shadow-[0_0_16px_rgba(0,255,102,0.2)] flex items-center justify-center space-x-1"
+              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[var(--brand-200)] text-[var(--brand-700)] bg-[var(--brand-50)] hover:bg-[var(--brand-100)] flex items-center justify-center space-x-1 cursor-pointer"
             >
               <span>Launch Triage</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </PatientNeonCard>
 
-          {/* Feature 2: Emergency Alerts */}
+          {/* Feature 2: Medical Timeline */}
           <PatientNeonCard 
-            onClick={() => onSelectMenu('emergency-alerts')}
+            onClick={() => onSelectMenu('timeline')}
             className="p-6 cursor-pointer space-y-3 group flex flex-col justify-between"
           >
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#EF4444]/15 text-[#EF4444] flex items-center justify-center border border-[#EF4444]/25 group-hover:scale-110 transition-transform">
-                <AlertTriangle className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-200 group-hover:scale-105 transition-transform">
+                <Clock className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-sm font-extrabold text-[#F8FAFC] group-hover:text-[#EF4444] transition-colors">
-                  Emergency Alerts
+                <h4 className="text-sm font-bold group-hover:text-teal-600 transition-colors" style={{ color: 'var(--text-primary)' }}>
+                  Medical History Timeline
                 </h4>
-                <p className="text-xs text-[#A7B3AD] mt-1 leading-relaxed">
-                  Critical ER escalation banner with 5-minute SLAs, immediate triage routing, and dispatch support.
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  Chronological journey of consultations, diagnostic lab results, and therapeutic e-prescriptions.
                 </p>
               </div>
             </div>
 
             <button
               type="button"
-              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[#EF4444]/40 text-[#EF4444] hover:bg-[#EF4444]/10 hover:shadow-[0_0_16px_rgba(239,68,68,0.2)] flex items-center justify-center space-x-1"
+              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-teal-200 text-teal-700 bg-teal-50 hover:bg-teal-100 flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <span>Emergency Monitor</span>
+              <span>View Timeline</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </PatientNeonCard>
@@ -271,24 +257,24 @@ export default function PatientDashboard({
             className="p-6 cursor-pointer space-y-3 group flex flex-col justify-between"
           >
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#00FF66]/15 text-[#00FF66] flex items-center justify-center border border-[#00FF66]/25 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-200 group-hover:scale-105 transition-transform">
                 <Activity className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-sm font-extrabold text-[#F8FAFC] group-hover:text-[#00FF66] transition-colors">
-                  Health Score
+                <h4 className="text-sm font-bold group-hover:text-emerald-600 transition-colors" style={{ color: 'var(--text-primary)' }}>
+                  Health Score & Metrics
                 </h4>
-                <p className="text-xs text-[#A7B3AD] mt-1 leading-relaxed">
-                  Interactive score telemetry tracking heart health, sleep quality, and daily physical activity metrics.
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  Interactive health telemetry tracking cardiovascular vitals, sleep cycles, and preventive wellness indices.
                 </p>
               </div>
             </div>
 
             <button
               type="button"
-              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[#00FF66]/40 text-[#00FF66] hover:bg-[#00FF66]/10 hover:shadow-[0_0_16px_rgba(0,255,102,0.2)] flex items-center justify-center space-x-1"
+              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-emerald-200 text-emerald-700 bg-emerald-50 hover:bg-emerald-100 flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <span>Check Telemetry</span>
+              <span>Check Score</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </PatientNeonCard>
@@ -299,80 +285,80 @@ export default function PatientDashboard({
             className="p-6 cursor-pointer space-y-3 group flex flex-col justify-between"
           >
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#3B82F6]/15 text-[#3B82F6] flex items-center justify-center border border-[#3B82F6]/25 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] flex items-center justify-center border border-[var(--brand-200)] group-hover:scale-105 transition-transform">
                 <LineChart className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-sm font-extrabold text-[#F8FAFC] group-hover:text-[#3B82F6] transition-colors">
-                  Health Insights
+                <h4 className="text-sm font-bold group-hover:text-[var(--brand-600)] transition-colors" style={{ color: 'var(--text-primary)' }}>
+                  Clinical Trend Insights
                 </h4>
-                <p className="text-xs text-[#A7B3AD] mt-1 leading-relaxed">
-                  Predictive health trends based on historic vitals, prescription routines, and consultation logs.
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  Predictive trends and actionable clinical insights derived from your longitudinal medical records.
                 </p>
               </div>
             </div>
 
             <button
               type="button"
-              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[#00FF66]/40 text-[#00FF66] hover:bg-[#00FF66]/10 hover:shadow-[0_0_16px_rgba(0,255,102,0.2)] flex items-center justify-center space-x-1"
+              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[var(--brand-200)] text-[var(--brand-700)] bg-[var(--brand-50)] hover:bg-[var(--brand-100)] flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <span>Explore Insights</span>
+              <span>Explore Trends</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </PatientNeonCard>
 
-          {/* Feature 5: Health Monitoring */}
+          {/* Feature 5: Telemetry Monitoring */}
           <PatientNeonCard 
             onClick={() => onSelectMenu('health-monitoring')}
             className="p-6 cursor-pointer space-y-3 group flex flex-col justify-between"
           >
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#22C55E]/15 text-[#22C55E] flex items-center justify-center border border-[#22C55E]/25 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-teal-50 text-teal-600 flex items-center justify-center border border-teal-200 group-hover:scale-105 transition-transform">
                 <HeartPulse className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-sm font-extrabold text-[#F8FAFC] group-hover:text-[#22C55E] transition-colors">
-                  Health Monitoring
+                <h4 className="text-sm font-bold group-hover:text-teal-600 transition-colors" style={{ color: 'var(--text-primary)' }}>
+                  Vitals Telemetry
                 </h4>
-                <p className="text-xs text-[#A7B3AD] mt-1 leading-relaxed">
-                  Continuous IoT vital telemetry sync for blood pressure, pulse rate, oxygen saturation, and body temperature.
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  Blood pressure, heart rate, blood oxygen (SpO2), and temperature continuous logs.
                 </p>
               </div>
             </div>
 
             <button
               type="button"
-              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[#00FF66]/40 text-[#00FF66] hover:bg-[#00FF66]/10 hover:shadow-[0_0_16px_rgba(0,255,102,0.2)] flex items-center justify-center space-x-1"
+              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-teal-200 text-teal-700 bg-teal-50 hover:bg-teal-100 flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <span>View Vital Monitors</span>
+              <span>View Vitals</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </PatientNeonCard>
 
-          {/* Feature 6: Risk Indicators */}
+          {/* Feature 6: Risk Matrix */}
           <PatientNeonCard 
             onClick={() => onSelectMenu('risk-indicators')}
             className="p-6 cursor-pointer space-y-3 group flex flex-col justify-between"
           >
             <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-[#F59E0B]/15 text-[#F59E0B] flex items-center justify-center border border-[#F59E0B]/25 group-hover:scale-110 transition-transform">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-200 group-hover:scale-105 transition-transform">
                 <ShieldAlert className="w-6 h-6" />
               </div>
               <div>
-                <h4 className="text-sm font-extrabold text-[#F8FAFC] group-hover:text-[#F59E0B] transition-colors">
+                <h4 className="text-sm font-bold group-hover:text-amber-600 transition-colors" style={{ color: 'var(--text-primary)' }}>
                   Risk Indicators
                 </h4>
-                <p className="text-xs text-[#A7B3AD] mt-1 leading-relaxed">
-                  Early warning signs and clinical risk factor evaluation for cardiovascular and metabolic conditions.
+                <p className="text-xs mt-1 leading-relaxed" style={{ color: 'var(--text-muted)' }}>
+                  Early warning indicators for cardiovascular, metabolic, and respiratory health risk factors.
                 </p>
               </div>
             </div>
 
             <button
               type="button"
-              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-[#00FF66]/40 text-[#00FF66] hover:bg-[#00FF66]/10 hover:shadow-[0_0_16px_rgba(0,255,102,0.2)] flex items-center justify-center space-x-1"
+              className="w-full py-2 rounded-xl text-xs font-bold transition-all border border-amber-200 text-amber-700 bg-amber-50 hover:bg-amber-100 flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <span>Review Risk Matrix</span>
+              <span>Check Risk Profile</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </PatientNeonCard>
@@ -380,18 +366,18 @@ export default function PatientDashboard({
         </div>
       </div>
 
-      {/* 4. BOTTOM CTA BANNER */}
+      {/* 4. BOTTOM ACTION STRIP */}
       <PatientNeonCard className="p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 rounded-2xl bg-[#00FF66]/15 text-[#00FF66] flex items-center justify-center shrink-0 border border-[#00FF66]/25">
-            <Heart className="w-6 h-6 fill-[#00FF66]" />
+          <div className="w-12 h-12 rounded-2xl bg-[var(--brand-50)] text-[var(--brand-600)] flex items-center justify-center shrink-0 border border-[var(--brand-200)]">
+            <Heart className="w-6 h-6 fill-[var(--brand-600)]" />
           </div>
           <div>
-            <h4 className="text-base font-extrabold text-[#F8FAFC] font-['Space_Grotesk']">
-              Stay Safe, Stay Healthy!
+            <h4 className="text-base font-bold" style={{ color: 'var(--text-primary)' }}>
+              Dedicated Healthcare At Your Fingertips
             </h4>
-            <p className="text-xs text-[#A7B3AD]">
-              Regular consultations and AI vitals checks help prevent severe health complications.
+            <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+              Regular consultations and preventive screenings ensure lasting peace of mind.
             </p>
           </div>
         </div>
@@ -399,15 +385,11 @@ export default function PatientDashboard({
         <button
           type="button"
           onClick={onBookAppointmentClick}
-          style={{
-            background: 'linear-gradient(135deg, #00FF66 0%, #00CC55 100%)',
-            boxShadow: '0 0 20px rgba(0, 255, 102, 0.35)',
-            color: '#04140F'
-          }}
-          className="font-extrabold px-6 py-3 rounded-2xl transition-all duration-200 hover:scale-[1.02] text-xs shrink-0 flex items-center space-x-2"
+          className="font-bold px-6 py-3 rounded-2xl transition-all duration-200 hover:scale-[1.02] text-xs shrink-0 flex items-center space-x-2 cursor-pointer"
+          style={{ background: 'var(--brand-600)', color: '#ffffff', boxShadow: 'var(--shadow-md)' }}
         >
-          <Calendar className="w-4 h-4 text-[#04140F]" />
-          <span>Book Appointment</span>
+          <Calendar className="w-4 h-4" />
+          <span>Book Consultation</span>
         </button>
       </PatientNeonCard>
 

@@ -204,9 +204,16 @@ export default function AdminPortal({
   }
 
   return (
-    <div className="flex min-h-screen bg-[#0B0F19] text-[#F9FAFB] font-['Plus_Jakarta_Sans',sans-serif]">
+    <div 
+      style={{ 
+        minHeight: '100vh', 
+        background: 'var(--surface-page)', 
+        color: 'var(--text-primary)',
+        display: 'flex' 
+      }}
+    >
       
-      {/* 1. FIXED LEFT SIDEBAR (Desktop 280px, Tablet 240px, Mobile Drawer) */}
+      {/* 1. FIXED LEFT SIDEBAR (Desktop 260px, Mobile Drawer) */}
       <Sidebar
         activeTab={activeTab}
         onSelectTab={handleSelectTab}
@@ -216,7 +223,7 @@ export default function AdminPortal({
       />
 
       {/* 2. DYNAMIC MAIN CONTENT VIEWPORT */}
-      <div className="flex-1 lg:ml-[280px] md:ml-[240px] min-h-screen flex flex-col transition-all">
+      <div className="flex-1 lg:ml-[260px] min-h-screen flex flex-col transition-all">
         
         {/* Sticky Topbar */}
         <Topbar

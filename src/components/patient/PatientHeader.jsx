@@ -1,131 +1,121 @@
 import React, { useState } from 'react'
-import { Bell, ChevronDown, Menu, User, ShieldCheck, LogOut } from 'lucide-react'
+import { Bell, Menu, User, LogOut, ChevronDown, Sun, Moon } from 'lucide-react'
 
-export default function PatientHeader({ 
-  patientName = 'Eleanor Vance', 
-  patientRole = 'Patient',
-  avatarUrl,
-  notifications = [], 
-  onToggleMobileSidebar,
-  onLogout 
-}) {
-  const [isNotifOpen, setIsNotifOpen] = useState(false)
+export default function PatientHeader({ patientName = 'Eleanor Vance', patientRole = 'Patient', avatarUrl, notifications = [], onToggleMobileSidebar, onLogout }) {
+  const [isNotifOpen, setIsNotifOpen]     = useState(false)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [isDark, setIsDark] = useState(() => { try { return localStorage.getItem('hms_theme') === 'dark' } catch { return false } })
 
   const unreadCount = notifications.filter(n => !n.isRead).length
 
-  return (
-    <header className="bg-[#04140F]/80 backdrop-blur-md border-b border-[#113328] sticky top-0 z-30 px-4 sm:px-6 py-3.5 shadow-lg shadow-[#020B08]/40">
-      <div className="flex items-center justify-between gap-4">
-        
-        {/* Left Side: Mobile Menu Button + Dynamic Greeting */}
-        <div className="flex items-center space-x-3">
-          <button
-            type="button"
-            onClick={onToggleMobileSidebar}
-            className="lg:hidden p-2 rounded-xl bg-[#071A14] text-[#A7B3AD] hover:bg-[#0A211A] border border-[#113328]"
-            aria-label="Toggle Navigation Sidebar"
-          >
-            <Menu className="w-5 h-5 text-[#00FF66]" />
-          </button>
+  const toggleTheme = () => {
+    const next = !isDark
+    setIsDark(next)
+    const val = next ? 'dark' : 'light'
+    document.documentElement.setAttribute('data-theme', val)
+    try { localStorage.setItem('hms_theme', val) } catch {}
+  }
 
-          <div>
-            <h2 className="text-base sm:text-lg font-extrabold text-[#F8FAFC] font-['Space_Grotesk'] leading-tight flex items-center gap-1.5">
-              <span>Good Morning, {patientName.split(' ')[0]}</span>
-              <span className="inline-block animate-bounce">👋</span>
-            </h2>
-            <p className="text-xs text-[#A7B3AD] hidden sm:block font-medium">
-              Here’s your health summary for today
-            </p>
-          </div>
+  const initials = patientName.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
+
+  const greet = () => {
+    const h = new Date().getHours()
+    if (h < 12) return 'Good morning'
+    if (h < 17) return 'Good afternoon'
+    return 'Good evening'
+  }
+
+  return (
+    <header style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 30, padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+      {/* Left */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        <button onClick={onToggleMobileSidebar} aria-label="Toggle navigation" className="lg:hidden"
+          style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          <Menu size={18} />
+        </button>
+        <div>
+          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>
+            {greet()}, {patientName.split(' ')[0]}
+          </h1>
+          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0 }}>Here's your health summary for today</p>
+        </div>
+      </div>
+
+      {/* Right */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* Theme toggle */}
+        <button onClick={toggleTheme} aria-label={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+          style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+          {isDark ? <Sun size={15} /> : <Moon size={15} />}
+        </button>
+
+        {/* Notifications */}
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => { setIsNotifOpen(!isNotifOpen); setIsProfileOpen(false) }} aria-label={`${unreadCount} notifications`}
+            style={{ width: 36, height: 36, borderRadius: 9, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)', position: 'relative' }}>
+            <Bell size={16} />
+            {unreadCount > 0 && (
+              <span style={{ position: 'absolute', top: -3, right: -3, width: 16, height: 16, borderRadius: '50%', background: 'var(--brand-600)', color: '#fff', fontSize: '0.625rem', fontWeight: 700, display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--surface-card)' }}>
+                {unreadCount > 9 ? '9+' : unreadCount}
+              </span>
+            )}
+          </button>
+          {isNotifOpen && (
+            <div className="dropdown" style={{ width: 320 }}>
+              <div style={{ padding: '10px 14px 8px', borderBottom: '1px solid var(--border-light)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>Notifications</span>
+                <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{notifications.length} total</span>
+              </div>
+              <div style={{ padding: '8px 6px', maxHeight: 240, overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {notifications.length === 0 ? (
+                  <p style={{ padding: '20px 8px', textAlign: 'center', fontSize: '0.8125rem', color: 'var(--text-muted)' }}>No notifications</p>
+                ) : notifications.slice(0, 8).map(n => (
+                  <div key={n.id} style={{ padding: '10px 12px', borderRadius: 10, background: n.isRead ? 'transparent' : 'var(--brand-50)', border: '1px solid var(--border-light)', cursor: 'default' }}>
+                    <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--text-primary)', marginBottom: 2 }}>{n.title}</div>
+                    <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.4 }}>{n.message}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
-        {/* Right Side: Notifications & User Avatar Dropdown */}
-        <div className="flex items-center space-x-3">
-          
-          {/* Notification Bell */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsNotifOpen(!isNotifOpen)}
-              aria-label="View patient notifications"
-              className="relative p-2.5 rounded-2xl bg-[#071A14] hover:bg-[#0A211A] border border-[#113328] text-[#F8FAFC] transition-all"
-            >
-              <Bell className="w-4.5 h-4.5 text-[#00FF66]" />
-              {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#00FF66] text-[#04140F] font-extrabold text-[9px] flex items-center justify-center border-2 border-[#04140F] shadow-[0_0_8px_rgba(0,255,102,0.6)]">
-                  {unreadCount}
-                </span>
-              )}
-            </button>
-
-            {/* Notification Dropdown */}
-            {isNotifOpen && (
-              <div className="absolute right-0 mt-3 w-72 sm:w-80 rounded-3xl bg-[#071A14] border border-[#113328] shadow-2xl p-4 z-50 divide-y divide-[#113328]">
-                <div className="pb-2.5 flex items-center justify-between">
-                  <h4 className="font-bold text-xs text-[#F8FAFC]">Notifications</h4>
-                  <span className="text-[10px] text-[#6B7C75]">{notifications.length} total</span>
-                </div>
-                <div className="py-2 max-h-60 overflow-y-auto space-y-2">
-                  {notifications.length === 0 ? (
-                    <p className="text-xs text-[#6B7C75] text-center py-3">No new notifications</p>
-                  ) : (
-                    notifications.map(n => (
-                      <div key={n.id} className="p-3 rounded-2xl bg-[#0A211A] border border-[#113328] text-xs space-y-1">
-                        <div className="flex items-center justify-between font-bold text-[#00FF66]">
-                          <span>{n.title}</span>
-                          <span className="text-[9px] text-[#6B7C75]">{new Date(n.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                        </div>
-                        <p className="text-[11px] text-[#A7B3AD]">{n.message}</p>
-                      </div>
-                    ))
-                  )}
-                </div>
-              </div>
+        {/* Profile */}
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => { setIsProfileOpen(!isProfileOpen); setIsNotifOpen(false) }} aria-label="Profile menu"
+            style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 10px', borderRadius: 10, border: '1px solid transparent', background: 'transparent', cursor: 'pointer', transition: 'all 150ms' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-page)'; e.currentTarget.style.borderColor = 'var(--border-light)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = 'transparent' }}
+          >
+            {avatarUrl ? (
+              <img src={avatarUrl} alt={patientName} style={{ width: 34, height: 34, borderRadius: '50%', objectFit: 'cover', border: '2px solid var(--border-light)' }} />
+            ) : (
+              <div style={{ width: 34, height: 34, borderRadius: '50%', background: 'var(--brand-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#fff', fontWeight: 700, fontSize: '0.8125rem' }}>{initials}</div>
             )}
-          </div>
-
-          {/* User Profile Avatar Card */}
-          <div className="relative">
-            <button
-              type="button"
-              onClick={() => setIsProfileOpen(!isProfileOpen)}
-              aria-label="User Profile Dropdown"
-              className="flex items-center space-x-2.5 p-1.5 rounded-2xl hover:bg-[#071A14] border border-transparent hover:border-[#113328] transition-all"
-            >
-              <img
-                src={avatarUrl || "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80"}
-                alt={patientName}
-                className="w-9 h-9 rounded-xl object-cover border border-[#00FF66]/50 shadow-[0_0_10px_rgba(0,255,102,0.3)]"
-              />
-              <div className="text-left hidden md:block">
-                <p className="text-xs font-extrabold text-[#F8FAFC] leading-tight">{patientName}</p>
-                <p className="text-[10px] font-bold text-[#00FF66]">{patientRole} • PAT-99824</p>
+            <div style={{ display: 'none' }} className="sm:block">
+              <div style={{ fontSize: '0.8125rem', fontWeight: 600, color: 'var(--text-primary)', lineHeight: 1.2 }}>{patientName.split(' ')[0]}</div>
+              <div style={{ fontSize: '0.6875rem', color: 'var(--text-muted)' }}>{patientRole}</div>
+            </div>
+            <ChevronDown size={14} color="var(--text-muted)" />
+          </button>
+          {isProfileOpen && (
+            <div className="dropdown" style={{ minWidth: 200 }}>
+              <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border-light)' }}>
+                <div style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{patientName}</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{patientRole}</div>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-[#6B7C75] hidden md:block" />
-            </button>
-
-            {/* User Profile Dropdown Menu */}
-            {isProfileOpen && (
-              <div className="absolute right-0 mt-3 w-52 rounded-3xl bg-[#071A14] border border-[#113328] shadow-2xl p-2.5 z-50 space-y-1">
-                <div className="px-3 py-2.5 border-b border-[#113328]">
-                  <p className="text-xs font-bold text-[#F8FAFC]">{patientName}</p>
-                  <p className="text-[10px] text-[#A7B3AD]">PAT-99824 • O+ Positive</p>
-                </div>
-                <button
-                  type="button"
-                  onClick={onLogout}
-                  className="w-full flex items-center space-x-2 px-3 py-2.5 rounded-xl text-xs font-bold text-[#EF4444] hover:bg-[#EF4444]/10 transition-colors"
+              <div style={{ padding: 6 }}>
+                <button type="button" onClick={onLogout}
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '10px 12px', borderRadius: 8, background: 'none', border: 'none', color: '#dc2626', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', width: '100%' }}
+                  onMouseEnter={e => e.currentTarget.style.background = '#fef2f2'}
+                  onMouseLeave={e => e.currentTarget.style.background = 'none'}
                 >
-                  <LogOut className="w-3.5 h-3.5" />
-                  <span>Sign Out</span>
+                  <LogOut size={15} /> Sign Out
                 </button>
               </div>
-            )}
-          </div>
-
+            </div>
+          )}
         </div>
-
       </div>
     </header>
   )

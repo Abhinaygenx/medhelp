@@ -11,12 +11,13 @@ import {
   Video, 
   PlusCircle, 
   Activity,
-  TrendingUp
+  TrendingUp,
+  Sparkles
 } from 'lucide-react'
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts'
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from 'recharts'
 import StatCard from './StatCard'
 import GlassCard from '../common/GlassCard'
-import TestingChecklist from '../dev/TestingChecklist'
+import { Badge } from '../common/Badge'
 
 export default function DoctorDashboard({ 
   doctorProfile = {}, 
@@ -26,7 +27,6 @@ export default function DoctorDashboard({
 }) {
   const urgentAppointments = appointments.filter(a => a.status === 'approved' || a.status === 'pending' || a.status === 'in-progress')
 
-  // Sample Recharts Analytics Data
   const chartData = [
     { time: '08:00 AM', patients: 3, consultations: 2 },
     { time: '10:00 AM', patients: 8, consultations: 6 },
@@ -37,21 +37,22 @@ export default function DoctorDashboard({
   ]
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300 text-[#f8fafc]">
+    <div className="space-y-6 animate-in fade-in duration-300">
       
       {/* 1. DASHBOARD HEADER BANNER */}
       <GlassCard className="p-6 sm:p-8 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
         <div>
           <div className="flex items-center space-x-2">
-            <span className="px-3 py-1 rounded-full bg-[#E5FF00]/15 text-[#E5FF00] text-[11px] font-extrabold border border-[#E5FF00]/30">
-              Live Clinical Telemetry
-            </span>
+            <Badge variant="brand" size="sm">
+              <Sparkles size={12} />
+              <span>Live Clinical OPD Telemetry</span>
+            </Badge>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-[#f8fafc] font-['Space_Grotesk'] mt-2">
+          <h1 className="text-2xl sm:text-3xl font-bold mt-2" style={{ color: 'var(--text-primary)' }}>
             Doctor Dashboard Overview
           </h1>
-          <p className="text-xs text-[#94a3b8] mt-1 font-medium max-w-xl">
-            Real-time consultation metrics, OPD patient queue priority, and clinical workload analytics.
+          <p className="text-xs mt-1 font-medium max-w-xl" style={{ color: 'var(--text-muted)' }}>
+            Real-time consultation metrics, OPD patient queue priority, and clinical workload analytics for {doctorProfile.name || 'Doctor'}.
           </p>
         </div>
 
@@ -59,19 +60,24 @@ export default function DoctorDashboard({
           <button
             type="button"
             onClick={() => onSelectTab('prescriptions')}
-            style={{ background: '#E5FF00', color: '#0B0F19', boxShadow: '0 0 20px rgba(229, 255, 0, 0.45)' }}
-            className="font-extrabold px-5 py-3 rounded-2xl text-xs hover:scale-105 transition-all flex items-center space-x-2"
+            className="font-bold px-5 py-2.5 rounded-xl text-xs hover:opacity-90 transition-all flex items-center space-x-2 cursor-pointer"
+            style={{ background: 'var(--brand-600)', color: '#ffffff', boxShadow: 'var(--shadow-sm)' }}
           >
-            <PlusCircle className="w-4 h-4 text-[#0B0F19]" />
+            <PlusCircle className="w-4 h-4" />
             <span>Issue Prescription</span>
           </button>
           
           <button
             type="button"
             onClick={() => onSelectTab('appointments')}
-            className="bg-[#0b172a] hover:bg-[#0d1b33] text-[#cbd5e1] font-bold px-5 py-3 rounded-2xl text-xs border border-[#E5FF0030] transition-all flex items-center space-x-2"
+            className="font-bold px-5 py-2.5 rounded-xl text-xs border transition-all flex items-center space-x-2 cursor-pointer"
+            style={{
+              background: 'var(--surface-page)',
+              color: 'var(--text-secondary)',
+              borderColor: 'var(--border-light)'
+            }}
           >
-            <CalendarDays className="w-4 h-4 text-[#E5FF00]" />
+            <CalendarDays className="w-4 h-4 text-[var(--brand-600)]" />
             <span>View Queue ({appointments.length})</span>
           </button>
         </div>
@@ -90,7 +96,7 @@ export default function DoctorDashboard({
 
         <StatCard 
           title="Appointments"
-          value="18"
+          value={appointments.length || "18"}
           color="emerald"
           icon={CalendarDays}
           trend="8 Confirmed"
@@ -116,21 +122,21 @@ export default function DoctorDashboard({
         />
       </div>
 
-      {/* 3. RECHARTS CONSULTATION ANALYTICS CHART + QUICK OVERVIEW */}
+      {/* 3. RECHARTS CONSULTATION ANALYTICS CHART */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Analytics Chart Container (2 Cols) */}
         <GlassCard className="lg:col-span-2 p-6 space-y-4">
-          <div className="flex items-center justify-between border-b border-[#162742] pb-4">
+          <div className="flex items-center justify-between border-b pb-4" style={{ borderColor: 'var(--border-light)' }}>
             <div>
-              <h3 className="font-extrabold text-white text-base font-['Space_Grotesk'] flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-[#E5FF00]" /> Consultation Volume & OPD Flow
+              <h3 className="font-bold text-base flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+                <TrendingUp className="w-5 h-5 text-[var(--brand-600)]" /> Consultation Volume & OPD Flow
               </h3>
-              <p className="text-xs text-[#94a3b8] mt-0.5">Hourly chart tracking patient intake vs completed video sessions.</p>
+              <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+                Hourly chart tracking patient intake vs completed video sessions.
+              </p>
             </div>
-            <span className="text-[11px] font-mono text-[#E5FF00] bg-[#E5FF00]/15 px-3 py-1 rounded-full border border-[#E5FF00]/30">
-              Live Chart Sync
-            </span>
+            <Badge variant="brand" size="sm">Live Chart Sync</Badge>
           </div>
 
           <div className="h-64 w-full pt-2">
@@ -138,21 +144,28 @@ export default function DoctorDashboard({
               <AreaChart data={chartData}>
                 <defs>
                   <linearGradient id="colorPatients" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#2563ff" stopOpacity={0.4}/>
-                    <stop offset="95%" stopColor="#2563ff" stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#2563eb" stopOpacity={0.35}/>
+                    <stop offset="95%" stopColor="#2563eb" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorConsults" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
+                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.35}/>
                     <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
-                <XAxis dataKey="time" stroke="#64748b" fontSize={11} tickLine={false} />
-                <YAxis stroke="#64748b" fontSize={11} tickLine={false} />
+                <XAxis dataKey="time" stroke="var(--text-muted)" fontSize={11} tickLine={false} />
+                <YAxis stroke="var(--text-muted)" fontSize={11} tickLine={false} />
                 <Tooltip 
-                  contentStyle={{ backgroundColor: '#081225', borderColor: '#162742', borderRadius: '16px', color: '#f8fafc', fontSize: '12px' }}
+                  contentStyle={{ 
+                    backgroundColor: 'var(--surface-card)', 
+                    borderColor: 'var(--border-light)', 
+                    borderRadius: '12px', 
+                    color: 'var(--text-primary)', 
+                    fontSize: '12px',
+                    boxShadow: 'var(--shadow-lg)'
+                  }}
                 />
-                <Area type="monotone" dataKey="patients" stroke="#2563ff" strokeWidth={3} fillOpacity={1} fill="url(#colorPatients)" />
-                <Area type="monotone" dataKey="consultations" stroke="#10b981" strokeWidth={3} fillOpacity={1} fill="url(#colorConsults)" />
+                <Area type="monotone" dataKey="patients" stroke="#2563eb" strokeWidth={2.5} fillOpacity={1} fill="url(#colorPatients)" />
+                <Area type="monotone" dataKey="consultations" stroke="#10b981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorConsults)" />
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -160,108 +173,103 @@ export default function DoctorDashboard({
 
         {/* 3 Quick Overview Panels (1 Col) */}
         <div className="space-y-4">
-          
           <GlassCard className="p-5 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#94a3b8] uppercase tracking-wider">Avg Consult SLA</span>
-              <div className="p-2.5 rounded-2xl bg-[#2563ff]/15 text-[#3b82f6] border border-[#2563ff]/25">
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Avg Consult SLA</span>
+              <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
                 <Clock className="w-4 h-4" />
               </div>
             </div>
-            <p className="text-2xl font-extrabold text-white font-['Space_Grotesk']">
-              14.5 <span className="text-xs font-normal text-[#94a3b8]">mins / patient</span>
+            <p className="text-2xl font-extrabold" style={{ color: 'var(--text-primary)' }}>
+              14.5 <span className="text-xs font-normal" style={{ color: 'var(--text-muted)' }}>mins / patient</span>
             </p>
-            <div className="w-full bg-[#0b172a] rounded-full h-2 overflow-hidden border border-[#162742]">
-              <div className="bg-[#2563ff] h-full w-[72%]" />
+            <div className="w-full rounded-full h-2 overflow-hidden border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
+              <div className="bg-[var(--brand-600)] h-full w-[72%]" />
             </div>
-            <p className="text-[11px] text-[#94a3b8]">Target threshold: 15 mins</p>
+            <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>Target threshold: 15 mins</p>
           </GlassCard>
 
           <GlassCard className="p-5 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#94a3b8] uppercase tracking-wider">Completed Sessions</span>
-              <div className="p-2.5 rounded-2xl bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/25">
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Completed Sessions</span>
+              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
             </div>
-            <p className="text-2xl font-extrabold text-white font-['Space_Grotesk']">
-              12 <span className="text-xs font-normal text-[#94a3b8]">/ 18 completed</span>
+            <p className="text-2xl font-extrabold" style={{ color: 'var(--text-primary)' }}>
+              12 <span className="text-xs font-normal" style={{ color: 'var(--text-muted)' }}>/ 18 completed</span>
             </p>
-            <div className="w-full bg-[#0b172a] rounded-full h-2 overflow-hidden border border-[#162742]">
-              <div className="bg-[#10b981] h-full w-[66%]" />
+            <div className="w-full rounded-full h-2 overflow-hidden border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
+              <div className="bg-emerald-500 h-full w-[66%]" />
             </div>
-            <p className="text-[11px] text-[#10b981] font-bold">6 remaining today</p>
+            <p className="text-[11px] text-emerald-600 font-bold">6 remaining today</p>
           </GlassCard>
 
           <GlassCard className="p-5 space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-[#94a3b8] uppercase tracking-wider">Patient Satisfaction</span>
-              <div className="p-2.5 rounded-2xl bg-[#7c3aed]/15 text-[#7c3aed] border border-[#7c3aed]/25">
+              <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Patient Satisfaction</span>
+              <div className="p-2 rounded-xl bg-purple-50 text-purple-600">
                 <Smile className="w-4 h-4" />
               </div>
             </div>
-            <p className="text-2xl font-extrabold text-white font-['Space_Grotesk']">
-              98.4% <span className="text-xs font-normal text-[#94a3b8]">rating</span>
+            <p className="text-2xl font-extrabold" style={{ color: 'var(--text-primary)' }}>
+              98.4% <span className="text-xs font-normal" style={{ color: 'var(--text-muted)' }}>rating</span>
             </p>
-            <div className="w-full bg-[#0b172a] rounded-full h-2 overflow-hidden border border-[#162742]">
-              <div className="bg-[#7c3aed] h-full w-[98%]" />
+            <div className="w-full rounded-full h-2 overflow-hidden border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
+              <div className="bg-purple-500 h-full w-[98%]" />
             </div>
-            <p className="text-[11px] text-[#7c3aed] font-bold">Based on 142 reviews</p>
+            <p className="text-[11px] text-purple-600 font-bold">Based on 142 reviews</p>
           </GlassCard>
-
         </div>
 
       </div>
 
       {/* 4. LIVE PATIENT QUEUE SNAPSHOT */}
       <GlassCard className="overflow-hidden">
-        <div className="p-6 border-b border-[#162742] flex items-center justify-between">
+        <div className="p-6 border-b flex items-center justify-between" style={{ borderColor: 'var(--border-light)' }}>
           <div className="flex items-center space-x-2.5">
-            <Activity className="w-5 h-5 text-[#3b82f6]" />
-            <h3 className="font-extrabold text-white text-base font-['Space_Grotesk']">
+            <Activity className="w-5 h-5 text-[var(--brand-600)]" />
+            <h3 className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>
               Live Priority Patient Queue
             </h3>
           </div>
           <button
             type="button"
             onClick={() => onSelectTab('appointments')}
-            className="text-xs text-[#3b82f6] font-bold hover:underline flex items-center gap-1"
+            className="text-xs text-[var(--brand-600)] font-bold hover:underline flex items-center gap-1 cursor-pointer"
           >
             <span>View Full Queue</span>
             <ArrowUpRight className="w-4 h-4" />
           </button>
         </div>
 
-        <div className="divide-y divide-[#162742] text-xs">
+        <div className="divide-y text-xs" style={{ borderColor: 'var(--border-light)' }}>
           {urgentAppointments.slice(0, 3).map(apt => (
-            <div key={apt.id} className="p-5 flex items-center justify-between hover:bg-[#0b172a]/60 transition-colors">
+            <div key={apt.id} className="p-5 flex items-center justify-between hover:bg-[var(--brand-50)] transition-colors">
               <div className="flex items-center space-x-3.5">
-                <div className="w-10 h-10 rounded-2xl bg-[#2563ff]/15 text-[#3b82f6] font-extrabold flex items-center justify-center border border-[#2563ff]/25">
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] font-bold flex items-center justify-center border border-[var(--brand-200)]">
                   {apt.patientName.charAt(0)}
                 </div>
                 <div>
-                  <p className="font-bold text-white text-sm">{apt.patientName}</p>
-                  <p className="text-[11px] text-[#94a3b8] mt-0.5">{apt.symptoms || 'General Consultation'}</p>
+                  <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{apt.patientName}</p>
+                  <p className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>{apt.symptoms || 'General Consultation'}</p>
                 </div>
               </div>
 
               <div className="flex items-center space-x-4">
-                <span className="text-[#cbd5e1] font-semibold">{apt.timeSlot}</span>
+                <span className="font-semibold text-xs" style={{ color: 'var(--text-secondary)' }}>{apt.timeSlot}</span>
                 
                 {apt.status === 'in-progress' ? (
-                  <span className="px-3 py-1 rounded-full bg-[#2563ff]/15 text-[#3b82f6] border border-[#2563ff]/25 font-bold text-[10px] uppercase animate-pulse">
-                    In Progress
-                  </span>
+                  <Badge variant="brand" size="sm">In Progress</Badge>
                 ) : (
-                  <span className="px-3 py-1 rounded-full bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/25 font-bold text-[10px] uppercase">
-                    Ready
-                  </span>
+                  <Badge variant="success" size="sm">Ready</Badge>
                 )}
 
                 <button
                   type="button"
                   onClick={() => onOpenTeleconsultation(apt)}
-                  className="bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-md"
+                  className="text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm cursor-pointer hover:opacity-90 transition-all"
+                  style={{ background: 'var(--brand-600)' }}
                 >
                   <Video className="w-4 h-4" />
                   <span>Start Call</span>
@@ -271,9 +279,6 @@ export default function DoctorDashboard({
           ))}
         </div>
       </GlassCard>
-
-      {/* 5. SYSTEM RELIABILITY QA CHECKLIST */}
-      <TestingChecklist />
 
     </div>
   )
