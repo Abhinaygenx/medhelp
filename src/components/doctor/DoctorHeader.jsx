@@ -21,8 +21,12 @@ export default function DoctorHeader({ doctorName = 'Dr. Robert Ford', doctorDep
     <header style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 30, padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
       {/* Left */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <button onClick={onToggleMobileSidebar} aria-label="Toggle navigation" className="lg:hidden"
-          style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: 'var(--text-muted)' }}>
+        <button
+          onClick={onToggleMobileSidebar}
+          aria-label="Toggle navigation"
+          className="lg:hidden flex items-center justify-center shrink-0 cursor-pointer"
+          style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', color: 'var(--text-muted)' }}
+        >
           <Menu size={18} />
         </button>
         <div>

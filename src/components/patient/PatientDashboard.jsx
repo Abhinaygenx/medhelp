@@ -63,25 +63,42 @@ export default function PatientDashboard({
               View your active running medications, check scheduled clinical tests, access certified medical records, and connect with your doctors.
             </p>
 
-            <div className="pt-2 flex flex-wrap items-center gap-3">
+            <div className="pt-3 flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={onBookAppointmentClick}
-                className="font-bold px-5 py-2.5 rounded-xl transition-all duration-150 hover:bg-slate-100 text-xs flex items-center gap-2 cursor-pointer shadow-md"
-                style={{ background: '#ffffff', color: '#1e3a8a' }}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs cursor-pointer shadow-md transition-all duration-150 hover:bg-slate-50 active:scale-95"
+                style={{
+                  background: '#ffffff',
+                  color: '#1d4ed8',
+                  border: '1px solid #ffffff',
+                  whiteSpace: 'nowrap',
+                  lineHeight: '1.25rem',
+                  minHeight: '40px',
+                  boxSizing: 'border-box'
+                }}
               >
-                <Calendar className="w-4 h-4 text-[#1e3a8a]" />
-                <span>Book Appointment</span>
+                <Calendar className="w-4 h-4 shrink-0" style={{ color: '#1d4ed8' }} />
+                <span className="font-bold text-xs" style={{ color: '#1d4ed8' }}>Book Appointment</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => onSelectMenu('medications')}
-                className="font-bold px-4 py-2.5 rounded-xl border hover:bg-white/10 transition-all text-xs flex items-center gap-2 cursor-pointer text-white"
-                style={{ borderColor: 'rgba(255,255,255,0.35)' }}
+                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl font-bold text-xs cursor-pointer transition-all duration-150 hover:bg-white/15 active:scale-95 text-white"
+                style={{
+                  background: 'rgba(255, 255, 255, 0.14)',
+                  color: '#ffffff',
+                  border: '1px solid rgba(255, 255, 255, 0.45)',
+                  backdropFilter: 'blur(8px)',
+                  whiteSpace: 'nowrap',
+                  lineHeight: '1.25rem',
+                  minHeight: '40px',
+                  boxSizing: 'border-box'
+                }}
               >
-                <Pill className="w-4 h-4" />
-                <span>Running Medications ({activeMeds.length})</span>
+                <Pill className="w-4 h-4 shrink-0 text-white" />
+                <span className="font-bold text-xs text-white">Running Medications ({activeMeds.length})</span>
               </button>
             </div>
           </div>
@@ -277,9 +294,9 @@ export default function PatientDashboard({
                   </div>
                   <p className="text-[11px] text-[var(--brand-600)] font-semibold">{test.department}</p>
                   <p className="text-[10px] font-mono text-[var(--text-muted)]">{test.scheduledDate} • {test.timeSlot}</p>
-                  <p className="text-[10px] text-amber-800 bg-amber-50 px-2 py-0.5 rounded border border-amber-200 inline-block">
+                  <div className="text-[10px] font-medium text-amber-900 bg-amber-50 px-2.5 py-1 rounded-lg border border-amber-200 inline-block leading-normal">
                     {test.preparation}
-                  </p>
+                  </div>
                 </div>
                 <Badge variant={test.status === 'Completed' ? 'success' : 'brand'} size="sm">{test.status}</Badge>
               </div>

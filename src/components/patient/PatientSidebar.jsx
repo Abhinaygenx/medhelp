@@ -101,10 +101,12 @@ export default function PatientSidebar({ activeMenu = 'dashboard', onSelectMenu,
             </div>
             <button
               onClick={onCloseMobile}
-              className="lg:hidden"
+              className="lg:hidden flex items-center justify-center"
               aria-label="Close navigation"
-              style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border-light)', background: 'var(--surface-page)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}
-            ><X size={16} /></button>
+              style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border-light)', background: 'var(--surface-page)', cursor: 'pointer', color: 'var(--text-muted)' }}
+            >
+              <X size={16} />
+            </button>
           </div>
         </div>
 

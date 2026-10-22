@@ -17,9 +17,9 @@ export function Badge({
   }
 
   const sizes = {
-    sm: { padding: '2px 8px', fontSize: '0.6875rem' },
-    md: { padding: '4px 10px', fontSize: '0.75rem' },
-    lg: { padding: '6px 14px', fontSize: '0.8125rem' },
+    sm: { padding: '3px 10px', fontSize: '0.6875rem' },
+    md: { padding: '5px 12px', fontSize: '0.75rem' },
+    lg: { padding: '7px 16px', fontSize: '0.8125rem' },
   }
 
   const selectedStyle = styles[variant] || styles.default
@@ -27,11 +27,13 @@ export function Badge({
 
   return (
     <span
-      className={`inline-flex items-center gap-1.5 font-semibold rounded-full ${className}`}
+      className={`inline-flex items-center justify-center gap-1.5 font-semibold rounded-full shrink-0 ${className}`}
       style={{
         ...selectedStyle,
         ...selectedSize,
-        lineHeight: 1.2,
+        lineHeight: 1.3,
+        whiteSpace: 'nowrap',
+        boxSizing: 'border-box',
         ...style
       }}
     >

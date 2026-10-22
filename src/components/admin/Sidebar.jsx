@@ -39,8 +39,12 @@ export default function Sidebar({ activeTab = 'dashboard', onSelectTab, onLogout
                 <div style={{ fontSize: '0.6875rem', color: 'var(--brand-600)', fontWeight: 600 }}>Admin Portal</div>
               </div>
             </div>
-            <button onClick={onCloseMobile} className="lg:hidden" aria-label="Close navigation"
-              style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border-light)', background: 'var(--surface-page)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
+            <button
+              onClick={onCloseMobile}
+              className="lg:hidden flex items-center justify-center cursor-pointer"
+              aria-label="Close navigation"
+              style={{ width: 32, height: 32, borderRadius: 8, border: '1px solid var(--border-light)', background: 'var(--surface-page)', color: 'var(--text-muted)' }}
+            >
               <X size={16} />
             </button>
           </div>
