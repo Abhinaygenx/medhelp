@@ -25,7 +25,7 @@ export default function Sidebar({ activeTab = 'dashboard', onSelectTab, onLogout
           display: 'flex', flexDirection: 'column',
           boxShadow: 'var(--shadow-lg)',
         }}
-        className={isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        className={`transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
       >
         {/* Brand */}
         <div style={{ padding: '20px 16px 14px', borderBottom: '1px solid var(--sidebar-border)' }}>

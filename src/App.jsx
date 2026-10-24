@@ -700,13 +700,14 @@ export default function App() {
   const isDoctorRoute = location.pathname.startsWith('/doctor')
   const isAdminRoute = location.pathname.startsWith('/admin')
   const isStandalonePortal = isPatientRoute || isDoctorRoute || isAdminRoute
+  const isPublicPage = location.pathname === '/' || location.pathname === '/login'
 
   return (
-    <div style={{ minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', background: 'var(--surface-page)', color: 'var(--text-primary)', display: 'flex', flexDirection: isStandalonePortal ? undefined : 'column' }}>
+    <div style={{ minHeight: '100vh', fontFamily: 'Inter, system-ui, sans-serif', background: 'var(--surface-page)', color: 'var(--text-primary)', display: 'flex', flexDirection: (isStandalonePortal || isPublicPage) ? undefined : 'column' }}>
       <Toaster position="top-right" toastOptions={{ style: { fontFamily: 'Inter, system-ui, sans-serif', fontSize: '0.875rem' } }} />
 
-      {/* Render Header Navbar ONLY if not in standalone portals */}
-      {currentUser && !isStandalonePortal && (
+      {/* Render Header Navbar ONLY if not in standalone portals or public pages */}
+      {currentUser && !isStandalonePortal && !isPublicPage && (
         <Navbar
           currentRole={currentRole}
           onRoleChange={handleRoleChange}
@@ -718,7 +719,7 @@ export default function App() {
       )}
 
       {/* Main Content Area with Protected Routes */}
-      <main style={isStandalonePortal ? { width: '100%' } : { flex: 1, maxWidth: 1280, width: '100%', margin: '0 auto', padding: '32px 24px' }}>
+      <main style={(isStandalonePortal || isPublicPage) ? { width: '100%' } : { flex: 1, maxWidth: 1280, width: '100%', margin: '0 auto', padding: '16px sm:32px 24px' }}>
         <Routes>
           {/* Public Landing Page */}
           <Route

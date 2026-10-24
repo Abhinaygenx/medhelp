@@ -56,35 +56,35 @@ export default function DoctorDashboard({
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
           <button
             type="button"
             onClick={() => onSelectTab('clinical-hub')}
-            className="font-semibold px-4 py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all flex items-center space-x-2 cursor-pointer"
+            className="font-semibold px-4 py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all flex items-center space-x-2 cursor-pointer flex-1 sm:flex-initial justify-center"
             style={{ background: 'var(--brand-600)', color: '#ffffff', boxShadow: '0 2px 4px rgba(37,99,235,0.2)' }}
           >
-            <PlusCircle className="w-4 h-4" />
-            <span>Clinical Orders & Uploads</span>
+            <PlusCircle className="w-4 h-4 shrink-0" />
+            <span className="whitespace-nowrap">Clinical Orders & Uploads</span>
           </button>
           
           <button
             type="button"
             onClick={() => onSelectTab('appointments')}
-            className="font-semibold px-4 py-2.5 rounded-xl text-xs border transition-all flex items-center space-x-2 cursor-pointer hover:bg-[var(--neutral-100)]"
+            className="font-semibold px-4 py-2.5 rounded-xl text-xs border transition-all flex items-center space-x-2 cursor-pointer hover:bg-[var(--neutral-100)] flex-1 sm:flex-initial justify-center"
             style={{
               background: 'var(--surface-card)',
               color: 'var(--text-primary)',
               borderColor: 'var(--border-default)'
             }}
           >
-            <CalendarDays className="w-4 h-4 text-[var(--brand-600)]" />
-            <span>View Queue ({appointments.length})</span>
+            <CalendarDays className="w-4 h-4 text-[var(--brand-600)] shrink-0" />
+            <span className="whitespace-nowrap">View Queue ({appointments.length})</span>
           </button>
         </div>
       </GlassCard>
 
       {/* 2. STAT CARDS ROW */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5">
         <StatCard 
           title="Today Patients"
           value="24"

@@ -177,23 +177,37 @@ export default function AppointmentBooking({
                       border: isSelected ? '2px solid var(--brand-600)' : '1px solid var(--border-light)',
                     }}
                   >
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={doc.avatar || "https://images.unsplash.com/photo-1622253692010-333f2da6031d?w=120&auto=format&fit=crop&q=80"}
-                        alt={doc.name}
-                        className="w-10 h-10 rounded-xl object-cover"
-                      />
-                      <div>
+                    <div className="flex items-center gap-3 min-w-0">
+                      {doc.avatar ? (
+                        <img
+                          src={doc.avatar}
+                          alt={doc.name}
+                          onError={(e) => {
+                            e.currentTarget.style.display = 'none'
+                            if (e.currentTarget.nextElementSibling) {
+                              e.currentTarget.nextElementSibling.style.display = 'flex'
+                            }
+                          }}
+                          className="w-10 h-10 rounded-xl object-cover shrink-0"
+                        />
+                      ) : null}
+                      <div
+                        style={{ display: doc.avatar ? 'none' : 'flex' }}
+                        className="w-10 h-10 rounded-xl bg-[var(--brand-100)] text-[var(--brand-700)] font-bold text-xs items-center justify-center shrink-0 border border-[var(--brand-200)]"
+                      >
+                        {doc.name ? doc.name.replace('Dr. ', '').slice(0, 2).toUpperCase() : 'DR'}
+                      </div>
+                      <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
-                          <p className="font-bold text-xs" style={{ color: 'var(--text-primary)' }}>{doc.name}</p>
-                          {doc.isVerified && <ShieldCheck size={13} className="text-teal-600" />}
+                          <p className="font-bold text-xs truncate" style={{ color: 'var(--text-primary)' }}>{doc.name}</p>
+                          {doc.isVerified && <ShieldCheck size={13} className="text-teal-600 shrink-0" />}
                         </div>
-                        <p className="text-[11px] text-[var(--brand-600)] font-semibold">{doc.specialization}</p>
-                        <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{doc.experienceYears || '10'} yrs exp • ${doc.consultationFee || '120'}</p>
+                        <p className="text-[11px] text-[var(--brand-600)] font-semibold truncate">{doc.specialization}</p>
+                        <p className="text-[10px] truncate" style={{ color: 'var(--text-muted)' }}>{doc.experienceYears || '10'} yrs exp • ${doc.consultationFee || '120'}</p>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 shrink-0 ml-2">
                       <div className="flex items-center gap-0.5 text-[11px] font-bold text-amber-500">
                         <Star size={12} className="fill-amber-400" />
                         <span>{doc.rating || '4.9'}</span>
@@ -266,7 +280,7 @@ export default function AppointmentBooking({
                     <p className="text-[11px] font-bold uppercase tracking-wider text-[var(--text-muted)]">
                       {period}
                     </p>
-                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2">
+                    <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
                       {slots.map(slot => {
                         const isSelected = selectedSlot === slot
                         return (

@@ -71,35 +71,35 @@ export default function AdminDashboard({
           </p>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
           <button
             type="button"
             onClick={() => onSelectTab('doctors')}
-            className="font-bold px-4 py-2.5 rounded-xl text-xs hover:opacity-95 transition-all flex items-center space-x-2 cursor-pointer shadow-sm text-white"
+            className="font-bold px-4 py-2.5 rounded-xl text-xs hover:opacity-95 transition-all flex items-center space-x-2 cursor-pointer shadow-sm text-white flex-1 sm:flex-initial justify-center"
             style={{ background: 'var(--brand-600)' }}
           >
-            <UserPlus className="w-4 h-4 text-white" />
-            <span>Verify Doctor ({pendingDoctors.length})</span>
+            <UserPlus className="w-4 h-4 text-white shrink-0" />
+            <span className="whitespace-nowrap">Verify Doctor ({pendingDoctors.length})</span>
           </button>
           
           <button
             type="button"
             onClick={() => onSelectTab('billing')}
-            className="font-bold px-4 py-2.5 rounded-xl text-xs border transition-all flex items-center space-x-2 cursor-pointer hover:bg-[var(--neutral-100)]"
+            className="font-bold px-4 py-2.5 rounded-xl text-xs border transition-all flex items-center space-x-2 cursor-pointer hover:bg-[var(--neutral-100)] flex-1 sm:flex-initial justify-center"
             style={{
               background: 'var(--surface-page)',
               color: 'var(--text-secondary)',
               borderColor: 'var(--border-light)'
             }}
           >
-            <CreditCard className="w-4 h-4 text-[var(--brand-600)]" />
-            <span>Billing Console</span>
+            <CreditCard className="w-4 h-4 text-[var(--brand-600)] shrink-0" />
+            <span className="whitespace-nowrap">Billing Console</span>
           </button>
         </div>
       </AdminNeonCard>
 
       {/* 2. STAT CARDS ROW (6 METRIC CARDS) */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
         
         {/* Total Patients */}
         <AdminNeonCard className="p-4 space-y-2.5">

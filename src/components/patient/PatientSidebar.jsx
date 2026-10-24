@@ -82,10 +82,8 @@ export default function PatientSidebar({ activeMenu = 'dashboard', onSelectMenu,
           borderRight: '1px solid var(--sidebar-border)',
           display: 'flex', flexDirection: 'column',
           boxShadow: 'var(--shadow-lg)',
-          transform: isOpen ? 'translateX(0)' : undefined,
-          transition: 'transform 300ms ease',
         }}
-        className={isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        className={`transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'} lg:translate-x-0`}
       >
         {/* Brand */}
         <div style={{ padding: '20px 16px 14px', borderBottom: '1px solid var(--sidebar-border)' }}>
