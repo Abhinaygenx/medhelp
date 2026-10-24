@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Bell, Send, Mail, MessageSquare, CheckCircle2 } from 'lucide-react'
+import { Bell, Send, Mail, MessageSquare } from 'lucide-react'
 import AdminNeonCard from '../common/AdminNeonCard'
+import { Badge } from '../common/Badge'
 import toast from 'react-hot-toast'
 
 export default function NotificationsCenter({ notifications = [], onSendBroadcast }) {
@@ -29,81 +30,121 @@ export default function NotificationsCenter({ notifications = [], onSendBroadcas
   }
 
   return (
-    <AdminNeonCard className="p-6 space-y-6 text-[#F9FAFB]">
+    <AdminNeonCard className="p-6 space-y-6" style={{ color: 'var(--text-primary)' }}>
       
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#374151] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4"
+        style={{ borderColor: 'var(--border-light)' }}
+      >
         <div>
-          <h2 className="text-xl font-extrabold text-[#F9FAFB] font-['Space_Grotesk'] flex items-center gap-2">
-            <Bell className="w-5 h-5 text-[#E5FF00]" /> Hospital Broadcast & Notification Center
+          <h2 className="text-xl font-extrabold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <Bell className="w-5 h-5 text-[var(--brand-600)]" /> Hospital Broadcast & Notification Center
           </h2>
-          <p className="text-xs text-[#9CA3AF]">Send hospital-wide announcements, SMS alerts, and appointment email reminders.</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Send hospital-wide announcements, SMS alerts, and appointment email reminders.
+          </p>
         </div>
 
         <button
           type="button"
           onClick={() => setShowModal(true)}
-          style={{ background: '#E5FF00', color: '#0B0F19', boxShadow: '0 0 15px rgba(229, 255, 0, 0.45)' }}
-          className="font-extrabold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 hover:scale-105 transition-all"
+          className="font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm text-white hover:opacity-95"
+          style={{ background: 'var(--brand-600)' }}
         >
-          <Send className="w-4 h-4 text-[#0B0F19]" />
+          <Send className="w-4 h-4 text-white" />
           <span>Send Broadcast Message</span>
         </button>
       </div>
 
       <div className="space-y-4">
-        {notifications.map(b => (
-          <div key={b.id} className="p-5 rounded-2xl bg-[#111827] border border-[#374151] space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-[#E5FF00] text-sm">{b.title}</span>
-              <span className="text-[10px] text-[#9CA3AF] font-mono">{b.sentAt}</span>
-            </div>
-            <p className="text-xs text-[#F9FAFB]">{b.message}</p>
-            <div className="flex items-center space-x-3 text-[10px] text-[#9CA3AF] pt-1">
-              <span>Channel: <strong className="text-[#22C55E]">{b.channel || 'System Notification'}</strong></span>
-              <span>•</span>
-              <span>Audience: <strong className="text-[#3B82F6]">{b.targetRole || 'All Users'}</strong></span>
-            </div>
+        {notifications.length === 0 ? (
+          <div className="py-12 text-center text-xs" style={{ color: 'var(--text-muted)' }}>
+            No broadcast notifications dispatched yet.
           </div>
-        ))}
+        ) : (
+          notifications.map(b => (
+            <div 
+              key={b.id} 
+              className="p-5 rounded-2xl space-y-2.5 transition-all"
+              style={{
+                background: 'var(--surface-page)',
+                border: '1px solid var(--border-light)'
+              }}
+            >
+              <div className="flex items-center justify-between">
+                <span className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{b.title}</span>
+                <span className="text-[10px] font-mono" style={{ color: 'var(--text-muted)' }}>{b.sentAt}</span>
+              </div>
+              <p className="text-xs leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{b.message}</p>
+              <div className="flex items-center space-x-2 text-[10px] pt-1">
+                <Badge variant="brand" size="sm">Channel: {b.channel || 'System Notification'}</Badge>
+                <Badge variant="default" size="sm">Audience: {b.targetRole || 'All Users'}</Badge>
+              </div>
+            </div>
+          ))
+        )}
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-[#0B0F19]/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 max-w-md w-full space-y-4 text-xs">
-            <h3 className="font-extrabold text-base text-[#F9FAFB] font-['Space_Grotesk'] border-b border-[#374151] pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div 
+            className="rounded-2xl p-6 max-w-md w-full space-y-4 text-xs shadow-xl"
+            style={{
+              background: 'var(--surface-card)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
+            <h3 
+              className="font-extrabold text-base border-b pb-3"
+              style={{ color: 'var(--text-primary)', borderColor: 'var(--border-light)' }}
+            >
               Send System Broadcast Message
             </h3>
             
             <form onSubmit={handleSendBroadcastSubmit} className="space-y-3">
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Announcement Title</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Announcement Title</label>
                 <input
                   type="text"
                   value={newMsg.title}
                   onChange={(e) => setNewMsg({...newMsg, title: e.target.value})}
                   placeholder="e.g. Free Eye Checkup Camp Tomorrow"
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#E5FF00]"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Message Content</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Message Content</label>
                 <textarea
                   value={newMsg.message}
                   onChange={(e) => setNewMsg({...newMsg, message: e.target.value})}
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl p-3 text-white h-24 resize-none"
+                  className="w-full rounded-xl p-3 h-24 resize-none focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="font-bold text-[#9CA3AF] block mb-1">Channel</label>
+                  <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Channel</label>
                   <select
                     value={newMsg.channel}
                     onChange={(e) => setNewMsg({...newMsg, channel: e.target.value})}
-                    className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                    className="w-full rounded-xl px-3 py-2"
+                    style={{
+                      background: 'var(--surface-page)',
+                      border: '1px solid var(--border-light)',
+                      color: 'var(--text-primary)'
+                    }}
                   >
                     <option value="Email & Push">Email & Push</option>
                     <option value="SMS Broadcast">SMS Broadcast</option>
@@ -112,11 +153,16 @@ export default function NotificationsCenter({ notifications = [], onSendBroadcas
                 </div>
 
                 <div>
-                  <label className="font-bold text-[#9CA3AF] block mb-1">Target Audience</label>
+                  <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Target Audience</label>
                   <select
                     value={newMsg.targetRole}
                     onChange={(e) => setNewMsg({...newMsg, targetRole: e.target.value})}
-                    className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                    className="w-full rounded-xl px-3 py-2"
+                    style={{
+                      background: 'var(--surface-page)',
+                      border: '1px solid var(--border-light)',
+                      color: 'var(--text-primary)'
+                    }}
                   >
                     <option value="All Users">All Users</option>
                     <option value="Patients">Patients Only</option>
@@ -126,13 +172,22 @@ export default function NotificationsCenter({ notifications = [], onSendBroadcas
               </div>
 
               <div className="pt-2 flex justify-end space-x-2">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-xl bg-[#111827] text-[#9CA3AF] font-bold">
+                <button 
+                  type="button" 
+                  onClick={() => setShowModal(false)} 
+                  className="px-4 py-2 rounded-xl font-bold border cursor-pointer hover:bg-[var(--neutral-100)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    color: 'var(--text-muted)',
+                    borderColor: 'var(--border-light)'
+                  }}
+                >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  style={{ background: '#E5FF00', color: '#0B0F19' }}
-                  className="font-extrabold px-4 py-2 rounded-xl"
+                  className="font-bold px-4 py-2 rounded-xl text-white shadow-sm cursor-pointer hover:opacity-95"
+                  style={{ background: 'var(--brand-600)' }}
                 >
                   Dispatch Broadcast
                 </button>

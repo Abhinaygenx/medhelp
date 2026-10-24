@@ -145,6 +145,19 @@
     --border-default: #475569;
     --border-strong:  #64748b;
 
+    --neutral-0:    #0f172a;
+    --neutral-50:   #1e293b;
+    --neutral-100:  #243347;
+    --neutral-200:  #334155;
+    --neutral-300:  #475569;
+    --neutral-400:  #64748b;
+    --neutral-500:  #94a3b8;
+    --neutral-600:  #cbd5e1;
+    --neutral-700:  #e2e8f0;
+    --neutral-800:  #f1f5f9;
+    --neutral-900:  #f8fafc;
+    --neutral-950:  #ffffff;
+
     --shadow-xs:  0 1px 2px rgba(0,0,0,0.3);
     --shadow-sm:  0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
     --shadow-md:  0 4px 6px rgba(0,0,0,0.35), 0 2px 4px rgba(0,0,0,0.3);
@@ -593,6 +606,8 @@
     box-shadow: var(--shadow-xl);
     z-index: 200;
     min-width: 200px;
+    max-width: min(340px, calc(100vw - 32px));
+    box-sizing: border-box;
     padding: 6px;
     animation: dropdown-in 150ms ease;
   }

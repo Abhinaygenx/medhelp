@@ -245,9 +245,9 @@ export default function DoctorDashboard({
 
         <div className="divide-y text-xs" style={{ borderColor: 'var(--border-light)' }}>
           {urgentAppointments.slice(0, 3).map(apt => (
-            <div key={apt.id} className="p-5 flex items-center justify-between hover:bg-[var(--brand-50)] transition-colors">
+            <div key={apt.id} className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-[var(--brand-50)] transition-colors">
               <div className="flex items-center space-x-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] font-bold flex items-center justify-center border border-[var(--brand-200)]">
+                <div className="w-10 h-10 rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] font-bold flex items-center justify-center border border-[var(--brand-200)] shrink-0">
                   {apt.patientName.charAt(0)}
                 </div>
                 <div>
@@ -256,7 +256,7 @@ export default function DoctorDashboard({
                 </div>
               </div>
 
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center justify-between sm:justify-end space-x-3 sm:space-x-4 pt-1 sm:pt-0">
                 <span className="font-semibold text-xs" style={{ color: 'var(--text-secondary)' }}>{apt.timeSlot}</span>
                 
                 {apt.status === 'in-progress' ? (
@@ -268,7 +268,7 @@ export default function DoctorDashboard({
                 <button
                   type="button"
                   onClick={() => onOpenTeleconsultation(apt)}
-                  className="text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm cursor-pointer hover:opacity-90 transition-all"
+                  className="text-white font-bold px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs flex items-center space-x-1.5 shadow-sm cursor-pointer hover:opacity-90 transition-all shrink-0"
                   style={{ background: 'var(--brand-600)' }}
                 >
                   <Video className="w-4 h-4" />

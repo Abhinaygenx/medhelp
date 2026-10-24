@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Bed, Users, Plus, CheckCircle2, AlertCircle, UserCheck } from 'lucide-react'
+import { Bed, Users, Plus, CheckCircle2, AlertCircle } from 'lucide-react'
 import AdminNeonCard from '../common/AdminNeonCard'
+import { Badge } from '../common/Badge'
 import toast from 'react-hot-toast'
 
 export default function BedWardManagement({ beds = [], onAssignBed, onReleaseBed }) {
@@ -32,58 +33,71 @@ export default function BedWardManagement({ beds = [], onAssignBed, onReleaseBed
   const availableCount = beds.filter(b => b.status === 'Available').length
 
   return (
-    <AdminNeonCard className="p-6 space-y-6 text-[#F9FAFB]">
+    <AdminNeonCard className="p-6 space-y-6" style={{ color: 'var(--text-primary)' }}>
       
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#374151] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4"
+        style={{ borderColor: 'var(--border-light)' }}
+      >
         <div>
-          <h2 className="text-xl font-extrabold text-[#F9FAFB] font-['Space_Grotesk'] flex items-center gap-2">
-            <Bed className="w-5 h-5 text-[#E5FF00]" /> ICU & Ward Bed Allocation System
+          <h2 className="text-xl font-extrabold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <Bed className="w-5 h-5 text-[var(--brand-600)]" /> ICU & Ward Bed Allocation System
           </h2>
-          <p className="text-xs text-[#9CA3AF]">Manage hospital room occupancy, ICU bed dispatch, and patient discharge release.</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Manage hospital room occupancy, ICU bed dispatch, and patient discharge release.
+          </p>
         </div>
 
-        <div className="flex items-center space-x-3 text-xs">
-          <span className="px-3 py-1.5 rounded-xl bg-[#22C55E]/15 text-[#22C55E] border border-[#22C55E]/30 font-bold">
+        <div className="flex items-center space-x-2 text-xs">
+          <Badge variant="success" size="sm">
             {availableCount} Beds Available
-          </span>
-          <span className="px-3 py-1.5 rounded-xl bg-[#EF4444]/15 text-[#EF4444] border border-[#EF4444]/30 font-bold">
+          </Badge>
+          <Badge variant="danger" size="sm">
             {occupiedCount} Beds Occupied
-          </span>
+          </Badge>
         </div>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {beds.map(bed => (
-          <div key={bed.id} className="p-5 rounded-2xl bg-[#111827] border border-[#374151] space-y-4 hover:border-[#E5FF00]/40 transition-all">
-            <div className="flex items-center justify-between border-b border-[#374151] pb-3">
+          <div 
+            key={bed.id} 
+            className="p-5 rounded-2xl space-y-4 transition-all"
+            style={{
+              background: 'var(--surface-page)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
+            <div className="flex items-center justify-between border-b pb-3" style={{ borderColor: 'var(--border-light)' }}>
               <div>
-                <h3 className="font-extrabold text-base text-[#F9FAFB] font-['Space_Grotesk']">{bed.roomNo}</h3>
-                <p className="text-xs text-[#9CA3AF]">{bed.ward}</p>
+                <h3 className="font-extrabold text-base" style={{ color: 'var(--text-primary)' }}>{bed.roomNo}</h3>
+                <p className="text-xs" style={{ color: 'var(--text-muted)' }}>{bed.ward}</p>
               </div>
-              <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${
-                bed.status === 'Available' ? 'bg-[#22C55E]/15 text-[#22C55E] border-[#22C55E]/30' : 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30'
-              }`}>
+              <Badge variant={bed.status === 'Available' ? 'success' : 'danger'} size="sm">
                 {bed.status}
-              </span>
+              </Badge>
             </div>
 
-            <div className="space-y-1.5 text-xs text-[#9CA3AF]">
-              <p className="flex justify-between"><span>Current Occupant:</span> <strong className="text-[#F9FAFB]">{bed.patientName || 'None (Vacant)'}</strong></p>
-              <p className="flex justify-between"><span>Assigned Date:</span> <strong className="text-[#E5FF00]">{bed.assignedDate || 'N/A'}</strong></p>
+            <div className="space-y-1.5 text-xs">
+              <p className="flex justify-between" style={{ color: 'var(--text-muted)' }}>
+                <span>Current Occupant:</span> <strong style={{ color: 'var(--text-primary)' }}>{bed.patientName || 'None (Vacant)'}</strong>
+              </p>
+              <p className="flex justify-between" style={{ color: 'var(--text-muted)' }}>
+                <span>Assigned Date:</span> <strong className="text-[var(--brand-600)] font-bold">{bed.assignedDate || 'N/A'}</strong>
+              </p>
             </div>
 
             {bed.status === 'Available' ? (
               <button
                 onClick={() => { setSelectedBed(bed); setShowModal(true); }}
-                style={{ background: '#E5FF00', color: '#0B0F19' }}
-                className="w-full py-2.5 rounded-xl font-extrabold text-xs transition-all hover:scale-[1.02]"
+                className="w-full py-2.5 rounded-xl font-bold text-xs text-white shadow-sm cursor-pointer hover:opacity-95 transition-all"
+                style={{ background: 'var(--brand-600)' }}
               >
                 Assign Bed to Patient
               </button>
             ) : (
               <button
                 onClick={() => handleReleaseBedClick(bed.id, bed.roomNo)}
-                className="w-full py-2.5 rounded-xl bg-[#EF4444]/15 hover:bg-[#EF4444]/30 text-[#EF4444] border border-[#EF4444]/30 font-bold text-xs transition-colors"
+                className="w-full py-2.5 rounded-xl font-bold text-xs text-red-700 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-950/50 border border-red-200 dark:border-red-800/40 cursor-pointer transition-colors"
               >
                 Discharge & Release Bed
               </button>
@@ -93,33 +107,56 @@ export default function BedWardManagement({ beds = [], onAssignBed, onReleaseBed
       </div>
 
       {showModal && selectedBed && (
-        <div className="fixed inset-0 z-50 bg-[#0B0F19]/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 max-w-md w-full space-y-4 text-xs">
-            <h3 className="font-extrabold text-base text-[#F9FAFB] font-['Space_Grotesk'] border-b border-[#374151] pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div 
+            className="rounded-2xl p-6 max-w-md w-full space-y-4 text-xs shadow-xl"
+            style={{
+              background: 'var(--surface-card)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
+            <h3 
+              className="font-extrabold text-base border-b pb-3"
+              style={{ color: 'var(--text-primary)', borderColor: 'var(--border-light)' }}
+            >
               Assign Bed {selectedBed.roomNo} ({selectedBed.ward})
             </h3>
             
             <form onSubmit={handleAssignBedSubmit} className="space-y-3">
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Patient Name</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Patient Name</label>
                 <input
                   type="text"
                   value={patientInput}
                   onChange={(e) => setPatientInput(e.target.value)}
                   placeholder="e.g. Eleanor Vance"
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#E5FF00]"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div className="pt-2 flex justify-end space-x-2">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-xl bg-[#111827] text-[#9CA3AF] font-bold">
+                <button 
+                  type="button" 
+                  onClick={() => setShowModal(false)} 
+                  className="px-4 py-2 rounded-xl font-bold border cursor-pointer hover:bg-[var(--neutral-100)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    color: 'var(--text-muted)',
+                    borderColor: 'var(--border-light)'
+                  }}
+                >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  style={{ background: '#E5FF00', color: '#0B0F19' }}
-                  className="font-extrabold px-4 py-2 rounded-xl"
+                  className="font-bold px-4 py-2 rounded-xl text-white shadow-sm cursor-pointer hover:opacity-95"
+                  style={{ background: 'var(--brand-600)' }}
                 >
                   Confirm Allocation
                 </button>

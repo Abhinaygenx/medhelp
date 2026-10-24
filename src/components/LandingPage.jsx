@@ -118,14 +118,17 @@ export default function LandingPage() {
 
             <button
               onClick={() => navigate('/login')}
-              style={{ padding: '9px 20px', borderRadius: 10, background: 'transparent', border: '1.5px solid var(--border-default)', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)', cursor: 'pointer', minHeight: 44 }}
+              className="hidden sm:inline-flex items-center justify-center"
+              style={{ padding: '9px 18px', borderRadius: 10, background: 'transparent', border: '1.5px solid var(--border-default)', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-secondary)', cursor: 'pointer', minHeight: 40 }}
             >Staff Login</button>
 
             <button
               onClick={() => navigate('/login')}
-              style={{ padding: '9px 20px', borderRadius: 10, background: 'var(--brand-600)', border: 'none', fontSize: '0.875rem', fontWeight: 600, color: '#fff', cursor: 'pointer', minHeight: 44, display: 'flex', alignItems: 'center', gap: 6 }}
+              className="hidden md:inline-flex items-center gap-1.5 justify-center"
+              style={{ padding: '9px 18px', borderRadius: 10, background: 'var(--brand-600)', border: 'none', fontSize: '0.875rem', fontWeight: 600, color: '#fff', cursor: 'pointer', minHeight: 40 }}
             >
-              Book Appointment <ArrowRight size={15} />
+              <span>Book Appointment</span>
+              <ArrowRight size={15} />
             </button>
 
             {/* Mobile hamburger */}
@@ -143,12 +146,15 @@ export default function LandingPage() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div style={{ background: 'var(--surface-card)', borderTop: '1px solid var(--border-light)', padding: '16px 24px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <div style={{ background: 'var(--surface-card)', borderTop: '1px solid var(--border-light)', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: 6 }}>
             {navLinks.map(l => (
-              <a key={l.label} href={l.href} onClick={() => setMobileMenuOpen(false)} style={{ padding: '12px 16px', borderRadius: 10, fontSize: '0.9375rem', fontWeight: 500, color: 'var(--text-secondary)', textDecoration: 'none' }}>{l.label}</a>
+              <a key={l.label} href={l.href} onClick={() => setMobileMenuOpen(false)} style={{ padding: '10px 14px', borderRadius: 10, fontSize: '0.9375rem', fontWeight: 500, color: 'var(--text-secondary)', textDecoration: 'none' }}>{l.label}</a>
             ))}
-            <div style={{ height: 1, background: 'var(--border-light)', margin: '8px 0' }} />
-            <button onClick={() => navigate('/login')} style={{ padding: '12px 16px', borderRadius: 10, background: 'var(--brand-600)', border: 'none', color: '#fff', fontSize: '0.9375rem', fontWeight: 600, cursor: 'pointer', textAlign: 'center', minHeight: 44 }}>
+            <div style={{ height: 1, background: 'var(--border-light)', margin: '6px 0' }} />
+            <button onClick={() => { setMobileMenuOpen(false); navigate('/login'); }} style={{ padding: '10px 14px', borderRadius: 10, background: 'transparent', border: '1px solid var(--border-default)', color: 'var(--text-primary)', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', textAlign: 'center', minHeight: 42 }}>
+              Staff Login
+            </button>
+            <button onClick={() => { setMobileMenuOpen(false); navigate('/login'); }} style={{ padding: '10px 14px', borderRadius: 10, background: 'var(--brand-600)', border: 'none', color: '#fff', fontSize: '0.875rem', fontWeight: 600, cursor: 'pointer', textAlign: 'center', minHeight: 42 }}>
               Book Appointment
             </button>
           </div>
@@ -203,21 +209,21 @@ export default function LandingPage() {
       </section>
 
       {/* ─── QUICK ACCESS STRIP ────────────────────────────────────────────── */}
-      <section aria-label="Quick access actions" style={{ background: 'var(--brand-600)', padding: '32px 24px' }}>
-        <div style={{ maxWidth: 1000, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 12 }}>
+      <section aria-label="Quick access actions" style={{ background: 'var(--brand-600)', padding: '28px 20px' }}>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 max-w-5xl mx-auto">
           {quickActions.map(a => {
             const Icon = a.icon
             return (
               <button
                 key={a.label}
                 onClick={a.action}
-                style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '16px 20px', borderRadius: 12, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', textAlign: 'left', fontSize: '0.9375rem', fontWeight: 600, backdropFilter: 'blur(8px)', transition: 'all 150ms', minHeight: 56 }}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '14px 16px', borderRadius: 12, background: 'rgba(255,255,255,0.12)', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', cursor: 'pointer', textAlign: 'left', fontSize: '0.875rem', fontWeight: 600, backdropFilter: 'blur(8px)', transition: 'all 150ms', minHeight: 52 }}
                 onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.2)' }}
                 onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)' }}
               >
-                <Icon size={20} />
-                {a.label}
-                <ChevronRight size={16} style={{ marginLeft: 'auto', opacity: 0.7 }} />
+                <Icon size={18} className="shrink-0" />
+                <span className="truncate">{a.label}</span>
+                <ChevronRight size={15} style={{ marginLeft: 'auto', opacity: 0.7 }} className="shrink-0" />
               </button>
             )
           })}
@@ -225,20 +231,20 @@ export default function LandingPage() {
       </section>
 
       {/* ─── ROLE ENTRY CARDS ───────────────────────────────────────────────── */}
-      <section aria-labelledby="role-heading" style={{ padding: '72px 24px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
+      <section aria-labelledby="role-heading" style={{ padding: '64px 20px', maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 36 }}>
           <h2 id="role-heading" style={{ fontSize: 'clamp(1.5rem,3.5vw,2rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>Access Your Portal</h2>
-          <p style={{ color: 'var(--text-muted)', fontSize: '1rem' }}>Select your role to sign in and access your personalised dashboard.</p>
+          <p style={{ color: 'var(--text-muted)', fontSize: '0.9375rem' }}>Select your role to sign in and access your personalised dashboard.</p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20, maxWidth: 900, margin: '0 auto' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {[
             {
               role: 'Patient',
               icon: Heart,
               color: '#0d9488',
-              bg: '#f0fdfa',
-              border: '#99f6e4',
+              bg: 'rgba(13, 148, 136, 0.1)',
+              border: 'rgba(13, 148, 136, 0.25)',
               desc: 'Book appointments, view prescriptions, check lab results, and manage your health records.',
               features: ['Appointment Booking', 'AI Symptom Checker', 'Digital Prescriptions'],
             },
@@ -246,8 +252,8 @@ export default function LandingPage() {
               role: 'Doctor',
               icon: Stethoscope,
               color: 'var(--brand-600)',
-              bg: 'var(--brand-50)',
-              border: 'var(--brand-200)',
+              bg: 'rgba(37, 99, 235, 0.1)',
+              border: 'rgba(37, 99, 235, 0.25)',
               desc: 'Manage your patient queue, issue prescriptions, and conduct video consultations.',
               features: ['Patient Queue', 'E-Prescriptions', 'Teleconsultation'],
             },
@@ -255,8 +261,8 @@ export default function LandingPage() {
               role: 'Admin',
               icon: Shield,
               color: '#7c3aed',
-              bg: '#f5f3ff',
-              border: '#ddd6fe',
+              bg: 'rgba(124, 58, 237, 0.1)',
+              border: 'rgba(124, 58, 237, 0.25)',
               desc: 'Oversee all hospital operations, manage staff, inventory, billing, and analytics.',
               features: ['Hospital Dashboard', 'Staff Management', 'Billing & Reports'],
             },
@@ -265,16 +271,16 @@ export default function LandingPage() {
             return (
               <div
                 key={card.role}
-                style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 20, padding: 28, display: 'flex', flexDirection: 'column', gap: 16, boxShadow: 'var(--shadow-sm)', transition: 'all 200ms' }}
+                style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 20, padding: 24, display: 'flex', flexDirection: 'column', gap: 14, boxShadow: 'var(--shadow-sm)', transition: 'all 200ms' }}
                 onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; e.currentTarget.style.transform = 'translateY(-3px)' }}
                 onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'none' }}
               >
-                <div style={{ width: 52, height: 52, borderRadius: 16, background: card.bg, border: `1px solid ${card.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: card.color }}>
-                  <Icon size={26} />
+                <div style={{ width: 48, height: 48, borderRadius: 14, background: card.bg, border: `1px solid ${card.border}`, display: 'flex', alignItems: 'center', justifyContent: 'center', color: card.color }}>
+                  <Icon size={24} />
                 </div>
                 <div>
                   <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{card.role} Portal</h3>
-                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{card.desc}</p>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{card.desc}</p>
                 </div>
                 <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: 6 }}>
                   {card.features.map(f => (
@@ -286,7 +292,7 @@ export default function LandingPage() {
                 </ul>
                 <button
                   onClick={() => navigate('/login')}
-                  style={{ marginTop: 'auto', padding: '10px 0', borderRadius: 10, background: card.bg, border: `1.5px solid ${card.border}`, color: card.color, fontSize: '0.875rem', fontWeight: 700, cursor: 'pointer', minHeight: 44, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 150ms' }}
+                  style={{ marginTop: 'auto', padding: '10px 0', borderRadius: 10, background: card.bg, border: `1.5px solid ${card.border}`, color: card.color, fontSize: '0.875rem', fontWeight: 700, cursor: 'pointer', minHeight: 42, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, transition: 'all 150ms' }}
                   onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
                   onMouseLeave={e => e.currentTarget.style.opacity = '1'}
                 >
@@ -299,25 +305,25 @@ export default function LandingPage() {
       </section>
 
       {/* ─── SERVICES ──────────────────────────────────────────────────────── */}
-      <section id="services" aria-labelledby="services-heading" style={{ padding: '64px 24px', background: 'var(--neutral-50)' }}>
+      <section id="services" aria-labelledby="services-heading" style={{ padding: '64px 20px', background: 'var(--surface-page)', borderTop: '1px solid var(--border-light)', borderBottom: '1px solid var(--border-light)' }}>
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
+          <div style={{ textAlign: 'center', marginBottom: 40 }}>
             <h2 id="services-heading" style={{ fontSize: 'clamp(1.5rem,3.5vw,2rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>Clinical Services</h2>
             <p style={{ color: 'var(--text-muted)' }}>Comprehensive care across {CLIENT.stats.departments} specialised departments</p>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: 20 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {services.map(s => {
               const Icon = s.icon
               return (
-                <div key={s.title} style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 16, padding: 24, boxShadow: 'var(--shadow-xs)', transition: 'box-shadow 200ms' }}
+                <div key={s.title} style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 16, padding: 22, boxShadow: 'var(--shadow-xs)', transition: 'box-shadow 200ms' }}
                   onMouseEnter={e => e.currentTarget.style.boxShadow = 'var(--shadow-md)'}
                   onMouseLeave={e => e.currentTarget.style.boxShadow = 'var(--shadow-xs)'}
                 >
-                  <div style={{ width: 44, height: 44, borderRadius: 12, background: 'var(--brand-50)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 14 }}>
-                    <Icon size={22} color="var(--brand-600)" />
+                  <div style={{ width: 42, height: 42, borderRadius: 12, background: 'var(--brand-50)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 12 }}>
+                    <Icon size={20} color="var(--brand-600)" />
                   </div>
                   <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>{s.title}</h3>
-                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.6 }}>{s.desc}</p>
+                  <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)', lineHeight: 1.55 }}>{s.desc}</p>
                 </div>
               )
             })}
@@ -326,18 +332,27 @@ export default function LandingPage() {
       </section>
 
       {/* ─── DOCTORS ───────────────────────────────────────────────────────── */}
-      <section id="doctors" aria-labelledby="doctors-heading" style={{ padding: '72px 24px', maxWidth: 1200, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 48 }}>
+      <section id="doctors" aria-labelledby="doctors-heading" style={{ padding: '64px 20px', maxWidth: 1200, margin: '0 auto' }}>
+        <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <h2 id="doctors-heading" style={{ fontSize: 'clamp(1.5rem,3.5vw,2rem)', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 8 }}>Our Specialists</h2>
           <p style={{ color: 'var(--text-muted)' }}>Verified, experienced doctors ready for in-person or teleconsultation</p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 20, marginBottom: 32 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
           {doctors.map(d => (
-            <div key={d.name} style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 16, padding: 24, textAlign: 'center', boxShadow: 'var(--shadow-sm)', transition: 'all 200ms' }}
+            <div key={d.name} style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 16, padding: 22, textAlign: 'center', boxShadow: 'var(--shadow-sm)', transition: 'all 200ms' }}
               onMouseEnter={e => { e.currentTarget.style.boxShadow = 'var(--shadow-lg)'; e.currentTarget.style.transform = 'translateY(-2px)' }}
               onMouseLeave={e => { e.currentTarget.style.boxShadow = 'var(--shadow-sm)'; e.currentTarget.style.transform = 'none' }}
             >
-              <img src={d.avatar} alt={`${d.name} profile photo`} style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover', border: '3px solid var(--brand-100)', marginBottom: 14 }} loading="lazy" />
+              <div style={{ width: 72, height: 72, borderRadius: '50%', margin: '0 auto 12px', position: 'relative', overflow: 'hidden', border: '3px solid var(--border-light)', background: 'linear-gradient(135deg, var(--brand-600), #4f46e5)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffffff', fontWeight: 800, fontSize: '1.25rem' }}>
+                <img 
+                  src={d.avatar} 
+                  alt={`${d.name} profile photo`} 
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', position: 'absolute', inset: 0 }} 
+                  onError={(e) => { e.currentTarget.style.display = 'none' }}
+                  loading="lazy" 
+                />
+                <span>{d.name.replace('Dr. ', '').split(' ').map(p => p[0]).join('')}</span>
+              </div>
               <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9375rem', marginBottom: 2 }}>{d.name}</div>
               <div style={{ fontSize: '0.8125rem', color: 'var(--brand-600)', fontWeight: 600, marginBottom: 8 }}>{d.spec}</div>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, fontSize: '0.75rem', color: 'var(--text-muted)' }}>
@@ -348,7 +363,7 @@ export default function LandingPage() {
                 <span>·</span>
                 <span><Clock size={12} style={{ display: 'inline', verticalAlign: 'middle' }} /> {d.exp}</span>
               </div>
-              <button onClick={() => navigate('/login')} style={{ marginTop: 16, width: '100%', padding: '9px 0', borderRadius: 10, background: 'var(--brand-50)', border: '1px solid var(--brand-200)', color: 'var(--brand-700)', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', minHeight: 40 }}>
+              <button onClick={() => navigate('/login')} style={{ marginTop: 14, width: '100%', padding: '8px 0', borderRadius: 10, background: 'var(--brand-50)', border: '1px solid var(--brand-200)', color: 'var(--brand-700)', fontSize: '0.8125rem', fontWeight: 600, cursor: 'pointer', minHeight: 38 }}>
                 Book Now
               </button>
             </div>
@@ -362,45 +377,45 @@ export default function LandingPage() {
       </section>
 
       {/* ─── CONTACT & EMERGENCY ────────────────────────────────────────────── */}
-      <section id="contact" aria-labelledby="contact-heading" style={{ padding: '64px 24px', background: 'var(--neutral-50)' }}>
-        <div style={{ maxWidth: 1200, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
+      <section id="contact" aria-labelledby="contact-heading" style={{ padding: '64px 20px', background: 'var(--surface-page)', borderTop: '1px solid var(--border-light)' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {/* Emergency box */}
-          <div style={{ background: '#fef2f2', border: '1px solid #fecaca', borderRadius: 18, padding: 28 }}>
+          <div style={{ background: 'var(--surface-card)', border: '1px solid #fecaca', borderRadius: 18, padding: 26, boxShadow: 'var(--shadow-sm)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
-              <div style={{ width: 40, height: 40, borderRadius: 12, background: '#dc2626', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <div style={{ width: 40, height: 40, borderRadius: 12, background: '#ef4444', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <Phone size={18} color="#fff" />
               </div>
-              <h3 id="contact-heading" style={{ fontWeight: 700, fontSize: '1rem', color: '#7f1d1d' }}>Emergency Helpline</h3>
+              <h3 id="contact-heading" style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)' }}>Emergency Helpline</h3>
             </div>
-            <p style={{ fontSize: '1.625rem', fontWeight: 800, color: '#dc2626', letterSpacing: '-0.02em', marginBottom: 6 }}>{CLIENT.emergency}</p>
-            <p style={{ fontSize: '0.8125rem', color: '#991b1b' }}>{CLIENT.emergencyHours}</p>
+            <p style={{ fontSize: '1.5rem', fontWeight: 800, color: '#ef4444', letterSpacing: '-0.02em', marginBottom: 6 }}>{CLIENT.emergency}</p>
+            <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>{CLIENT.emergencyHours}</p>
           </div>
 
           {/* Contact info */}
-          <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 18, padding: 28 }}>
-            <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: 16 }}>Contact Us</h3>
+          <div style={{ background: 'var(--surface-card)', border: '1px solid var(--border-light)', borderRadius: 18, padding: 26, boxShadow: 'var(--shadow-sm)' }}>
+            <h3 style={{ fontWeight: 700, fontSize: '1rem', color: 'var(--text-primary)', marginBottom: 14 }}>Contact Us</h3>
             {[
               { label: 'Address', value: CLIENT.address },
               { label: 'Phone',   value: CLIENT.phone },
               { label: 'Email',   value: CLIENT.email },
               { label: 'OPD Hours', value: CLIENT.opdHours },
             ].map(row => (
-              <div key={row.label} style={{ display: 'flex', gap: 8, marginBottom: 10 }}>
+              <div key={row.label} style={{ display: 'flex', gap: 8, marginBottom: 8 }}>
                 <span style={{ fontSize: '0.75rem', fontWeight: 600, color: 'var(--text-muted)', minWidth: 72, paddingTop: 1 }}>{row.label}</span>
-                <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', lineHeight: 1.5 }}>{row.value}</span>
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>{row.value}</span>
               </div>
             ))}
           </div>
 
           {/* OPD card */}
-          <div style={{ background: 'var(--brand-600)', borderRadius: 18, padding: 28, color: '#fff' }}>
+          <div style={{ background: 'var(--brand-600)', borderRadius: 18, padding: 26, color: '#fff', boxShadow: 'var(--shadow-md)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
               <Clock size={20} />
               <h3 style={{ fontWeight: 700, fontSize: '1rem' }}>OPD Timings</h3>
             </div>
-            <p style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: 6 }}>Mon – Sat</p>
-            <p style={{ fontSize: '0.9375rem', opacity: 0.9 }}>8:00 AM – 8:00 PM</p>
-            <div style={{ marginTop: 20, padding: '12px 16px', borderRadius: 10, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)' }}>
+            <p style={{ fontSize: '1.25rem', fontWeight: 800, marginBottom: 4 }}>Mon – Sat</p>
+            <p style={{ fontSize: '0.875rem', opacity: 0.9 }}>8:00 AM – 8:00 PM</p>
+            <div style={{ marginTop: 16, padding: '12px 14px', borderRadius: 10, background: 'rgba(255,255,255,0.15)', border: '1px solid rgba(255,255,255,0.2)' }}>
               <p style={{ fontSize: '0.8125rem', opacity: 0.9 }}>Emergency services available 24/7 all year round.</p>
             </div>
           </div>

@@ -18,23 +18,26 @@ export default function Topbar({ adminName = 'Super Admin', isFirebaseConnected 
   const initials = adminName.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase()
 
   return (
-    <header style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 30, padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+    <header 
+      style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)' }}
+      className="px-3 sm:px-6 h-16 sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4"
+    >
       {/* Left */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <button
           onClick={onToggleMobileSidebar}
           aria-label="Toggle navigation"
           className="lg:hidden flex items-center justify-center shrink-0 cursor-pointer"
-          style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', color: 'var(--text-muted)' }}
+          style={{ width: 38, height: 38, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', color: 'var(--text-muted)' }}
         >
           <Menu size={18} />
         </button>
-        <div>
-          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: 8 }}>
-            Hospital Command Center
-            <span style={{ padding: '2px 10px', borderRadius: 999, background: 'var(--brand-50)', color: 'var(--brand-700)', fontSize: '0.6875rem', fontWeight: 700, border: '1px solid var(--brand-200)' }}>Admin</span>
+        <div className="min-w-0">
+          <h1 className="text-sm sm:text-base font-bold flex items-center gap-2" style={{ color: 'var(--text-primary)', margin: 0 }}>
+            <span className="truncate max-w-[140px] sm:max-w-none">Hospital Command Center</span>
+            <span className="hidden sm:inline-block shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold border" style={{ background: 'var(--brand-50)', color: 'var(--brand-700)', borderColor: 'var(--brand-200)' }}>Admin</span>
           </h1>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0, display: 'flex', alignItems: 'center', gap: 6 }}>
+          <p className="text-xs hidden xs:flex items-center gap-1.5" style={{ color: 'var(--text-muted)', margin: 0 }}>
             {isFirebaseConnected
               ? <span style={{ color: '#16a34a', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600 }}><Cloud size={11} /> Firestore Live</span>
               : <span style={{ color: '#d97706', display: 'flex', alignItems: 'center', gap: 4, fontWeight: 600 }}><CloudOff size={11} /> Offline Mode</span>

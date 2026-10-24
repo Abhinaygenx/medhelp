@@ -18,21 +18,26 @@ export default function DoctorHeader({ doctorName = 'Dr. Robert Ford', doctorDep
   const dateStr = new Date().toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })
 
   return (
-    <header style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)', position: 'sticky', top: 0, zIndex: 30, padding: '0 24px', height: 64, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16 }}>
+    <header 
+      style={{ background: 'var(--header-bg)', borderBottom: '1px solid var(--header-border)', backdropFilter: 'blur(12px)' }}
+      className="px-3 sm:px-6 h-16 sticky top-0 z-30 flex items-center justify-between gap-2 sm:gap-4"
+    >
       {/* Left */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+      <div className="flex items-center gap-2 sm:gap-3 min-w-0">
         <button
           onClick={onToggleMobileSidebar}
           aria-label="Toggle navigation"
           className="lg:hidden flex items-center justify-center shrink-0 cursor-pointer"
-          style={{ width: 40, height: 40, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', color: 'var(--text-muted)' }}
+          style={{ width: 38, height: 38, borderRadius: 10, border: '1px solid var(--border-light)', background: 'var(--surface-page)', color: 'var(--text-muted)' }}
         >
           <Menu size={18} />
         </button>
-        <div>
-          <h1 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)', margin: 0 }}>Welcome back, {doctorName}</h1>
-          <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', margin: 0, display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Calendar size={11} /> {dateStr} · {doctorDept}
+        <div className="min-w-0">
+          <h1 className="text-sm sm:text-base font-bold truncate max-w-[150px] sm:max-w-xs md:max-w-none" style={{ color: 'var(--text-primary)', margin: 0 }}>
+            Welcome, {doctorName}
+          </h1>
+          <p className="text-xs truncate max-w-[150px] sm:max-w-xs md:max-w-none hidden xs:flex items-center gap-1" style={{ color: 'var(--text-muted)', margin: 0 }}>
+            <Calendar size={11} className="shrink-0" /> <span>{dateStr} · {doctorDept}</span>
           </p>
         </div>
       </div>

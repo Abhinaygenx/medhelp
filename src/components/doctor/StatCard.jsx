@@ -12,24 +12,20 @@ export default function StatCard({
 }) {
   const colorMap = {
     blue: {
-      text: 'text-[#3b82f6]',
-      iconBg: 'bg-[#2563ff]/20 text-[#3b82f6] border border-[#2563ff]/30 shadow-[#2563ff]/10',
-      badge: 'bg-[#2563ff]/15 text-[#3b82f6] border border-[#2563ff]/25'
+      iconBg: 'bg-blue-50 text-blue-600 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800',
+      badge: 'bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800'
     },
     emerald: {
-      text: 'text-[#10b981]',
-      iconBg: 'bg-[#10b981]/20 text-[#10b981] border border-[#10b981]/30 shadow-[#10b981]/10',
-      badge: 'bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/25'
+      iconBg: 'bg-emerald-50 text-emerald-600 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800',
+      badge: 'bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800'
     },
     amber: {
-      text: 'text-[#f59e0b]',
-      iconBg: 'bg-[#f59e0b]/20 text-[#f59e0b] border border-[#f59e0b]/30 shadow-[#f59e0b]/10',
-      badge: 'bg-[#f59e0b]/15 text-[#f59e0b] border border-[#f59e0b]/25'
+      iconBg: 'bg-amber-50 text-amber-600 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800',
+      badge: 'bg-amber-50 text-amber-700 border border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800'
     },
     red: {
-      text: 'text-[#ef4444]',
-      iconBg: 'bg-[#ef4444]/20 text-[#ef4444] border border-[#ef4444]/30 shadow-[#ef4444]/10',
-      badge: 'bg-[#ef4444]/15 text-[#ef4444] border border-[#ef4444]/25'
+      iconBg: 'bg-rose-50 text-rose-600 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800',
+      badge: 'bg-rose-50 text-rose-700 border border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800'
     }
   }
 
@@ -38,7 +34,7 @@ export default function StatCard({
   return (
     <GlassCard className="p-6 space-y-3" hoverGlow={true}>
       <div className="flex items-center justify-between">
-        <span className="text-xs font-bold text-[#94a3b8] uppercase tracking-wider">{title}</span>
+        <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>{title}</span>
         {Icon && (
           <div className={`p-3 rounded-2xl ${theme.iconBg} shadow-sm`}>
             <Icon className="w-5 h-5" />
@@ -47,12 +43,12 @@ export default function StatCard({
       </div>
 
       <div className="flex items-baseline justify-between">
-        <p className="text-3xl font-extrabold text-[#f8fafc] font-['Space_Grotesk'] tracking-tight">
+        <p className="text-3xl font-extrabold tracking-tight" style={{ color: 'var(--text-primary)' }}>
           {value}
         </p>
 
         {trend && (
-          <span className={`px-3 py-1 rounded-full text-[11px] font-extrabold flex items-center gap-1 ${theme.badge}`}>
+          <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold flex items-center gap-1 ${theme.badge}`}>
             <TrendingUp className="w-3.5 h-3.5" />
             {trend}
           </span>
@@ -60,7 +56,7 @@ export default function StatCard({
       </div>
 
       {subtitle && (
-        <p className="text-[11px] text-[#94a3b8] font-medium">{subtitle}</p>
+        <p className="text-[11px] font-medium" style={{ color: 'var(--text-muted)' }}>{subtitle}</p>
       )}
     </GlassCard>
   )

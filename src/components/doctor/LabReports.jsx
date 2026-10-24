@@ -69,19 +69,19 @@ export default function LabReports({ labReports: propLabReports = [] }) {
   const filtered = reports.filter(r => r.status === activeTab)
 
   return (
-    <div className="bg-[#0D1B2A]/70 backdrop-blur-md rounded-2xl border border-slate-800/80 shadow-lg p-6 space-y-6 animate-in fade-in duration-200 text-slate-100">
+    <div className="bg-[var(--surface-card)] rounded-2xl border border-[var(--border-light)] shadow-sm p-4 sm:p-6 space-y-6 animate-in fade-in duration-200 text-[var(--text-primary)]">
       
       {/* Header */}
-      <div className="border-b border-slate-800/80 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="border-b border-[var(--border-light)] pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-extrabold text-white font-['Space_Grotesk'] flex items-center gap-2">
-            <TestTube className="w-5 h-5 text-blue-400" /> Pathology & Diagnostic Lab Reports
+          <h2 className="text-xl font-extrabold text-[var(--text-primary)] font-['Space_Grotesk'] flex items-center gap-2">
+            <TestTube className="w-5 h-5 text-blue-500" /> Pathology & Diagnostic Lab Reports
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">Review incoming laboratory investigation reports and upload new clinical test orders.</p>
+          <p className="text-xs text-[var(--text-muted)] mt-0.5">Review incoming laboratory investigation reports and upload new clinical test orders.</p>
         </div>
 
         {/* Upload Button */}
-        <label className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 transition-all shadow-lg shadow-blue-500/25 cursor-pointer">
+        <label className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl text-xs flex items-center justify-center space-x-1.5 transition-all shadow-sm cursor-pointer">
           <Upload className="w-4 h-4" />
           <span>{isUploading ? 'Uploading File...' : 'Upload Lab File (.pdf, .png)'}</span>
           <input
@@ -95,12 +95,12 @@ export default function LabReports({ labReports: propLabReports = [] }) {
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex border-b border-slate-800 space-x-4">
+      <div className="flex border-b border-[var(--border-light)] space-x-4">
         <button
           type="button"
           onClick={() => setActiveTab('pending')}
           className={`pb-2 text-xs font-bold transition-all border-b-2 ${
-            activeTab === 'pending' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-500 hover:text-slate-300'
+            activeTab === 'pending' ? 'border-blue-600 text-blue-600 dark:text-blue-400' : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
           }`}
         >
           Pending Review ({reports.filter(r => r.status === 'pending').length})
@@ -109,7 +109,7 @@ export default function LabReports({ labReports: propLabReports = [] }) {
           type="button"
           onClick={() => setActiveTab('completed')}
           className={`pb-2 text-xs font-bold transition-all border-b-2 ${
-            activeTab === 'completed' ? 'border-blue-500 text-blue-400' : 'border-transparent text-slate-500 hover:text-slate-300'
+            activeTab === 'completed' ? 'border-blue-600 text-blue-600 dark:text-blue-400' : 'border-transparent text-[var(--text-muted)] hover:text-[var(--text-primary)]'
           }`}
         >
           Completed Archive ({reports.filter(r => r.status === 'completed').length})
@@ -119,27 +119,27 @@ export default function LabReports({ labReports: propLabReports = [] }) {
       {/* Reports List Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
         {filtered.length === 0 ? (
-          <p className="text-slate-500 text-xs italic col-span-2 py-4">No lab reports found in this category.</p>
+          <p className="text-[var(--text-muted)] text-xs italic col-span-2 py-4">No lab reports found in this category.</p>
         ) : (
           filtered.map(r => (
-            <div key={r.id} className="p-5 rounded-2xl border border-slate-800/80 bg-slate-900/60 hover:bg-slate-900 transition-all space-y-3 flex flex-col justify-between shadow-md">
+            <div key={r.id} className="p-4 sm:p-5 rounded-2xl border border-[var(--border-light)] bg-[var(--surface-page)] hover:shadow-md transition-all space-y-3 flex flex-col justify-between">
               <div className="space-y-2">
-                <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                  <span className="font-bold text-white">{r.patientName}</span>
+                <div className="flex items-center justify-between border-b border-[var(--border-light)] pb-2">
+                  <span className="font-bold text-[var(--text-primary)]">{r.patientName}</span>
                   <span className={`px-2 py-0.5 rounded-full font-bold text-[10px] uppercase ${
-                    r.status === 'pending' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                    r.status === 'pending' ? 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/25' : 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25'
                   }`}>
                     {r.status}
                   </span>
                 </div>
-                <p className="font-extrabold text-blue-400">{r.testName}</p>
-                <p className="text-slate-400">File Attachment: <strong className="text-white font-mono">{r.fileName}</strong></p>
-                <p className="text-slate-400">Report Date: <strong className="text-slate-200">{r.date}</strong></p>
-                {r.reviewedAt && <p className="text-emerald-400 font-medium">Reviewed At: {r.reviewedAt}</p>}
+                <p className="font-extrabold text-blue-600 dark:text-blue-400">{r.testName}</p>
+                <p className="text-[var(--text-muted)]">File Attachment: <strong className="text-[var(--text-primary)] font-mono">{r.fileName}</strong></p>
+                <p className="text-[var(--text-muted)]">Report Date: <strong className="text-[var(--text-primary)]">{r.date}</strong></p>
+                {r.reviewedAt && <p className="text-emerald-600 dark:text-emerald-400 font-medium">Reviewed At: {r.reviewedAt}</p>}
               </div>
 
               <div className="pt-2 flex items-center justify-between">
-                <span className="text-[11px] font-semibold text-slate-500">ID: {r.id}</span>
+                <span className="text-[11px] font-semibold text-[var(--text-muted)]">ID: {r.id}</span>
                 
                 <div className="flex items-center space-x-2">
                   {r.status === 'pending' && (
@@ -147,7 +147,7 @@ export default function LabReports({ labReports: propLabReports = [] }) {
                       type="button"
                       disabled={loadingId === r.id}
                       onClick={() => handleMarkReviewed(r.id)}
-                      className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center space-x-1 shadow-sm disabled:opacity-50"
+                      className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold flex items-center space-x-1 shadow-sm disabled:opacity-50"
                     >
                       <CheckCircle2 className="w-3.5 h-3.5" />
                       <span>{loadingId === r.id ? 'Reviewing...' : 'Mark Reviewed'}</span>
@@ -155,8 +155,8 @@ export default function LabReports({ labReports: propLabReports = [] }) {
                   )}
 
                   {r.status === 'completed' && (
-                    <span className="text-emerald-400 font-bold text-[11px] flex items-center gap-1">
-                      <CheckCircle2 className="w-4 h-4" /> Reviewed
+                    <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[11px] flex items-center gap-1">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-500" /> Reviewed
                     </span>
                   )}
                 </div>

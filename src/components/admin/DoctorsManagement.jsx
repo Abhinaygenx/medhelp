@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Stethoscope, Search, UserCheck, UserX, Plus, Edit, Trash2, ShieldCheck, Mail, Phone, Clock } from 'lucide-react'
+import { Stethoscope, Search, Plus, Trash2 } from 'lucide-react'
 import AdminNeonCard from '../common/AdminNeonCard'
+import { Badge } from '../common/Badge'
 import toast from 'react-hot-toast'
 
 export default function DoctorsManagement({ doctors = [], onToggleVerification, onAddDoctor, onDeleteDoctor }) {
@@ -52,82 +53,108 @@ export default function DoctorsManagement({ doctors = [], onToggleVerification, 
   }
 
   return (
-    <AdminNeonCard className="p-6 space-y-6 text-[#F9FAFB]">
+    <AdminNeonCard className="p-6 space-y-6" style={{ color: 'var(--text-primary)' }}>
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#374151] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4"
+        style={{ borderColor: 'var(--border-light)' }}
+      >
         <div>
-          <h2 className="text-xl font-extrabold text-[#F9FAFB] font-['Space_Grotesk'] flex items-center gap-2">
-            <Stethoscope className="w-5 h-5 text-[#E5FF00]" /> Doctor Credential & Staff Management
+          <h2 className="text-xl font-extrabold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <Stethoscope className="w-5 h-5 text-[var(--brand-600)]" /> Doctor Credential & Staff Management
           </h2>
-          <p className="text-xs text-[#9CA3AF]">Manage practitioner onboarding, verification statuses, and department schedules.</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Manage practitioner onboarding, verification statuses, and department schedules.
+          </p>
         </div>
 
         <button
           type="button"
           onClick={() => setShowAddModal(true)}
-          style={{
-            background: '#E5FF00',
-            color: '#0B0F19',
-            boxShadow: '0 0 15px rgba(229, 255, 0, 0.45)'
-          }}
-          className="font-extrabold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 hover:scale-105 transition-all"
+          className="font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm text-white hover:opacity-95"
+          style={{ background: 'var(--brand-600)' }}
         >
-          <Plus className="w-4 h-4 text-[#0B0F19]" />
+          <Plus className="w-4 h-4 text-white" />
           <span>Add New Doctor</span>
         </button>
       </div>
 
       {/* Search Filter Bar */}
       <div className="relative w-full sm:w-80">
-        <Search className="w-4 h-4 absolute left-3.5 top-3 text-[#9CA3AF]" />
+        <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search doctors by name or specialization..."
-          className="w-full bg-[#0B0F19] border border-[#374151] rounded-2xl pl-10 pr-4 py-2 text-xs text-[#F9FAFB] focus:outline-none focus:border-[#E5FF00]"
+          className="w-full rounded-xl pl-10 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+          style={{
+            background: 'var(--surface-page)',
+            border: '1px solid var(--border-light)',
+            color: 'var(--text-primary)'
+          }}
         />
       </div>
 
       {/* Doctors Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredDoctors.map(doc => (
-          <div key={doc.id} className="p-5 rounded-2xl bg-[#111827] border border-[#374151] space-y-4 hover:border-[#E5FF00]/40 transition-all">
+          <div 
+            key={doc.id} 
+            className="p-5 rounded-2xl space-y-4 transition-all"
+            style={{
+              background: 'var(--surface-page)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
             <div className="flex items-start justify-between">
               <div className="flex items-center space-x-3">
-                <img src={doc.avatar} alt={doc.name} className="w-12 h-12 rounded-2xl object-cover border border-[#374151]" />
+                <img 
+                  src={doc.avatar} 
+                  alt={doc.name} 
+                  className="w-12 h-12 rounded-xl object-cover" 
+                  style={{ border: '1px solid var(--border-light)' }}
+                />
                 <div>
-                  <h4 className="font-bold text-sm text-[#F9FAFB]">{doc.name}</h4>
-                  <p className="text-xs font-semibold text-[#E5FF00]">{doc.specialization}</p>
-                  <p className="text-[10px] text-[#9CA3AF]">{doc.qualification}</p>
+                  <h4 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{doc.name}</h4>
+                  <p className="text-xs font-semibold text-[var(--brand-600)]">{doc.specialization}</p>
+                  <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{doc.qualification}</p>
                 </div>
               </div>
 
-              {doc.isVerified ? (
-                <span className="px-2.5 py-0.5 rounded-full bg-[#22C55E]/15 text-[#22C55E] border border-[#22C55E]/30 text-[10px] font-bold">
-                  Verified MD
-                </span>
-              ) : (
-                <span className="px-2.5 py-0.5 rounded-full bg-[#F59E0B]/15 text-[#F59E0B] border border-[#F59E0B]/30 text-[10px] font-bold">
-                  Pending
-                </span>
-              )}
+              <Badge variant={doc.isVerified ? 'success' : 'warning'} size="sm">
+                {doc.isVerified ? 'Verified MD' : 'Pending'}
+              </Badge>
             </div>
 
-            <div className="p-3 rounded-xl bg-[#0B0F19] border border-[#374151] text-xs space-y-1">
-              <p className="flex justify-between text-[#9CA3AF]"><span>Hospital:</span> <strong className="text-[#F9FAFB]">{doc.hospital}</strong></p>
-              <p className="flex justify-between text-[#9CA3AF]"><span>Experience:</span> <strong className="text-[#F9FAFB]">{doc.experienceYears} Years</strong></p>
-              <p className="flex justify-between text-[#9CA3AF]"><span>Consult Fee:</span> <strong className="text-[#E5FF00]">${doc.consultationFee}</strong></p>
+            <div 
+              className="p-3 rounded-xl text-xs space-y-1.5"
+              style={{
+                background: 'var(--surface-card)',
+                border: '1px solid var(--border-light)'
+              }}
+            >
+              <p className="flex justify-between" style={{ color: 'var(--text-muted)' }}>
+                <span>Hospital:</span> <strong style={{ color: 'var(--text-primary)' }}>{doc.hospital}</strong>
+              </p>
+              <p className="flex justify-between" style={{ color: 'var(--text-muted)' }}>
+                <span>Experience:</span> <strong style={{ color: 'var(--text-primary)' }}>{doc.experienceYears} Years</strong>
+              </p>
+              <p className="flex justify-between" style={{ color: 'var(--text-muted)' }}>
+                <span>Consult Fee:</span> <strong className="text-[var(--brand-600)] font-bold">${doc.consultationFee}</strong>
+              </p>
             </div>
 
             <div className="flex items-center justify-between pt-1">
               <button
                 type="button"
                 onClick={() => onToggleVerification && onToggleVerification(doc.id)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
-                  doc.isVerified ? 'bg-[#374151] text-[#9CA3AF]' : 'bg-[#E5FF00] text-[#0B0F19]'
-                }`}
+                className="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer"
+                style={{
+                  background: doc.isVerified ? 'var(--surface-card)' : 'var(--brand-600)',
+                  color: doc.isVerified ? 'var(--text-secondary)' : '#ffffff',
+                  border: '1px solid var(--border-light)'
+                }}
               >
                 {doc.isVerified ? 'Revoke Status' : 'Approve Doctor'}
               </button>
@@ -135,7 +162,8 @@ export default function DoctorsManagement({ doctors = [], onToggleVerification, 
               <button
                 type="button"
                 onClick={() => handleDeleteDoctor(doc.id, doc.name)}
-                className="p-2 rounded-xl bg-[#EF4444]/15 text-[#EF4444] hover:bg-[#EF4444]/30 border border-[#EF4444]/30"
+                className="p-2 rounded-xl text-red-600 bg-red-50 hover:bg-red-100 dark:bg-red-950/30 dark:hover:bg-red-950/50 border border-red-200 dark:border-red-800/40 cursor-pointer transition-all"
+                aria-label={`Delete doctor ${doc.name}`}
               >
                 <Trash2 className="w-4 h-4" />
               </button>
@@ -146,31 +174,50 @@ export default function DoctorsManagement({ doctors = [], onToggleVerification, 
 
       {/* ADD DOCTOR MODAL */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-[#0B0F19]/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 max-w-md w-full space-y-4 text-xs">
-            <h3 className="font-extrabold text-base text-[#F9FAFB] font-['Space_Grotesk'] border-b border-[#374151] pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div 
+            className="rounded-2xl p-6 max-w-md w-full space-y-4 text-xs shadow-xl"
+            style={{
+              background: 'var(--surface-card)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
+            <h3 
+              className="font-extrabold text-base border-b pb-3"
+              style={{ color: 'var(--text-primary)', borderColor: 'var(--border-light)' }}
+            >
               Register New Hospital Doctor
             </h3>
             
             <form onSubmit={handleAddDoctorSubmit} className="space-y-3">
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Doctor Full Name</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Doctor Full Name</label>
                 <input
                   type="text"
                   value={newDoc.name}
                   onChange={(e) => setNewDoc({...newDoc, name: e.target.value})}
                   placeholder="e.g. Dr. Alexander Vance"
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#E5FF00]"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Specialization</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Specialization</label>
                 <select
                   value={newDoc.specialization}
                   onChange={(e) => setNewDoc({...newDoc, specialization: e.target.value})}
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#E5FF00]"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                 >
                   <option value="Cardiology">Cardiology</option>
                   <option value="Neurology">Neurology</option>
@@ -182,33 +229,52 @@ export default function DoctorsManagement({ doctors = [], onToggleVerification, 
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="font-bold text-[#9CA3AF] block mb-1">Experience (Yrs)</label>
+                  <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Experience (Yrs)</label>
                   <input
                     type="number"
                     value={newDoc.experienceYears}
                     onChange={(e) => setNewDoc({...newDoc, experienceYears: e.target.value})}
-                    className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                    className="w-full rounded-xl px-3 py-2"
+                    style={{
+                      background: 'var(--surface-page)',
+                      border: '1px solid var(--border-light)',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-[#9CA3AF] block mb-1">Consult Fee ($)</label>
+                  <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Consult Fee ($)</label>
                   <input
                     type="number"
                     value={newDoc.consultationFee}
                     onChange={(e) => setNewDoc({...newDoc, consultationFee: e.target.value})}
-                    className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                    className="w-full rounded-xl px-3 py-2"
+                    style={{
+                      background: 'var(--surface-page)',
+                      border: '1px solid var(--border-light)',
+                      color: 'var(--text-primary)'
+                    }}
                   />
                 </div>
               </div>
 
               <div className="pt-2 flex justify-end space-x-2">
-                <button type="button" onClick={() => setShowAddModal(false)} className="px-4 py-2 rounded-xl bg-[#111827] text-[#9CA3AF] font-bold">
+                <button 
+                  type="button" 
+                  onClick={() => setShowAddModal(false)} 
+                  className="px-4 py-2 rounded-xl font-bold border cursor-pointer hover:bg-[var(--neutral-100)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    color: 'var(--text-muted)',
+                    borderColor: 'var(--border-light)'
+                  }}
+                >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  style={{ background: '#E5FF00', color: '#0B0F19' }}
-                  className="font-extrabold px-4 py-2 rounded-xl"
+                  className="font-bold px-4 py-2 rounded-xl text-white shadow-sm cursor-pointer hover:opacity-95"
+                  style={{ background: 'var(--brand-600)' }}
                 >
                   Save & Verify Doctor
                 </button>
@@ -221,3 +287,4 @@ export default function DoctorsManagement({ doctors = [], onToggleVerification, 
     </AdminNeonCard>
   )
 }
+

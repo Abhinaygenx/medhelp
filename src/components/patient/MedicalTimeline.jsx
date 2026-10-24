@@ -129,7 +129,7 @@ export default function MedicalTimeline({
       </div>
 
       {/* Timeline Stream */}
-      <div className="relative pl-6 sm:pl-8 space-y-6 before:absolute before:left-3 before:top-3 before:bottom-3 before:w-0.5 before:bg-[var(--border-light)]">
+      <div className="relative pl-8 sm:pl-10 space-y-6 before:absolute before:left-4 before:top-3 before:bottom-3 before:w-0.5 before:bg-[var(--border-light)]">
         {filteredEvents.length === 0 ? (
           <div className="p-8 text-center rounded-2xl" style={{ background: 'var(--surface-card)', border: '1px dashed var(--border-default)', color: 'var(--text-muted)' }}>
             No medical history events found for this filter.
@@ -139,9 +139,9 @@ export default function MedicalTimeline({
             const Icon = evt.icon
             return (
               <div key={evt.id} className="relative group">
-                {/* Timeline node icon */}
+                {/* Timeline node icon - perfectly centered on before:left-4 */}
                 <div 
-                  className="absolute -left-[31px] sm:-left-[39px] top-4 w-7 h-7 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 shadow-sm"
+                  className="absolute -left-[32px] sm:-left-[40px] top-4 w-8 h-8 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 shadow-sm"
                   style={{
                     background: evt.color,
                     color: '#ffffff',

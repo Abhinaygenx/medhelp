@@ -79,21 +79,21 @@ export default function ScheduleManager() {
   }
 
   return (
-    <div className="bg-[#0D1B2A]/70 backdrop-blur-md rounded-2xl border border-slate-800/80 shadow-lg p-6 space-y-6 animate-in fade-in duration-200 text-slate-100">
+    <div className="bg-[var(--surface-card)] rounded-2xl border border-[var(--border-light)] shadow-sm p-4 sm:p-6 space-y-6 animate-in fade-in duration-200 text-[var(--text-primary)]">
       
       {/* Header */}
-      <div className="border-b border-slate-800/80 pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="border-b border-[var(--border-light)] pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-extrabold text-white font-['Space_Grotesk'] flex items-center gap-2">
-            <Clock className="w-5 h-5 text-blue-400" /> Weekly Consultation Schedule Manager
+          <h2 className="text-xl font-extrabold text-[var(--text-primary)] font-['Space_Grotesk'] flex items-center gap-2">
+            <Clock className="w-5 h-5 text-blue-500" /> Weekly Consultation Schedule Manager
           </h2>
-          <p className="text-xs text-slate-400 mt-0.5">Configure your OPD consultation slots, manage weekly hours, or toggle online availability.</p>
+          <p className="text-xs text-[var(--text-muted)] mt-0.5">Configure your OPD consultation slots, manage weekly hours, or toggle online availability.</p>
         </div>
 
         <div className="flex items-center space-x-3 text-xs">
           {/* Availability Toggle */}
-          <div className="flex items-center space-x-2 bg-slate-900 p-1.5 rounded-xl border border-slate-800">
-            <span className="font-bold text-slate-300">Status:</span>
+          <div className="flex items-center space-x-2 bg-[var(--surface-page)] p-1.5 rounded-xl border border-[var(--border-light)]">
+            <span className="font-bold text-[var(--text-muted)]">Status:</span>
             <button
               type="button"
               onClick={handleToggleAvailability}
@@ -110,26 +110,26 @@ export default function ScheduleManager() {
       {/* Monday-Sunday Cards Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 text-xs">
         {schedule.map(d => (
-          <div key={d.day} className="p-4 rounded-2xl border border-slate-800/80 bg-slate-900/60 hover:bg-slate-900 transition-all space-y-3 flex flex-col justify-between shadow-md">
+          <div key={d.day} className="p-4 rounded-2xl border border-[var(--border-light)] bg-[var(--surface-page)] hover:shadow-md transition-all space-y-3 flex flex-col justify-between">
             <div className="space-y-2">
-              <div className="flex items-center justify-between border-b border-slate-800 pb-2">
-                <h3 className="font-extrabold text-white text-sm">{d.day}</h3>
-                <span className="text-[10px] font-bold text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
+              <div className="flex items-center justify-between border-b border-[var(--border-light)] pb-2">
+                <h3 className="font-extrabold text-[var(--text-primary)] text-sm">{d.day}</h3>
+                <span className="text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full">
                   {d.slots.length} Active Slots
                 </span>
               </div>
 
               {d.slots.length === 0 ? (
-                <p className="text-slate-500 italic text-[11px] py-4 text-center">No slots scheduled (Off Day)</p>
+                <p className="text-[var(--text-muted)] italic text-[11px] py-4 text-center">No slots scheduled (Off Day)</p>
               ) : (
                 <div className="space-y-1.5">
                   {d.slots.map(s => (
-                    <div key={s} className="p-2 rounded-xl bg-slate-950 border border-slate-800 flex items-center justify-between font-semibold text-slate-200">
+                    <div key={s} className="p-2 rounded-xl bg-[var(--surface-card)] border border-[var(--border-light)] flex items-center justify-between font-semibold text-[var(--text-primary)]">
                       <span>{s}</span>
                       <button
                         type="button"
                         onClick={() => handleRemoveSlot(d.day, s)}
-                        className="text-slate-500 hover:text-red-400 p-0.5"
+                        className="text-[var(--text-muted)] hover:text-red-500 p-0.5"
                         title="Remove slot"
                       >
                         <XCircle className="w-3.5 h-3.5" />
@@ -140,15 +140,15 @@ export default function ScheduleManager() {
               )}
             </div>
 
-            <div className="pt-2 border-t border-slate-800 flex items-center justify-between text-[11px]">
-              <span className="text-slate-400 font-medium">Booked: <strong className="text-white">{d.booked}</strong></span>
+            <div className="pt-2 border-t border-[var(--border-light)] flex items-center justify-between text-[11px]">
+              <span className="text-[var(--text-muted)] font-medium">Booked: <strong className="text-[var(--text-primary)]">{d.booked}</strong></span>
               <button 
                 type="button" 
                 onClick={() => {
                   setAddModalDay(d.day)
                   setModalError('')
                 }}
-                className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-2.5 py-1 rounded-lg text-[10px] flex items-center gap-1 shadow-sm"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-2.5 py-1 rounded-lg text-[10px] flex items-center gap-1 shadow-sm"
               >
                 <Plus className="w-3 h-3" />
                 <span>Add Slot</span>
@@ -160,31 +160,31 @@ export default function ScheduleManager() {
 
       {/* ADD SLOT MODAL */}
       {addModalDay && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-slate-900 rounded-2xl border border-slate-800 shadow-2xl max-w-sm w-full p-6 space-y-4 text-xs text-slate-100 animate-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="font-extrabold text-white text-sm font-['Space_Grotesk']">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[var(--surface-card)] rounded-2xl border border-[var(--border-light)] shadow-2xl max-w-sm w-full p-6 space-y-4 text-xs text-[var(--text-primary)] animate-in zoom-in-95 duration-150">
+            <div className="flex items-center justify-between border-b border-[var(--border-light)] pb-3">
+              <h3 className="font-extrabold text-[var(--text-primary)] text-sm font-['Space_Grotesk']">
                 Add Slot to {addModalDay}
               </h3>
-              <button type="button" onClick={() => setAddModalDay(null)} className="p-1 rounded-lg bg-slate-800 text-slate-400 hover:text-white">
+              <button type="button" onClick={() => setAddModalDay(null)} className="p-1 rounded-lg bg-[var(--surface-page)] text-[var(--text-muted)] hover:text-[var(--text-primary)]">
                 <XCircle className="w-5 h-5" />
               </button>
             </div>
 
             {modalError && (
-              <div className="p-2.5 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 font-semibold flex items-center gap-1.5">
-                <AlertCircle className="w-4 h-4 text-red-400 shrink-0" />
+              <div className="p-2.5 rounded-xl bg-red-500/15 border border-red-500/25 text-red-600 dark:text-red-400 font-semibold flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4 text-red-500 shrink-0" />
                 <span>{modalError}</span>
               </div>
             )}
 
             <form onSubmit={handleAddSlotSubmit} className="space-y-4">
               <div>
-                <label className="font-bold text-slate-300 block mb-1">Select Time Slot</label>
+                <label className="font-bold text-[var(--text-primary)] block mb-1">Select Time Slot</label>
                 <select
                   value={newSlotTime}
                   onChange={(e) => setNewSlotTime(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-white font-bold focus:outline-none focus:border-blue-500"
+                  className="w-full bg-[var(--surface-page)] border border-[var(--border-light)] rounded-xl px-3 py-2 text-[var(--text-primary)] font-bold focus:outline-none focus:border-blue-500"
                 >
                   <option value="08:30 AM">08:30 AM</option>
                   <option value="09:00 AM">09:00 AM</option>
@@ -205,13 +205,13 @@ export default function ScheduleManager() {
                 <button
                   type="button"
                   onClick={() => setAddModalDay(null)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 font-bold"
+                  className="px-4 py-2 rounded-xl bg-[var(--surface-page)] text-[var(--text-muted)] hover:text-[var(--text-primary)] font-bold border border-[var(--border-light)]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-xl transition-all shadow-md"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-xl transition-all shadow-sm"
                 >
                   Save Slot
                 </button>

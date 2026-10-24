@@ -128,35 +128,35 @@ export default function TodayAppointments({
   })
 
   return (
-    <GlassCard className="p-6 space-y-6 text-[#f8fafc]">
+    <GlassCard className="p-4 sm:p-6 space-y-6">
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#162742] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[var(--border-light)] pb-4">
         <div>
-          <h2 className="text-xl font-extrabold text-white font-['Space_Grotesk'] flex items-center gap-2">
-            <Calendar className="w-5 h-5 text-[#3b82f6]" /> Today's Appointment Queue & Telehealth
+          <h2 className="text-xl font-extrabold text-[var(--text-primary)] font-['Space_Grotesk'] flex items-center gap-2">
+            <Calendar className="w-5 h-5 text-blue-500" /> Today's Appointment Queue & Telehealth
           </h2>
-          <p className="text-xs text-[#94a3b8] mt-0.5 font-medium">Manage patient queue, launch telehealth video rooms, reschedule slots, and complete consultations.</p>
+          <p className="text-xs text-[var(--text-muted)] mt-0.5 font-medium">Manage patient queue, launch telehealth video rooms, reschedule slots, and complete consultations.</p>
         </div>
 
         {/* Real-time Search */}
         <div className="relative w-full sm:w-64">
-          <Search className="w-4 h-4 absolute left-3.5 top-2.5 text-[#64748b]" />
+          <Search className="w-4 h-4 absolute left-3.5 top-2.5 text-[var(--text-muted)]" />
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             placeholder="Search patient name or symptoms..."
-            className="w-full bg-[#061124] border border-[#162742] rounded-2xl pl-9 pr-3 py-1.5 text-xs text-[#f8fafc] placeholder-[#64748b] focus:outline-none focus:border-[#2563ff]"
+            className="w-full bg-[var(--surface-page)] border border-[var(--border-light)] rounded-2xl pl-9 pr-3 py-1.5 text-xs text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500"
           />
         </div>
       </div>
 
       {/* Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 text-xs bg-[#061124] p-3.5 rounded-2xl border border-[#162742]">
-        <div className="flex items-center space-x-2">
-          <Filter className="w-4 h-4 text-[#64748b]" />
-          <span className="font-bold text-[#cbd5e1]">Status:</span>
+      <div className="flex flex-wrap items-center justify-between gap-3 text-xs bg-[var(--surface-page)] p-3.5 rounded-2xl border border-[var(--border-light)]">
+        <div className="flex flex-wrap items-center gap-2">
+          <Filter className="w-4 h-4 text-[var(--text-muted)]" />
+          <span className="font-bold text-[var(--text-primary)]">Status:</span>
           {['All', 'Approved', 'In-Progress', 'Pending', 'Completed'].map(status => (
             <button
               key={status}
@@ -164,8 +164,8 @@ export default function TodayAppointments({
               onClick={() => setFilterStatus(status)}
               className={`px-3 py-1 rounded-xl font-bold transition-all ${
                 filterStatus === status 
-                  ? 'bg-[#2563ff] text-white shadow-sm' 
-                  : 'bg-[#081225] text-[#94a3b8] hover:bg-[#0b172a] border border-[#162742]'
+                  ? 'bg-blue-600 text-white shadow-sm' 
+                  : 'bg-[var(--surface-card)] text-[var(--text-muted)] hover:text-[var(--text-primary)] border border-[var(--border-light)]'
               }`}
             >
               {status}
@@ -174,11 +174,11 @@ export default function TodayAppointments({
         </div>
 
         <div className="flex items-center space-x-2">
-          <span className="font-bold text-[#cbd5e1]">Dept:</span>
+          <span className="font-bold text-[var(--text-primary)]">Dept:</span>
           <select
             value={filterDept}
             onChange={(e) => setFilterDept(e.target.value)}
-            className="bg-[#081225] border border-[#162742] rounded-xl px-3 py-1 font-semibold text-[#cbd5e1] focus:outline-none"
+            className="bg-[var(--surface-card)] border border-[var(--border-light)] rounded-xl px-3 py-1 font-semibold text-[var(--text-primary)] focus:outline-none focus:border-blue-500"
           >
             <option value="All">All Departments</option>
             <option value="Cardiology">Cardiology</option>
@@ -189,76 +189,76 @@ export default function TodayAppointments({
       </div>
 
       {/* Table Layout */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-2xl border border-[var(--border-light)]">
         <table className="w-full text-left text-xs">
-          <thead className="bg-[#061124] text-[#94a3b8] uppercase tracking-wider font-semibold border-y border-[#162742]">
+          <thead className="bg-[var(--surface-page)] text-[var(--text-muted)] uppercase tracking-wider font-semibold border-b border-[var(--border-light)]">
             <tr>
-              <th className="py-4 px-4">Patient Name</th>
-              <th className="py-4 px-4">Date & Time</th>
-              <th className="py-4 px-4">Department</th>
-              <th className="py-4 px-4">Chief Complaints</th>
-              <th className="py-4 px-4">Status</th>
-              <th className="py-4 px-4 text-right">Actions</th>
+              <th className="py-3 px-4">Patient Name</th>
+              <th className="py-3 px-4">Date & Time</th>
+              <th className="py-3 px-4">Department</th>
+              <th className="py-3 px-4">Chief Complaints</th>
+              <th className="py-3 px-4">Status</th>
+              <th className="py-3 px-4 text-right">Actions</th>
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[#162742] text-[#cbd5e1] font-medium">
+          <tbody className="divide-y divide-[var(--border-light)] text-[var(--text-primary)] font-medium">
             {filteredAppointments.length === 0 ? (
               <tr>
-                <td colSpan="6" className="text-center py-8 text-[#64748b]">
+                <td colSpan="6" className="text-center py-8 text-[var(--text-muted)]">
                   No appointments found matching current filter criteria.
                 </td>
               </tr>
             ) : (
               filteredAppointments.map(apt => (
-                <tr key={apt.id} className="hover:bg-[#061124]/60 transition-colors">
-                  <td className="py-4 px-4 font-bold text-white flex items-center space-x-3">
-                    <div className="w-9 h-9 rounded-2xl bg-[#2563ff]/15 text-[#3b82f6] font-extrabold flex items-center justify-center text-xs border border-[#2563ff]/25 shrink-0">
+                <tr key={apt.id} className="hover:bg-[var(--surface-page)]/60 transition-colors">
+                  <td className="py-3.5 px-4 font-bold text-[var(--text-primary)] flex items-center space-x-3">
+                    <div className="w-9 h-9 rounded-2xl bg-blue-500/15 text-blue-600 dark:text-blue-400 font-extrabold flex items-center justify-center text-xs border border-blue-500/25 shrink-0">
                       {apt.patientName.charAt(0)}
                     </div>
                     <div>
                       <p>{apt.patientName}</p>
-                      <span className="text-[10px] font-mono text-[#64748b]">{apt.id}</span>
+                      <span className="text-[10px] font-mono text-[var(--text-muted)]">{apt.id}</span>
                     </div>
                   </td>
 
-                  <td className="py-4 px-4 font-semibold text-[#cbd5e1]">
-                    <span className="flex items-center gap-1.5">
-                      <Clock className="w-3.5 h-3.5 text-[#3b82f6]" />
+                  <td className="py-3.5 px-4 font-semibold text-[var(--text-primary)]">
+                    <span className="flex items-center gap-1.5 whitespace-nowrap">
+                      <Clock className="w-3.5 h-3.5 text-blue-500" />
                       {apt.appointmentDate} • {apt.timeSlot}
                     </span>
                   </td>
 
-                  <td className="py-4 px-4 text-[#94a3b8]">{apt.department || 'Cardiology'}</td>
+                  <td className="py-3.5 px-4 text-[var(--text-muted)]">{apt.department || 'Cardiology'}</td>
 
-                  <td className="py-4 px-4 max-w-xs truncate text-[#94a3b8]" title={apt.symptoms}>
+                  <td className="py-3.5 px-4 max-w-xs truncate text-[var(--text-muted)]" title={apt.symptoms}>
                     {apt.symptoms || 'General Checkup'}
                   </td>
 
-                  <td className="py-4 px-4">
+                  <td className="py-3.5 px-4">
                     {apt.status === 'in-progress' && (
-                      <span className="px-3 py-1 rounded-full bg-[#2563ff]/15 text-[#3b82f6] border border-[#2563ff]/25 font-bold text-[10px] uppercase shadow-sm animate-pulse">
+                      <span className="px-2.5 py-0.5 rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/25 font-bold text-[10px] uppercase shadow-sm animate-pulse">
                         In Progress
                       </span>
                     )}
                     {apt.status === 'approved' && (
-                      <span className="px-3 py-1 rounded-full bg-[#94a3b8]/15 text-[#cbd5e1] border border-[#94a3b8]/25 font-bold text-[10px] uppercase">
+                      <span className="px-2.5 py-0.5 rounded-full bg-slate-500/15 text-slate-700 dark:text-slate-300 border border-slate-500/25 font-bold text-[10px] uppercase">
                         Scheduled
                       </span>
                     )}
                     {apt.status === 'pending' && (
-                      <span className="px-3 py-1 rounded-full bg-[#f59e0b]/15 text-[#f59e0b] border border-[#f59e0b]/25 font-bold text-[10px] uppercase">
+                      <span className="px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/25 font-bold text-[10px] uppercase">
                         Pending
                       </span>
                     )}
                     {apt.status === 'completed' && (
-                      <span className="px-3 py-1 rounded-full bg-[#10b981]/15 text-[#10b981] border border-[#10b981]/25 font-bold text-[10px] uppercase">
+                      <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 font-bold text-[10px] uppercase">
                         Completed
                       </span>
                     )}
                   </td>
 
-                  <td className="py-4 px-4 text-right space-x-2">
+                  <td className="py-3.5 px-4 text-right space-x-2 whitespace-nowrap">
                     {loadingId === apt.id ? (
                       <LoadingSpinner text="Updating..." />
                     ) : (
@@ -267,7 +267,7 @@ export default function TodayAppointments({
                           <button
                             type="button"
                             onClick={() => handleStartConsultation(apt)}
-                            className="bg-[#2563ff] hover:bg-blue-500 text-white font-bold px-3.5 py-1.5 rounded-xl transition-all shadow-md inline-flex items-center space-x-1"
+                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-1.5 rounded-xl transition-all shadow-sm inline-flex items-center space-x-1"
                           >
                             <Video className="w-3.5 h-3.5" />
                             <span>Start Consult</span>
@@ -278,7 +278,7 @@ export default function TodayAppointments({
                           <button
                             type="button"
                             onClick={() => handleCompleteAppointment(apt.id)}
-                            className="bg-[#10b981] hover:bg-emerald-500 text-white font-bold px-3.5 py-1.5 rounded-xl transition-all shadow-md inline-flex items-center space-x-1"
+                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-3 py-1.5 rounded-xl transition-all shadow-sm inline-flex items-center space-x-1"
                           >
                             <CheckCircle2 className="w-3.5 h-3.5" />
                             <span>Complete</span>
@@ -294,15 +294,15 @@ export default function TodayAppointments({
                               setNewTime(apt.timeSlot)
                               setModalError('')
                             }}
-                            className="bg-[#0b172a] hover:bg-[#0d1b33] text-[#cbd5e1] font-bold px-3 py-1.5 rounded-xl border border-[#162742] transition-all inline-flex items-center space-x-1"
+                            className="bg-[var(--surface-page)] hover:bg-[var(--border-light)] text-[var(--text-primary)] font-bold px-2.5 py-1.5 rounded-xl border border-[var(--border-light)] transition-all inline-flex items-center space-x-1"
                           >
-                            <RefreshCcw className="w-3 h-3 text-[#94a3b8]" />
+                            <RefreshCcw className="w-3 h-3 text-[var(--text-muted)]" />
                             <span>Reschedule</span>
                           </button>
                         )}
 
                         {apt.status === 'completed' && (
-                          <span className="text-[#64748b] font-semibold italic text-[11px]">
+                          <span className="text-[var(--text-muted)] font-semibold italic text-[11px]">
                             Completed {apt.completedAt ? `(${apt.completedAt})` : ''}
                           </span>
                         )}
@@ -318,46 +318,46 @@ export default function TodayAppointments({
 
       {/* RESCHEDULE MODAL */}
       {rescheduleApt && (
-        <div className="fixed inset-0 z-50 bg-[#020817]/80 backdrop-blur-xl flex items-center justify-center p-4">
-          <div className="bg-[#081225] rounded-3xl border border-[#162742] shadow-[0_8px_32px_rgba(2,8,23,0.8)] max-w-md w-full p-6 space-y-4 text-xs text-[#f8fafc]">
-            <div className="flex items-center justify-between border-b border-[#162742] pb-3">
-              <h3 className="font-extrabold text-white text-sm font-['Space_Grotesk']">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[var(--surface-card)] rounded-3xl border border-[var(--border-light)] shadow-2xl max-w-md w-full p-6 space-y-4 text-xs text-[var(--text-primary)]">
+            <div className="flex items-center justify-between border-b border-[var(--border-light)] pb-3">
+              <h3 className="font-extrabold text-[var(--text-primary)] text-sm font-['Space_Grotesk']">
                 Reschedule Appointment
               </h3>
-              <button type="button" onClick={() => setRescheduleApt(null)} className="p-1.5 rounded-xl bg-[#0b172a] text-[#94a3b8] hover:text-white">
+              <button type="button" onClick={() => setRescheduleApt(null)} className="p-1.5 rounded-xl bg-[var(--surface-page)] text-[var(--text-muted)] hover:text-[var(--text-primary)]">
                 <XCircle className="w-5 h-5" />
               </button>
             </div>
 
-            <p className="text-[#cbd5e1] font-medium">
-              Rescheduling appointment for <strong className="text-[#3b82f6]">{rescheduleApt.patientName}</strong>
+            <p className="text-[var(--text-muted)] font-medium">
+              Rescheduling appointment for <strong className="text-blue-600 dark:text-blue-400">{rescheduleApt.patientName}</strong>
             </p>
 
             {modalError && (
-              <div className="p-3 rounded-2xl bg-[#ef4444]/15 border border-[#ef4444]/25 text-[#ef4444] font-semibold flex items-center gap-1.5">
-                <AlertCircle className="w-4 h-4 shrink-0 text-[#ef4444]" />
+              <div className="p-3 rounded-2xl bg-red-500/15 border border-red-500/25 text-red-600 dark:text-red-400 font-semibold flex items-center gap-1.5">
+                <AlertCircle className="w-4 h-4 shrink-0 text-red-500" />
                 <span>{modalError}</span>
               </div>
             )}
 
             <form onSubmit={handleRescheduleSubmit} className="space-y-3">
               <div>
-                <label className="font-bold text-[#cbd5e1] block mb-1">New Date</label>
+                <label className="font-bold text-[var(--text-primary)] block mb-1">New Date</label>
                 <input
                   type="date"
                   value={newDate}
                   onChange={(e) => setNewDate(e.target.value)}
-                  className="w-full bg-[#020817] border border-[#162742] rounded-2xl px-3.5 py-2 text-white font-medium focus:outline-none focus:border-[#2563ff]"
+                  className="w-full bg-[var(--surface-page)] border border-[var(--border-light)] rounded-2xl px-3.5 py-2 text-[var(--text-primary)] font-medium focus:outline-none focus:border-blue-500"
                   required
                 />
               </div>
 
               <div>
-                <label className="font-bold text-[#cbd5e1] block mb-1">New Time Slot</label>
+                <label className="font-bold text-[var(--text-primary)] block mb-1">New Time Slot</label>
                 <select
                   value={newTime}
                   onChange={(e) => setNewTime(e.target.value)}
-                  className="w-full bg-[#020817] border border-[#162742] rounded-2xl px-3.5 py-2 text-white font-medium focus:outline-none focus:border-[#2563ff]"
+                  className="w-full bg-[var(--surface-page)] border border-[var(--border-light)] rounded-2xl px-3.5 py-2 text-[var(--text-primary)] font-medium focus:outline-none focus:border-blue-500"
                   required
                 >
                   <option value="09:00 AM">09:00 AM</option>
@@ -369,12 +369,12 @@ export default function TodayAppointments({
               </div>
 
               <div>
-                <label className="font-bold text-[#cbd5e1] block mb-1">Reason for Rescheduling</label>
+                <label className="font-bold text-[var(--text-primary)] block mb-1">Reason for Rescheduling</label>
                 <textarea
                   value={rescheduleReason}
                   onChange={(e) => setRescheduleReason(e.target.value)}
                   placeholder="Provide reason for rescheduling..."
-                  className="w-full bg-[#020817] border border-[#162742] rounded-2xl p-3 text-white focus:outline-none focus:border-[#2563ff] h-20 resize-none"
+                  className="w-full bg-[var(--surface-page)] border border-[var(--border-light)] rounded-2xl p-3 text-[var(--text-primary)] placeholder-[var(--text-muted)] focus:outline-none focus:border-blue-500 h-20 resize-none"
                 />
               </div>
 
@@ -382,13 +382,13 @@ export default function TodayAppointments({
                 <button
                   type="button"
                   onClick={() => setRescheduleApt(null)}
-                  className="px-4 py-2 rounded-2xl bg-[#0b172a] text-[#cbd5e1] font-bold"
+                  className="px-4 py-2 rounded-2xl bg-[var(--surface-page)] text-[var(--text-muted)] hover:text-[var(--text-primary)] font-bold border border-[var(--border-light)]"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="bg-[#2563ff] hover:bg-blue-500 text-white font-bold px-4 py-2 rounded-2xl transition-all shadow-md"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-bold px-4 py-2 rounded-2xl transition-all shadow-sm"
                 >
                   Save Rescheduled Slot
                 </button>
@@ -401,3 +401,5 @@ export default function TodayAppointments({
     </GlassCard>
   )
 }
+
+

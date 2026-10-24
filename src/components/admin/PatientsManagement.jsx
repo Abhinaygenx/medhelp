@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { Users, Search, Plus, Edit, Trash2, ShieldCheck, HeartPulse, FileText, UserPlus } from 'lucide-react'
+import { Users, Search, Plus, Trash2, HeartPulse, FileText, UserPlus } from 'lucide-react'
 import AdminNeonCard from '../common/AdminNeonCard'
+import { Badge } from '../common/Badge'
 import toast from 'react-hot-toast'
 
 export default function PatientsManagement({ patients = [], doctors = [], onRegisterPatient, onUpdatePatientStatus }) {
@@ -52,44 +53,53 @@ export default function PatientsManagement({ patients = [], doctors = [], onRegi
   }
 
   return (
-    <AdminNeonCard className="p-6 space-y-6 text-[#F9FAFB]">
+    <AdminNeonCard className="p-6 space-y-6" style={{ color: 'var(--text-primary)' }}>
       
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#374151] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4"
+        style={{ borderColor: 'var(--border-light)' }}
+      >
         <div>
-          <h2 className="text-xl font-extrabold text-[#F9FAFB] font-['Space_Grotesk'] flex items-center gap-2">
-            <Users className="w-5 h-5 text-[#E5FF00]" /> Patient Registration & EMR Directory
+          <h2 className="text-xl font-extrabold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <Users className="w-5 h-5 text-[var(--brand-600)]" /> Patient Registration & EMR Directory
           </h2>
-          <p className="text-xs text-[#9CA3AF]">Manage patient intake, assigned doctors, insurance policies, and admission statuses.</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Manage patient intake, assigned doctors, insurance policies, and admission statuses.
+          </p>
         </div>
 
         <button
           type="button"
           onClick={() => setShowModal(true)}
-          style={{ background: '#E5FF00', color: '#0B0F19', boxShadow: '0 0 15px rgba(229, 255, 0, 0.45)' }}
-          className="font-extrabold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 hover:scale-105 transition-all"
+          className="font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm text-white hover:opacity-95"
+          style={{ background: 'var(--brand-600)' }}
         >
-          <UserPlus className="w-4 h-4 text-[#0B0F19]" />
+          <UserPlus className="w-4 h-4 text-white" />
           <span>Register New Patient</span>
         </button>
       </div>
 
       {/* Search Input */}
       <div className="relative w-full sm:w-80">
-        <Search className="w-4 h-4 absolute left-3.5 top-3 text-[#9CA3AF]" />
+        <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" />
         <input
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search by Patient Name, ID, or Email..."
-          className="w-full bg-[#0B0F19] border border-[#374151] rounded-2xl pl-10 pr-4 py-2 text-xs text-[#F9FAFB] focus:outline-none focus:border-[#E5FF00]"
+          className="w-full rounded-xl pl-10 pr-4 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+          style={{
+            background: 'var(--surface-page)',
+            border: '1px solid var(--border-light)',
+            color: 'var(--text-primary)'
+          }}
         />
       </div>
 
       {/* Patients Table View */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded-xl border" style={{ borderColor: 'var(--border-light)' }}>
         <table className="w-full text-left text-xs">
-          <thead className="bg-[#111827] text-[#9CA3AF] uppercase font-semibold border-y border-[#374151]">
+          <thead style={{ background: 'var(--surface-page)', color: 'var(--text-muted)' }} className="uppercase font-semibold border-b">
             <tr>
               <th className="py-3.5 px-4">Patient Name & ID</th>
               <th className="py-3.5 px-4">Blood & Contact</th>
@@ -99,40 +109,45 @@ export default function PatientsManagement({ patients = [], doctors = [], onRegi
               <th className="py-3.5 px-4 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-[#374151] text-[#9CA3AF]">
+          <tbody className="divide-y" style={{ borderColor: 'var(--border-light)' }}>
             {filteredPatients.map(pat => (
-              <tr key={pat.id} className="hover:bg-[#111827]/60 transition-colors">
-                <td className="py-4 px-4 font-bold text-[#F9FAFB]">
+              <tr key={pat.id} className="hover:bg-[var(--brand-50)] transition-colors">
+                <td className="py-4 px-4 font-bold" style={{ color: 'var(--text-primary)' }}>
                   <p>{pat.name}</p>
-                  <span className="text-[10px] font-mono text-[#E5FF00]">{pat.id}</span>
+                  <span className="text-[10px] font-mono text-[var(--brand-600)]">{pat.id}</span>
                 </td>
                 <td className="py-4 px-4">
-                  <p className="text-[#F9FAFB] font-semibold">Blood: {pat.bloodGroup || 'O+'}</p>
-                  <p className="text-[11px] text-[#9CA3AF]">{pat.phone || '+1 555-0192'}</p>
+                  <p className="font-semibold" style={{ color: 'var(--text-primary)' }}>Blood: {pat.bloodGroup || 'O+'}</p>
+                  <p className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{pat.phone || '+1 555-0192'}</p>
                 </td>
-                <td className="py-4 px-4 font-semibold text-[#F9FAFB]">{pat.assignedDoctor || 'Dr. Robert Ford'}</td>
-                <td className="py-4 px-4 text-[#9CA3AF]">{pat.insuranceProvider || 'BlueCross Health'}</td>
+                <td className="py-4 px-4 font-semibold" style={{ color: 'var(--text-primary)' }}>{pat.assignedDoctor || 'Dr. Robert Ford'}</td>
+                <td className="py-4 px-4" style={{ color: 'var(--text-secondary)' }}>{pat.insuranceProvider || 'BlueCross Health'}</td>
                 <td className="py-4 px-4">
-                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold border ${
-                    pat.admissionStatus === 'Admitted (ICU)' 
-                      ? 'bg-[#EF4444]/15 text-[#EF4444] border-[#EF4444]/30 animate-pulse'
-                      : 'bg-[#22C55E]/15 text-[#22C55E] border-[#22C55E]/30'
-                  }`}>
+                  <Badge 
+                    variant={pat.admissionStatus === 'Admitted (ICU)' ? 'danger' : 'success'} 
+                    size="sm"
+                  >
                     {pat.admissionStatus || 'Outpatient'}
-                  </span>
+                  </Badge>
                 </td>
                 <td className="py-4 px-4 text-right space-x-2">
                   <button
                     type="button"
                     onClick={() => toggleAdmissionStatus(pat.id, pat.admissionStatus)}
-                    className="px-3 py-1.5 rounded-xl bg-[#0B0F19] hover:bg-[#111827] text-[#E5FF00] font-bold border border-[#374151]"
+                    className="px-3 py-1.5 rounded-xl font-bold border transition-all cursor-pointer hover:bg-[var(--neutral-100)]"
+                    style={{
+                      background: 'var(--surface-page)',
+                      color: 'var(--text-secondary)',
+                      borderColor: 'var(--border-light)'
+                    }}
                   >
-                    Toggle Ward Status
+                    Toggle Ward
                   </button>
                   <button
                     type="button"
                     onClick={() => setSelectedHistory(pat)}
-                    className="px-3 py-1.5 rounded-xl bg-[#111827] hover:bg-[#374151] text-[#F9FAFB] font-bold border border-[#374151]"
+                    className="px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer text-white shadow-sm hover:opacity-95"
+                    style={{ background: 'var(--brand-600)' }}
                   >
                     View EHR
                   </button>
@@ -145,44 +160,68 @@ export default function PatientsManagement({ patients = [], doctors = [], onRegi
 
       {/* REGISTER PATIENT MODAL */}
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-[#0B0F19]/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 max-w-md w-full space-y-4 text-xs">
-            <h3 className="font-extrabold text-base text-[#F9FAFB] font-['Space_Grotesk'] border-b border-[#374151] pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div 
+            className="rounded-2xl p-6 max-w-md w-full space-y-4 text-xs shadow-xl"
+            style={{
+              background: 'var(--surface-card)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
+            <h3 
+              className="font-extrabold text-base border-b pb-3"
+              style={{ color: 'var(--text-primary)', borderColor: 'var(--border-light)' }}
+            >
               Register New Hospital Patient
             </h3>
             
             <form onSubmit={handleRegisterSubmit} className="space-y-3">
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Patient Full Name</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Patient Full Name</label>
                 <input
                   type="text"
                   value={newPatient.name}
                   onChange={(e) => setNewPatient({...newPatient, name: e.target.value})}
                   placeholder="e.g. John Doe"
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#E5FF00]"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Email Address</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Email Address</label>
                 <input
                   type="email"
                   value={newPatient.email}
                   onChange={(e) => setNewPatient({...newPatient, email: e.target.value})}
                   placeholder="e.g. john@example.com"
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <label className="font-bold text-[#9CA3AF] block mb-1">Blood Group</label>
+                  <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Blood Group</label>
                   <select
                     value={newPatient.bloodGroup}
                     onChange={(e) => setNewPatient({...newPatient, bloodGroup: e.target.value})}
-                    className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                    className="w-full rounded-xl px-3 py-2"
+                    style={{
+                      background: 'var(--surface-page)',
+                      border: '1px solid var(--border-light)',
+                      color: 'var(--text-primary)'
+                    }}
                   >
                     <option value="O+">O+</option>
                     <option value="A+">A+</option>
@@ -191,11 +230,16 @@ export default function PatientsManagement({ patients = [], doctors = [], onRegi
                   </select>
                 </div>
                 <div>
-                  <label className="font-bold text-[#9CA3AF] block mb-1">Admission Status</label>
+                  <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Admission Status</label>
                   <select
                     value={newPatient.admissionStatus}
                     onChange={(e) => setNewPatient({...newPatient, admissionStatus: e.target.value})}
-                    className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                    className="w-full rounded-xl px-3 py-2"
+                    style={{
+                      background: 'var(--surface-page)',
+                      border: '1px solid var(--border-light)',
+                      color: 'var(--text-primary)'
+                    }}
                   >
                     <option value="Outpatient">Outpatient</option>
                     <option value="Admitted (ICU)">Admitted (ICU)</option>
@@ -205,13 +249,22 @@ export default function PatientsManagement({ patients = [], doctors = [], onRegi
               </div>
 
               <div className="pt-2 flex justify-end space-x-2">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-xl bg-[#111827] text-[#9CA3AF] font-bold">
+                <button 
+                  type="button" 
+                  onClick={() => setShowModal(false)} 
+                  className="px-4 py-2 rounded-xl font-bold border cursor-pointer hover:bg-[var(--neutral-100)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    color: 'var(--text-muted)',
+                    borderColor: 'var(--border-light)'
+                  }}
+                >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  style={{ background: '#E5FF00', color: '#0B0F19' }}
-                  className="font-extrabold px-4 py-2 rounded-xl"
+                  className="font-bold px-4 py-2 rounded-xl text-white shadow-sm cursor-pointer hover:opacity-95"
+                  style={{ background: 'var(--brand-600)' }}
                 >
                   Register Patient
                 </button>
@@ -223,32 +276,64 @@ export default function PatientsManagement({ patients = [], doctors = [], onRegi
 
       {/* VIEW EHR MODAL */}
       {selectedHistory && (
-        <div className="fixed inset-0 z-50 bg-[#0B0F19]/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 max-w-md w-full space-y-4 text-xs">
-            <h3 className="font-extrabold text-base text-[#F9FAFB] font-['Space_Grotesk'] border-b border-[#374151] pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div 
+            className="rounded-2xl p-6 max-w-md w-full space-y-4 text-xs shadow-xl"
+            style={{
+              background: 'var(--surface-card)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
+            <h3 
+              className="font-extrabold text-base border-b pb-3"
+              style={{ color: 'var(--text-primary)', borderColor: 'var(--border-light)' }}
+            >
               EMR Medical History — {selectedHistory.name}
             </h3>
             
             <div className="space-y-3">
-              <div className="p-3 rounded-2xl bg-[#0B0F19] border border-[#374151]">
-                <p className="text-[10px] text-[#9CA3AF] uppercase font-bold">Medical Conditions & Allergies</p>
-                <p className="font-bold text-[#E5FF00] mt-0.5">{selectedHistory.allergies || 'Penicillin, Peanuts'}</p>
+              <div 
+                className="p-3 rounded-xl"
+                style={{
+                  background: 'var(--surface-page)',
+                  border: '1px solid var(--border-light)'
+                }}
+              >
+                <p className="text-[10px] uppercase font-bold" style={{ color: 'var(--text-muted)' }}>Medical Conditions & Allergies</p>
+                <p className="font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>{selectedHistory.allergies || 'Penicillin, Peanuts'}</p>
               </div>
 
-              <div className="p-3 rounded-2xl bg-[#0B0F19] border border-[#374151]">
-                <p className="text-[10px] text-[#9CA3AF] uppercase font-bold">Primary Attending Physician</p>
-                <p className="font-bold text-[#F9FAFB] mt-0.5">{selectedHistory.assignedDoctor || 'Dr. Robert Ford'}</p>
+              <div 
+                className="p-3 rounded-xl"
+                style={{
+                  background: 'var(--surface-page)',
+                  border: '1px solid var(--border-light)'
+                }}
+              >
+                <p className="text-[10px] uppercase font-bold" style={{ color: 'var(--text-muted)' }}>Primary Attending Physician</p>
+                <p className="font-bold mt-0.5" style={{ color: 'var(--text-primary)' }}>{selectedHistory.assignedDoctor || 'Dr. Robert Ford'}</p>
               </div>
 
-              <div className="p-3 rounded-2xl bg-[#0B0F19] border border-[#374151]">
-                <p className="text-[10px] text-[#9CA3AF] uppercase font-bold">Insurance Policy Claims</p>
-                <p className="font-bold text-[#22C55E] mt-0.5">{selectedHistory.insuranceProvider || 'BlueCross Active Policy #8892'}</p>
+              <div 
+                className="p-3 rounded-xl"
+                style={{
+                  background: 'var(--surface-page)',
+                  border: '1px solid var(--border-light)'
+                }}
+              >
+                <p className="text-[10px] uppercase font-bold" style={{ color: 'var(--text-muted)' }}>Insurance Policy Claims</p>
+                <p className="font-bold mt-0.5 text-emerald-600 dark:text-emerald-400">{selectedHistory.insuranceProvider || 'BlueCross Active Policy #8892'}</p>
               </div>
             </div>
 
             <button
               onClick={() => setSelectedHistory(null)}
-              className="w-full py-2.5 rounded-xl bg-[#111827] text-[#F9FAFB] font-bold border border-[#374151]"
+              className="w-full py-2.5 rounded-xl font-bold cursor-pointer transition-all border"
+              style={{
+                background: 'var(--surface-page)',
+                color: 'var(--text-primary)',
+                borderColor: 'var(--border-light)'
+              }}
             >
               Close EMR View
             </button>
@@ -259,3 +344,4 @@ export default function PatientsManagement({ patients = [], doctors = [], onRegi
     </AdminNeonCard>
   )
 }
+

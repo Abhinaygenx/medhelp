@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import { UserCheck, Plus, ShieldCheck, Lock, UserPlus } from 'lucide-react'
+import { UserCheck, Plus, ShieldCheck, UserPlus } from 'lucide-react'
 import AdminNeonCard from '../common/AdminNeonCard'
+import { Badge } from '../common/Badge'
 import toast from 'react-hot-toast'
 
 export default function StaffRolesManagement({ staffList = [], onAddStaff }) {
@@ -36,81 +37,116 @@ export default function StaffRolesManagement({ staffList = [], onAddStaff }) {
   }
 
   return (
-    <AdminNeonCard className="p-6 space-y-6 text-[#F9FAFB]">
+    <AdminNeonCard className="p-6 space-y-6" style={{ color: 'var(--text-primary)' }}>
       
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-[#374151] pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b pb-4"
+        style={{ borderColor: 'var(--border-light)' }}
+      >
         <div>
-          <h2 className="text-xl font-extrabold text-[#F9FAFB] font-['Space_Grotesk'] flex items-center gap-2">
-            <UserCheck className="w-5 h-5 text-[#E5FF00]" /> Hospital Staff & Access Control Matrix
+          <h2 className="text-xl font-extrabold flex items-center gap-2" style={{ color: 'var(--text-primary)' }}>
+            <UserCheck className="w-5 h-5 text-[var(--brand-600)]" /> Hospital Staff & Access Control Matrix
           </h2>
-          <p className="text-xs text-[#9CA3AF]">Manage hospital staff credentials, RBAC roles, and system permission bounds.</p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Manage hospital staff credentials, RBAC roles, and system permission bounds.
+          </p>
         </div>
 
         <button
           type="button"
           onClick={() => setShowModal(true)}
-          style={{ background: '#E5FF00', color: '#0B0F19', boxShadow: '0 0 15px rgba(229, 255, 0, 0.45)' }}
-          className="font-extrabold px-4 py-2 rounded-xl text-xs flex items-center space-x-1.5 hover:scale-105 transition-all"
+          className="font-bold px-4 py-2.5 rounded-xl text-xs flex items-center space-x-1.5 transition-all cursor-pointer shadow-sm text-white hover:opacity-95"
+          style={{ background: 'var(--brand-600)' }}
         >
-          <UserPlus className="w-4 h-4 text-[#0B0F19]" />
+          <UserPlus className="w-4 h-4 text-white" />
           <span>Add Staff Member</span>
         </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {staffList.map(st => (
-          <div key={st.id} className="p-4 rounded-2xl bg-[#111827] border border-[#374151] flex items-center justify-between">
+          <div 
+            key={st.id} 
+            className="p-4 rounded-2xl flex items-center justify-between transition-all"
+            style={{
+              background: 'var(--surface-page)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
             <div>
-              <p className="font-bold text-[#F9FAFB] text-sm">{st.name}</p>
-              <p className="text-xs text-[#E5FF00] font-semibold">{st.role} • {st.dept}</p>
-              <p className="text-[10px] text-[#9CA3AF]">{st.email}</p>
+              <p className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>{st.name}</p>
+              <p className="text-xs font-semibold text-[var(--brand-600)]">{st.role} • {st.dept}</p>
+              <p className="text-[10px]" style={{ color: 'var(--text-muted)' }}>{st.email}</p>
             </div>
 
-            <span className="px-3 py-1 rounded-full bg-[#3B82F6]/15 text-[#3B82F6] border border-[#3B82F6]/30 text-[10px] font-bold">
+            <Badge variant="brand" size="sm">
               {st.access}
-            </span>
+            </Badge>
           </div>
         ))}
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 z-50 bg-[#0B0F19]/80 backdrop-blur-md flex items-center justify-center p-4">
-          <div className="bg-[#1F2937] rounded-3xl border border-[#374151] p-6 max-w-md w-full space-y-4 text-xs">
-            <h3 className="font-extrabold text-base text-[#F9FAFB] font-['Space_Grotesk'] border-b border-[#374151] pb-3">
+        <div className="fixed inset-0 z-50 bg-slate-950/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div 
+            className="rounded-2xl p-6 max-w-md w-full space-y-4 text-xs shadow-xl"
+            style={{
+              background: 'var(--surface-card)',
+              border: '1px solid var(--border-light)'
+            }}
+          >
+            <h3 
+              className="font-extrabold text-base border-b pb-3"
+              style={{ color: 'var(--text-primary)', borderColor: 'var(--border-light)' }}
+            >
               Add Hospital Staff Member
             </h3>
             
             <form onSubmit={handleAddStaffSubmit} className="space-y-3">
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Staff Member Name</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Staff Member Name</label>
                 <input
                   type="text"
                   value={newStaff.name}
                   onChange={(e) => setNewStaff({...newStaff, name: e.target.value})}
                   placeholder="e.g. Nurse Sarah Connor"
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white focus:outline-none focus:border-[#E5FF00]"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Email Address</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Email Address</label>
                 <input
                   type="email"
                   value={newStaff.email}
                   onChange={(e) => setNewStaff({...newStaff, email: e.target.value})}
                   placeholder="e.g. s.connor@apollo.org"
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                  className="w-full rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[var(--brand-500)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                   required
                 />
               </div>
 
               <div>
-                <label className="font-bold text-[#9CA3AF] block mb-1">Assigned RBAC Role</label>
+                <label className="font-bold block mb-1" style={{ color: 'var(--text-secondary)' }}>Assigned RBAC Role</label>
                 <select
                   value={newStaff.role}
                   onChange={(e) => setNewStaff({...newStaff, role: e.target.value})}
-                  className="w-full bg-[#0B0F19] border border-[#374151] rounded-xl px-3 py-2 text-white"
+                  className="w-full rounded-xl px-3 py-2"
+                  style={{
+                    background: 'var(--surface-page)',
+                    border: '1px solid var(--border-light)',
+                    color: 'var(--text-primary)'
+                  }}
                 >
                   <option value="Nurse">Nurse</option>
                   <option value="Pharmacist">Pharmacist</option>
@@ -120,13 +156,22 @@ export default function StaffRolesManagement({ staffList = [], onAddStaff }) {
               </div>
 
               <div className="pt-2 flex justify-end space-x-2">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 rounded-xl bg-[#111827] text-[#9CA3AF] font-bold">
+                <button 
+                  type="button" 
+                  onClick={() => setShowModal(false)} 
+                  className="px-4 py-2 rounded-xl font-bold border cursor-pointer hover:bg-[var(--neutral-100)]"
+                  style={{
+                    background: 'var(--surface-page)',
+                    color: 'var(--text-muted)',
+                    borderColor: 'var(--border-light)'
+                  }}
+                >
                   Cancel
                 </button>
                 <button 
                   type="submit" 
-                  style={{ background: '#E5FF00', color: '#0B0F19' }}
-                  className="font-extrabold px-4 py-2 rounded-xl"
+                  className="font-bold px-4 py-2 rounded-xl text-white shadow-sm cursor-pointer hover:opacity-95"
+                  style={{ background: 'var(--brand-600)' }}
                 >
                   Save Staff Member
                 </button>
