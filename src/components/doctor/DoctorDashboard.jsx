@@ -60,8 +60,8 @@ export default function DoctorDashboard({
           <button
             type="button"
             onClick={() => onSelectTab('clinical-hub')}
-            className="font-bold px-4 py-2.5 rounded-xl text-xs hover:opacity-90 transition-all flex items-center space-x-2 cursor-pointer"
-            style={{ background: 'var(--brand-600)', color: '#ffffff', boxShadow: 'var(--shadow-sm)' }}
+            className="font-semibold px-4 py-2.5 rounded-xl text-xs hover:opacity-90 active:scale-95 transition-all flex items-center space-x-2 cursor-pointer"
+            style={{ background: 'var(--brand-600)', color: '#ffffff', boxShadow: '0 2px 4px rgba(37,99,235,0.2)' }}
           >
             <PlusCircle className="w-4 h-4" />
             <span>Clinical Orders & Uploads</span>
@@ -70,11 +70,11 @@ export default function DoctorDashboard({
           <button
             type="button"
             onClick={() => onSelectTab('appointments')}
-            className="font-bold px-5 py-2.5 rounded-xl text-xs border transition-all flex items-center space-x-2 cursor-pointer"
+            className="font-semibold px-4 py-2.5 rounded-xl text-xs border transition-all flex items-center space-x-2 cursor-pointer hover:bg-[var(--neutral-100)]"
             style={{
-              background: 'var(--surface-page)',
-              color: 'var(--text-secondary)',
-              borderColor: 'var(--border-light)'
+              background: 'var(--surface-card)',
+              color: 'var(--text-primary)',
+              borderColor: 'var(--border-default)'
             }}
           >
             <CalendarDays className="w-4 h-4 text-[var(--brand-600)]" />
@@ -163,6 +163,7 @@ export default function DoctorDashboard({
                     fontSize: '12px',
                     boxShadow: 'var(--shadow-lg)'
                   }}
+                  itemStyle={{ fontWeight: 600 }}
                 />
                 <Area type="monotone" dataKey="patients" stroke="#2563eb" strokeWidth={2.5} fillOpacity={1} fill="url(#colorPatients)" />
                 <Area type="monotone" dataKey="consultations" stroke="#10b981" strokeWidth={2.5} fillOpacity={1} fill="url(#colorConsults)" />
@@ -176,7 +177,7 @@ export default function DoctorDashboard({
           <GlassCard className="p-5 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Avg Consult SLA</span>
-              <div className="p-2 rounded-xl bg-blue-50 text-blue-600">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-blue-50 text-blue-600 border border-blue-200/80 dark:bg-blue-900/30 dark:text-blue-400 dark:border-blue-800/60">
                 <Clock className="w-4 h-4" />
               </div>
             </div>
@@ -192,7 +193,7 @@ export default function DoctorDashboard({
           <GlassCard className="p-5 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Completed Sessions</span>
-              <div className="p-2 rounded-xl bg-emerald-50 text-emerald-600">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-emerald-50 text-emerald-600 border border-emerald-200/80 dark:bg-emerald-900/30 dark:text-emerald-400 dark:border-emerald-800/60">
                 <CheckCircle2 className="w-4 h-4" />
               </div>
             </div>
@@ -202,13 +203,13 @@ export default function DoctorDashboard({
             <div className="w-full rounded-full h-2 overflow-hidden border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
               <div className="bg-emerald-500 h-full w-[66%]" />
             </div>
-            <p className="text-[11px] text-emerald-600 font-bold">6 remaining today</p>
+            <p className="text-[11px] text-emerald-600 dark:text-emerald-400 font-bold">6 remaining today</p>
           </GlassCard>
 
           <GlassCard className="p-5 space-y-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>Patient Satisfaction</span>
-              <div className="p-2 rounded-xl bg-purple-50 text-purple-600">
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center bg-purple-50 text-purple-600 border border-purple-200/80 dark:bg-purple-900/30 dark:text-purple-400 dark:border-purple-800/60">
                 <Smile className="w-4 h-4" />
               </div>
             </div>
@@ -218,7 +219,7 @@ export default function DoctorDashboard({
             <div className="w-full rounded-full h-2 overflow-hidden border" style={{ background: 'var(--surface-page)', borderColor: 'var(--border-light)' }}>
               <div className="bg-purple-500 h-full w-[98%]" />
             </div>
-            <p className="text-[11px] text-purple-600 font-bold">Based on 142 reviews</p>
+            <p className="text-[11px] text-purple-600 dark:text-purple-400 font-bold">Based on 142 reviews</p>
           </GlassCard>
         </div>
 

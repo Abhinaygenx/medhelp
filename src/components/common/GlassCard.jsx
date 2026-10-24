@@ -7,14 +7,13 @@ export default function GlassCard({ children, className = '', hoverGlow = true, 
       style={{
         background: 'var(--surface-card)',
         border: '1px solid var(--border-light)',
-        borderRadius: '20px',
-        boxShadow: 'var(--shadow-md)',
-        backdropFilter: 'blur(12px)',
+        borderRadius: '16px',
+        boxShadow: 'var(--shadow-sm)',
         color: 'var(--text-primary)'
       }}
       className={`
-        transition-all duration-300
-        ${hoverGlow ? 'hover:shadow-[var(--shadow-lg)] hover:-translate-y-0.5 hover:border-[var(--brand-300)]' : ''}
+        transition-all duration-200
+        ${hoverGlow ? 'hover:shadow-md hover:border-[var(--brand-200)]' : ''}
         ${onClick ? 'cursor-pointer' : ''}
         ${className}
       `}
