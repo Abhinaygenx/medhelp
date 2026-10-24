@@ -3,7 +3,7 @@
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 /* ═══════════════════════════════════════════════════════════════════════════
-   MEDICAREPRO — UNIFIED DESIGN SYSTEM
+   MEDHELP — UNIFIED DESIGN SYSTEM
    Single source of truth for all color tokens, spacing, and visual style.
    All three portals (Patient / Doctor / Admin) use these same variables.
    ═══════════════════════════════════════════════════════════════════════════ */

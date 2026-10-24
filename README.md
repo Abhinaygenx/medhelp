@@ -1,4 +1,4 @@
-# 🏥 MediCare Pro — Enterprise Hospital Management System
+# 🏥 MedHelp — Enterprise Hospital Management System
 
 > **Client Pitch Edition** — A modern, accessible, multi-portal healthcare management web application designed for hospitals, clinics, and health networks. Built with **React 19**, **Vite 8**, **Tailwind CSS v4**, and **Google Firebase**.
 
@@ -10,9 +10,9 @@ On the login page, you can click any of the **Quick Demo Login** cards to test e
 
 | Portal Role | Demo Email | Password | Access Scope |
 |---|---|---|---|
-| **Admin** | `admin@demo.medicarepro.health` | `admin123` | Executive Dashboard, Bed/Ward Management, Billing, Staff Roles, Emergency SLAs |
-| **Doctor** | `doctor@demo.medicarepro.health` | `doctor123` | OPD Clinical Queue, Video Consultations, E-Prescriptions, Lab Reports |
-| **Patient** | `patient@demo.medicarepro.health` | `patient123` | Doctor Search, Slot Booking, Medical Timeline, Digital Invoices, AI Triage |
+| **Admin** | `admin@demo.medhelp.health` | `admin123` | Executive Dashboard, Bed/Ward Management, Billing, Staff Roles, Emergency SLAs |
+| **Doctor** | `doctor@demo.medhelp.health` | `doctor123` | OPD Clinical Queue, Video Consultations, E-Prescriptions, Lab Reports |
+| **Patient** | `patient@demo.medhelp.health` | `patient123` | Doctor Search, Slot Booking, Medical Timeline, Digital Invoices, AI Triage |
 
 *(Also supports any custom credentials or existing demo accounts with offline localStorage fallback.)*
 

@@ -4,18 +4,18 @@
  */
 export const CLIENT = {
   // ── Branding ──────────────────────────────────────────────────────────────
-  name: 'MediCare Pro',
+  name: 'MedHelp',
   tagline: 'Advanced Healthcare Management System',
-  shortName: 'MediCare',
-  logoText: 'MediCare Pro',
+  shortName: 'MedHelp',
+  logoText: 'MedHelp',
   version: '2.0',
 
   // ── Contact & Location ────────────────────────────────────────────────────
   address: '742 Healthcare Avenue, Medical District, New York, NY 10001',
   phone: '+1 (800) 633-4227',
   emergency: '+1 (800) 911-HELP',
-  email: 'support@medicarepro.health',
-  website: 'https://medicarepro.health',
+  email: 'support@medhelp.health',
+  website: 'https://medhelp.health',
 
   // ── Operating Hours ───────────────────────────────────────────────────────
   opdHours: '08:00 AM – 08:00 PM (Mon–Sat)',
@@ -40,9 +40,9 @@ export const CLIENT = {
 
   // ── Demo Credentials (shown on login page) ────────────────────────────────
   demoCredentials: {
-    admin:   { email: 'admin@demo.medicarepro.health',   password: 'admin123',   name: 'Hospital Admin' },
-    doctor:  { email: 'doctor@demo.medicarepro.health',  password: 'doctor123',  name: 'Dr. Robert Ford' },
-    patient: { email: 'patient@demo.medicarepro.health', password: 'patient123', name: 'Eleanor Vance' },
+    admin:   { email: 'admin@demo.medhelp.health',   password: 'admin123',   name: 'Hospital Admin' },
+    doctor:  { email: 'doctor@demo.medhelp.health',  password: 'doctor123',  name: 'Dr. Robert Ford' },
+    patient: { email: 'patient@demo.medhelp.health', password: 'patient123', name: 'Eleanor Vance' },
   },
 
   // ── Feature Flags ─────────────────────────────────────────────────────────

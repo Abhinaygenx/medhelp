@@ -688,7 +688,7 @@ export default function App() {
           <div style={{ width: 48, height: 48, borderRadius: 14, background: 'var(--brand-50)', border: '1px solid var(--brand-200)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px', color: 'var(--brand-600)' }}>
             <Activity size={22} style={{ animation: 'spin 1s linear infinite' }} />
           </div>
-          <h4 style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem', marginBottom: 4 }}>Loading MediCare Pro</h4>
+          <h4 style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '1rem', marginBottom: 4 }}>Loading MedHelp</h4>
           <p style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>Restoring your secure session…</p>
         </div>
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>

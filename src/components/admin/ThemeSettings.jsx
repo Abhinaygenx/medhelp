@@ -5,12 +5,12 @@ import { Badge } from '../common/Badge'
 import toast from 'react-hot-toast'
 
 export default function ThemeSettings() {
-  const [selectedAccent, setSelectedAccent] = useState('Medicare Blue')
+  const [selectedAccent, setSelectedAccent] = useState('MedHelp Blue')
   const [density, setDensity] = useState('Comfortable')
   const [animations, setAnimations] = useState(true)
 
   const accentOptions = [
-    { name: 'Medicare Blue', hex: '#2563eb', glow: 'rgba(37, 99, 235, 0.45)', isDefault: true },
+    { name: 'MedHelp Blue', hex: '#2563eb', glow: 'rgba(37, 99, 235, 0.45)', isDefault: true },
     { name: 'Clinical Emerald', hex: '#10b981', glow: 'rgba(16, 185, 129, 0.45)', isDefault: false },
     { name: 'Modern Teal', hex: '#0d9488', glow: 'rgba(13, 148, 136, 0.45)', isDefault: false }
   ]

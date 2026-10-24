@@ -14,7 +14,7 @@ export default function ThemeAppearance() {
   ]
 
   const handleApplyTheme = () => {
-    toast.success("Medicare Design System tokens are active!")
+    toast.success("MedHelp Design System tokens are active!")
   }
 
   return (
@@ -29,7 +29,7 @@ export default function ThemeAppearance() {
             <Palette className="w-5 h-5 text-[var(--brand-600)]" /> Design System Tokens & Appearance
           </h2>
           <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
-            Unified design tokens, contrast ratios, and color palette matching the Medicare design system.
+            Unified design tokens, contrast ratios, and color palette matching the MedHelp design system.
           </p>
         </div>
 

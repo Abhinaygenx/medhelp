@@ -123,7 +123,7 @@ export default function Topbar({ adminName = 'Super Admin', isFirebaseConnected 
             <div className="dropdown" style={{ minWidth: 210 }}>
               <div style={{ padding: '12px 14px', borderBottom: '1px solid var(--border-light)' }}>
                 <div style={{ fontWeight: 700, fontSize: '0.875rem', color: 'var(--text-primary)' }}>{adminName}</div>
-                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>admin@medicarepro.health</div>
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>admin@medhelp.health</div>
               </div>
               <div style={{ padding: 6 }}>
                 <button type="button" onClick={onLogout}

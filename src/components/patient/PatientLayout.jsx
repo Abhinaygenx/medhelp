@@ -69,7 +69,7 @@ export default function PatientLayout({
 
   const patientProfile = patients[0] || {
     name: 'Eleanor Vance',
-    email: 'eleanor.vance@medicarepro.health',
+    email: 'eleanor.vance@medhelp.health',
     bloodGroup: 'O+',
     allergies: 'Penicillin, Peanuts'
   }

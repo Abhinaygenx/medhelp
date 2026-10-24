@@ -257,11 +257,11 @@ export const INITIAL_STAFF = [
 ]
 
 export const INITIAL_SYSTEM_SETTINGS = {
-  name: 'MediCare Pro',
+  name: 'MedHelp',
   tagline: 'Advanced Healthcare Management System',
   address: '742 Healthcare Avenue, Medical District, New York, NY 10001',
   phone: '+1 (800) 633-4227',
-  email: 'support@medicarepro.health',
+  email: 'support@medhelp.health',
   opdHours: '08:00 AM – 08:00 PM (Mon–Sat)',
   backupFrequency: 'Daily Automatic Cloud Snapshot'
 }
