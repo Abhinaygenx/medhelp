@@ -9,7 +9,6 @@ import RunningMedications from './RunningMedications'
 import ScheduledTests from './ScheduledTests'
 import PatientDocuments from './PatientDocuments'
 
-import PatientPortal from '../PatientPortal'
 import EmergencyAlertBanner from '../EmergencyAlertBanner'
 import PatientNeonCard from '../common/PatientNeonCard'
 import InvoiceModal from '../common/InvoiceModal'
@@ -28,7 +27,8 @@ import {
   Download,
   Pill,
   TestTube,
-  Clock
+  Clock,
+  Video
 } from 'lucide-react'
 
 export default function PatientLayout({ 
@@ -146,15 +146,85 @@ export default function PatientLayout({
                   <Badge variant="brand" size="sm">{appointments.length} Consultations</Badge>
                 </div>
 
-                <PatientPortal
-                  doctors={doctors}
-                  appointments={appointments}
-                  prescriptions={prescriptions}
-                  patients={patients}
-                  onBookAppointment={onBookAppointment}
-                  onOpenTeleconsultation={onOpenTeleconsultation}
-                  onViewPrescription={onViewPrescription}
-                />
+                {appointments.length === 0 ? (
+                  <div className="text-center py-8 space-y-2">
+                    <Calendar className="w-8 h-8 mx-auto text-[var(--text-muted)] opacity-60" />
+                    <p className="text-xs font-medium" style={{ color: 'var(--text-muted)' }}>No consultation history found.</p>
+                  </div>
+                ) : (
+                  <div className="divide-y" style={{ borderColor: 'var(--border-light)' }}>
+                    {appointments.map((apt) => {
+                      const isApproved = apt.status === 'approved'
+                      const isCompleted = apt.status === 'completed'
+                      const isPending = apt.status === 'pending'
+                      
+                      return (
+                        <div key={apt.id} className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-[var(--surface-page)] transition-colors px-3 rounded-xl">
+                          <div className="flex items-start gap-3.5">
+                            <div className="w-10 h-10 rounded-xl bg-[var(--brand-50)] text-[var(--brand-600)] dark:bg-[var(--brand-950)]/40 dark:text-[var(--brand-400)] border border-[var(--brand-200)]/60 font-bold flex items-center justify-center shrink-0 text-xs">
+                              {apt.doctorName ? apt.doctorName.replace('Dr. ', '').slice(0, 2).toUpperCase() : 'DR'}
+                            </div>
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <h4 className="font-bold text-sm" style={{ color: 'var(--text-primary)' }}>
+                                  {apt.doctorName || 'Assigned Specialist'}
+                                </h4>
+                                {isApproved && <Badge variant="success" size="sm">Approved & Ready</Badge>}
+                                {isPending && <Badge variant="warning" size="sm">Pending Review</Badge>}
+                                {isCompleted && <Badge variant="info" size="sm">Completed</Badge>}
+                                {apt.status === 'cancelled' && <Badge variant="danger" size="sm">Cancelled</Badge>}
+                              </div>
+                              <p className="text-xs font-medium text-[var(--brand-600)]">{apt.doctorSpecialization || 'Clinical Consultation'}</p>
+                              
+                              <div className="flex flex-wrap items-center gap-3 mt-1.5 text-xs text-[var(--text-muted)]">
+                                <span className="flex items-center gap-1 font-medium">
+                                  <Calendar className="w-3.5 h-3.5" /> {apt.appointmentDate}
+                                </span>
+                                <span className="flex items-center gap-1 font-medium">
+                                  <Clock className="w-3.5 h-3.5" /> {apt.timeSlot}
+                                </span>
+                                {apt.reason && (
+                                  <span className="text-[11px] px-2 py-0.5 rounded bg-[var(--surface-page)] border border-[var(--border-light)]">
+                                    {apt.reason}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-2 self-end sm:self-center shrink-0">
+                            {isApproved && (
+                              <button
+                                type="button"
+                                onClick={() => onOpenTeleconsultation(apt)}
+                                className="font-semibold px-4 py-2 rounded-xl text-xs flex items-center gap-1.5 text-white shadow-xs hover:opacity-90 active:scale-95 transition-all cursor-pointer"
+                                style={{ background: 'var(--brand-600)' }}
+                              >
+                                <Video className="w-3.5 h-3.5" />
+                                <span>Join Video Consult</span>
+                              </button>
+                            )}
+                            {isCompleted && (
+                              <button
+                                type="button"
+                                onClick={() => handleSelectMenu('documents')}
+                                className="font-semibold px-3.5 py-2 rounded-xl text-xs border flex items-center gap-1.5 cursor-pointer hover:bg-[var(--surface-page)] transition-all"
+                                style={{
+                                  background: 'var(--surface-card)',
+                                  borderColor: 'var(--border-default)',
+                                  color: 'var(--text-primary)'
+                                }}
+                              >
+                                <FileText className="w-3.5 h-3.5 text-[var(--brand-600)]" />
+                                <span>Records & Rx</span>
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </PatientNeonCard>
             </div>
           )}
